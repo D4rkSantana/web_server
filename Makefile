@@ -48,7 +48,7 @@ clean:
 	$(RM) $(DIR_OBJS) $(DIR_TEST_OBJS) test_runner
 
 fclean: clean
-	$(RM) $(NAME) web_leaks.txt
+	$(RM) $(NAME) 
 
 re: fclean all
 
