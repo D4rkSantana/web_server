@@ -9,7 +9,8 @@ DIR_SOURCES = library/src
 DIR_OBJS = obj
 
 
-DIR_TESTS = library/tests
+DIR_TESTS = library/tests/src/
+INCLUDES_TESTS = -I library/test/include
 DIR_TEST_OBJS = obj/tests
 
 SOURCES := $(wildcard $(DIR_SOURCES)/*.cpp)
@@ -35,13 +36,13 @@ $(DIR_OBJS)/main.o: main.cpp
 
 $(DIR_TEST_OBJS)/%.o: $(DIR_TESTS)/%.cpp
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) $(INCLUDES_TESTS) -c $< -o $@
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
 
 test: $(TEST_OBJS) 
-	$(CC) $(CFLAGS) $(INCLUDES) $^ -o test_runner
+	$(CC) $(CFLAGS) $(INCLUDES) $(INCLUDES_TESTS) $^ -o test_runner
 	./test_runner
 
 clean:
