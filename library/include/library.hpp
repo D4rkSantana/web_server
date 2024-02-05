@@ -5,9 +5,10 @@
 
 #include <iostream>
 #include <exception>
+#include <iostream>
+#include <fstream>
 
-
-#include "Bureaucrat.hpp"
+#include "Config.hpp"
 
 
 #endif
