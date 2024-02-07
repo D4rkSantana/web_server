@@ -37,6 +37,26 @@ Config &Config::operator=(Config const &rhs)
 
 // Work funcitions
 
+std::vector<std::vector<std::string>>	Config::_load_default_config(void)
+{
+	std::vector<std::vector<std::string>> result;
+	std::ifstream file("/library/test/config_file/default_config");
+
+	if (!file.is_open()) {
+        std::cerr << "Erro ao carregar configurações padrão" << std::endl;
+        return false; //corrigir
+    }
+
+	std::string line; 
+	// trabalhando aqui, preciso criar uma substring e salvar nos vectores
+    while (std::getline(file, line)) {
+        content += line + "\n";
+    }
+
+	file.close();
+	return (result);
+}
+
 bool		Config::readConfig(void)
 {
 	std::ifstream file(this->_name_file.c_str());

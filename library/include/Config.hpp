@@ -9,6 +9,8 @@ class Config
 		std::string _name_file;
 		std::string _raw_config;
 		bool		_raw_config_open;
+		std::vector<std::vector<std::string>>	_options;
+		std::vector<std::vector<std::string>>	_load_default_config(void);
 		
 	public:
 		Config(void);
