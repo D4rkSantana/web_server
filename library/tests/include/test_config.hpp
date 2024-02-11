@@ -8,7 +8,9 @@
 void main_config(void)
 {
     Config teste1;
-    Config teste2("/libray/test/config_file/config.txt");
+    /*
+    Config teste1;
+    Config teste2("/libray/tests/config_file/config.txt");
 
     std::cout << "= teste1: " << teste1.getNameFile() << std::endl;
     std::cout << "= teste2: " << teste2.getNameFile() << std::endl;
@@ -25,7 +27,7 @@ void main_config(void)
     std::cout << "= teste2 open: " << teste2.getRawConfigOpen() << std::endl;
     std::cout << "= teste1 cont: " << std::endl << teste1.getRawConfig() << std::endl;
     std::cout << "= teste2 cont: " << std::endl << teste2.getRawConfig() << std::endl;
-
+    */
 }
 
 

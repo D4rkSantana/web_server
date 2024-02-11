@@ -9,13 +9,13 @@ class Config
 		std::string _name_file;
 		std::string _raw_config;
 		bool		_raw_config_open;
-		std::vector<std::vector<std::string>>	_options;
-		std::vector<std::vector<std::string>>	_load_default_config(void);
+		std::vector<std::vector<std::string> >	_options;
+		bool	_loadDefaultConfig(void);
 		
 	public:
 		Config(void);
 		Config(const Config &copy);
-		Config(std::string name_file);
+		Config(std::string name_file);//retirar o construtor com argumentos
 		~Config(void);
 		
 		Config &operator= (Config const &rhs);
@@ -40,6 +40,7 @@ class Config
 		*/
 };
 
+std::vector<std::string> splitString(std::string str, std::string delimiter);
 //std::ostream &operator<<(std::ostream &o, Config const &Config);
 
 #endif

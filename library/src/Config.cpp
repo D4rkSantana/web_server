@@ -2,6 +2,8 @@
 
 Config::Config(void): _name_file("default_config"), _raw_config(" "), _raw_config_open(false)
 {
+	if (!_loadDefaultConfig())
+		std::cerr << "=Error, não foi possivel ler o arquivo de configuração default." << std::endl;
 	std::cout << "Config: Default constructor called" << std::endl;
 }
 
@@ -37,24 +39,43 @@ Config &Config::operator=(Config const &rhs)
 
 // Work funcitions
 
-std::vector<std::vector<std::string>>	Config::_load_default_config(void)
+std::vector<std::string> splitString(std::string str, std::string delimiter)
 {
-	std::vector<std::vector<std::string>> result;
-	std::ifstream file("/library/test/config_file/default_config");
+	std::vector<std::string> result;
+	size_t pos_delimiter;
+	size_t end = str.size() - 1;
+	std::string substr1;
+	std::string substr2;
+
+	pos_delimiter = str.find(delimiter);
+	substr1 = str.substr(0, pos_delimiter);
+	substr2 = str.substr(pos_delimiter + 1, end);
+	result.push_back(substr1);
+	result.push_back(substr2);
+
+	return (result);
+}
+
+bool	Config::_loadDefaultConfig(void)
+{
+	std::vector<std::vector<std::string> > result;
+	std::ifstream file("library/tests/config_file/default_config");
 
 	if (!file.is_open()) {
         std::cerr << "Erro ao carregar configurações padrão" << std::endl;
-        return false; //corrigir
+        return false;
     }
 
-	std::string line; 
-	// trabalhando aqui, preciso criar uma substring e salvar nos vectores
+	std::string line;
+	std::string substr1;
+	std::string substr2;
     while (std::getline(file, line)) {
-        content += line + "\n";
+		result.push_back(splitString(line, ":"));
     }
 
 	file.close();
-	return (result);
+	this->_options = result;
+	return (true);
 }
 
 bool		Config::readConfig(void)
