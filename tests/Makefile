@@ -5,44 +5,44 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/02/29 03:33:36 by ryoshio-          #+#    #+#              #
-#    Updated: 2024/02/29 03:51:15 by ryoshio-         ###   ########.fr        #
+#    Created: 2024/02/29 05:51:07 by ryoshio-          #+#    #+#              #
+#    Updated: 2024/02/29 06:30:37 by ryoshio-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-
-NAME = webserv
+NAME = test
 
 CC = c++
 RM = rm -rf
 CFLAGS = -g -Wall -Wextra -Werror -std=c++98
 
-INCLUDES = -I includes
-DIR_SOURCES = src
+INCLUDES = -I ../includes 
+DIR_SOURCES = ../src
 DIR_OBJS = build
 
+DIR_TESTS = src
+INCLUDES_TESTS = -I include
+DIR_TEST_OBJS = build
 
-SOURCES := $(wildcard $(DIR_SOURCES)/*.cpp)
 
-OBJS :=  $(subst $(DIR_SOURCES),$(DIR_OBJS),$(SOURCES:.cpp=.o))
+# Listar todos os arquivos .cpp em src
+TESTS := $(wildcard $(DIR_SOURCES)/*.cpp)
+# Filtrar os arquivos .cpp exceto main.cpp
+TESTS:= $(filter-out $(DIR_SOURCES)/main.cpp,$(TESTS))
+TESTS += $(wildcard $(DIR_TESTS)/*.cpp)
 
-all: $(NAME)
+TEST_OBJS := $(patsubst $(DIR_TESTS)/%.cpp,$(DIR_TEST_OBJS)/%.o,$(TESTS))
 
-$(DIR_OBJS)/%.o: $(DIR_SOURCES)/%.cpp
+$(DIR_TEST_OBJS)/%.o: $(DIR_TESTS)/%.cpp
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-$(DIR_OBJS):
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) $(INCLUDES_TESTS) -c $< -o $@
 
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
-
+all: $(TEST_OBJS) 
+	$(CC) $(CFLAGS) $(INCLUDES) $(INCLUDES_TESTS) $^ -o $(NAME)
 
 clean:
-	$(RM) $(DIR_OBJS)
+	$(RM)  $(DIR_TEST_OBJS) 
 
 fclean: clean
 	$(RM) $(NAME) 
@@ -52,4 +52,4 @@ re: fclean all
 val: all
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --log-file="web_leaks.txt" ./$(NAME)
 
-.PHONY: all clean fclean re val 
+.PHONY: all clean fclean re val
