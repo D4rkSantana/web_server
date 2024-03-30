@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   DeleteMethod.hpp                                   :+:      :+:    :+:   */
+/*   CheckArg.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 11:49:48 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/03/21 11:49:49 by ryoshio-         ###   ########.fr       */
+/*   Created: 2024/03/30 00:43:05 by ryoshio-          #+#    #+#             */
+/*   Updated: 2024/03/30 01:15:43 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef CheckArg_HPP
+#define CheckArg_HPP
 
 
-#pragma once
+#include "./library.hpp"
 
-#include "AResponse.hpp"
-#include "Constants.hpp"
-#include "utils.hpp"
+class CheckArg{
+    private:
+        bool _status;
+        bool _checkArgc(int argc);
+        bool _checkArgv(char *argv[]);
 
-class DeleteMethod : public AHttpResponse {
     public:
-    DeleteMethod(void);
-    DeleteMethod(HttpRequest request);
-    ~DeleteMethod(void);
+        CheckArg(int argc, char *argv[]);
+        ~CheckArg(void);
+        
+        bool getStatus(void);
 
-    responseData handleMethod(void);
 };
+
+bool fileExists(char *path);
+
+# endif

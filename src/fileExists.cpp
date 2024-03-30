@@ -1,38 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AResponse.hpp                                      :+:      :+:    :+:   */
+/*   fileExists.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 11:49:07 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/03/25 13:53:47 by ryoshio-         ###   ########.fr       */
+/*   Created: 2024/03/29 23:02:45 by ryoshio-          #+#    #+#             */
+/*   Updated: 2024/03/30 01:16:18 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "library.hpp"
 
-#ifndef ARESPONSE_HPP
-#define ARESPONSE_HPP
-
-
-#include "ErrorPage.hpp"
-#include "Libs.hpp"
-#include "Request.hpp"
-
-
-class AHttpResponse {
-    protected:
-    HttpRequest  _req;
-    responseData _res;
-    ErrorPage    _errorPage;
-
-    public:
-    AHttpResponse(void);
-    AHttpResponse(HttpRequest request);
-    virtual ~AHttpResponse(void);
-
-    virtual responseData handleMethod(void) = 0;
-};
-
-
-#endif
+bool fileExists(char *path) {
+    std::ifstream file(path);
+    return file.good(); 
+}
