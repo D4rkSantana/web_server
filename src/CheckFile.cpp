@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/03 17:53:54 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/03 18:24:59 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@ CheckFile::CheckFile(std::string path):_status(true){
     text = readFileContents(path);
     validWords = this->_getValidFirstWords( );
 
-    if(!_isFirstWordInSet(text, validWords))
+    if(_isFirstWordInSet(text, validWords) > -1){
         this->_status= false;
+        Logs::printLog(Logs::ERROR, 11, "The" + path +"file contains an error on line"+ to_string(_isFirstWordInSet(text, validWords)) +".");
+        return;
+    }
+        
     
 
 }
@@ -63,7 +67,7 @@ std::set<std::string> CheckFile::_getValidFirstWords(void) {
 }
 
 
-bool CheckFile::_isFirstWordInSet(const std::string& text, const std::set<std::string>& wordSet) {
+int CheckFile::_isFirstWordInSet(const std::string& text, const std::set<std::string>& wordSet) {
     std::istringstream iss(text); // Cria um stream de string a partir do texto
     std::string line;
     int nbrLine;
@@ -88,13 +92,10 @@ bool CheckFile::_isFirstWordInSet(const std::string& text, const std::set<std::s
                 }
             }
             if (!found) {
-                std::string str = to_string(nbrLine);
-                
-                Logs::printLog(Logs::ERROR, 10, "Line");
-                return false; // Se não estiver, retorna false imediatamente
+                return nbrLine; // Se não estiver, retorna false imediatamente
             }
         }
         nbrLine ++;
     }
-    return true; // Se todas as primeiras palavras estiverem no conjunto, retorna true
+    return -1; // Se todas as primeiras palavras estiverem no conjunto, retorna true
 }

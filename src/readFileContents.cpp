@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:11:57 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/03/30 11:37:51 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/03 18:34:24 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ std::string readFileContents(const std::string& filename) {
 
     if (file) {
         buffer << file.rdbuf();
+        file.close(); 
         return buffer.str();
     } else {
         return "";
