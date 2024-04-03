@@ -6,15 +6,15 @@
 /*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/02/29 13:43:28 by lucasmar         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:25:21 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // my libs
+#include "Logs.hpp"
 #include "Webserv.hpp"
 #include "Socket.hpp"
 #include "Data.hpp"
-#include "Logs.hpp"
 
 
 //padrão libs

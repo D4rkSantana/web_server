@@ -6,7 +6,7 @@
 /*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:56:32 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/02/29 15:48:07 by lucasmar         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:58:02 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ class Socket{
 	public:
 		Socket(void);
 		~Socket(void);
-		bool	start(std::map<int, Data>& mapServer);
-		fd_set	getReadFds(void);
-		fd_set		getWriteFds(void);
-		void	closed(void);
+		bool				start(std::map<int, Data>& mapServer);
+		fd_set				getReadFds(void);
+		fd_set				getWriteFds(void);
+		std::vector<int>&	getListenSockets(void);
+		void				setListenSockets(int	socketFd);
+		void				closed(void);
 };
