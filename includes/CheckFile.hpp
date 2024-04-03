@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   CheckArg.hpp                                       :+:      :+:    :+:   */
+/*   CheckFile.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/30 00:43:05 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/03/30 11:08:14 by ryoshio-         ###   ########.fr       */
+/*   Created: 2024/03/30 11:04:35 by ryoshio-          #+#    #+#             */
+/*   Updated: 2024/04/03 14:41:39 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CheckArg_HPP
-#define CheckArg_HPP
+#ifndef CheckFile_HPP
+#define CheckFile_HPP
 
 
 #include "./library.hpp"
 
-class CheckArg{
+class CheckFile{
     private:
         bool _status;
-        bool _checkArgc(int argc);
-        bool _checkArgv(char *argv[]);
+        std::set<std::string> _getValidFirstWords(void);
 
     public:
-        CheckArg(int argc, char *argv[]);
-        ~CheckArg(void);
-        
-        bool getStatus(void);
+        CheckFile(std::string path);
+        ~CheckFile(void);
 
 };
 
-
-# endif
+#endif

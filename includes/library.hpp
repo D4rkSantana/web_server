@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/03/30 01:20:53 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/03 14:40:13 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 #include <string>
 #include <sstream>
 #include <stack>
+#include <set>
 
 #include <vector>
 
@@ -50,6 +51,9 @@
 
 bool isLineEmpty(const std::string& text);
 bool checkBraces(const std::string& text);
+bool fileExists(char *path);
+std::string readFileContents(const std::string& filename);
+bool isFirstWordInSet(const std::string& text, const std::set<std::string>& wordSet);
 
 
 template <typename T>

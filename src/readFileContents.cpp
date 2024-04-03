@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   CheckArg.hpp                                       :+:      :+:    :+:   */
+/*   readFileContents.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/30 00:43:05 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/03/30 11:08:14 by ryoshio-         ###   ########.fr       */
+/*   Created: 2024/03/30 11:11:57 by ryoshio-          #+#    #+#             */
+/*   Updated: 2024/03/30 11:37:51 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CheckArg_HPP
-#define CheckArg_HPP
+#include "library.hpp"
 
+std::string readFileContents(const std::string& filename) {
+    std::ifstream file(filename.c_str());
+    std::stringstream buffer;
 
-#include "./library.hpp"
-
-class CheckArg{
-    private:
-        bool _status;
-        bool _checkArgc(int argc);
-        bool _checkArgv(char *argv[]);
-
-    public:
-        CheckArg(int argc, char *argv[]);
-        ~CheckArg(void);
-        
-        bool getStatus(void);
-
-};
-
-
-# endif
+    if (file) {
+        buffer << file.rdbuf();
+        return buffer.str();
+    } else {
+        return "";
+    }
+}
