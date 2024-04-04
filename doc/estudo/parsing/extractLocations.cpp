@@ -1,42 +1,32 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include <set>
+#include <vector>
 
-std::string extractServerParams(const std::string& serverBlock) {
+std::vector<std::string> extractLocations(const std::string& serverBlock) {
     std::istringstream iss(serverBlock);
     std::string line;
-    std::string serverParams;
-    std::set<std::string> uniqueParams; // Usaremos um conjunto para armazenar apenas os parâmetros únicos
-
+    std::vector<std::string> locations;
     bool insideLocation = false;
+    std::string currentLocation;
 
     while (std::getline(iss, line)) {
         if (line.find("location") != std::string::npos) {
             insideLocation = true;
+            currentLocation = line + "\n";
             continue; // Ignoramos a linha que contém "location"
         }
-        if (line.find("}") != std::string::npos) {
+        if (line.find("}") != std::string::npos && insideLocation) {
             insideLocation = false;
+            locations.push_back(currentLocation + line); // Adicionamos a localização ao vetor
             continue; // Ignoramos a linha que contém "}"
         }
         if (insideLocation) {
-            continue; // Ignoramos as linhas dentro de uma localização
+            currentLocation += line + "\n"; // Adicionamos a linha à localização atual
         }
-        if (line.find("server {") != std::string::npos) {
-            continue; // Ignoramos a linha "server {"
-        }
-/* 
-        // Verificamos se o parâmetro já foi adicionado
-        if (uniqueParams.find(line) == uniqueParams.end()) {
-            uniqueParams.insert(line);
-            
-        }
-*/
-        serverParams += line + "\n";
     }
 
-    return serverParams;
+    return locations;
 }
 
 int main() {
@@ -48,7 +38,6 @@ int main() {
             root guide;
             autoindex on;
             error_page 404 notfound.html;
-            root guide;
 
             location /images {
                 limit_except GET POST;
@@ -65,12 +54,15 @@ int main() {
                 limit_except GET;
                 index webserv.pdf;
             }
-            
         }
     )";
 
-    std::string serverParams = extractServerParams(serverBlock);
-    std::cout << serverParams << std::endl;
+    std::vector<std::string> locations = extractLocations(serverBlock);
+
+    // Imprimir as localizações
+    for (size_t i = 0; i < locations.size(); ++i) {
+        std::cout << "Location " << i + 1 << ":\n" << locations[i] << std::endl << std::endl;
+    }
 
     return 0;
 }

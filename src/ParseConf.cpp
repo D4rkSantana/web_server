@@ -39,8 +39,6 @@ std::string extractServerParams(const std::string& serverBlock) {
     std::istringstream iss(serverBlock);
     std::string line;
     std::string serverParams;
-    std::set<std::string> uniqueParams; // Usaremos um conjunto para armazenar apenas os parâmetros únicos
-
     bool insideLocation = false;
 
     while (std::getline(iss, line)) {
@@ -58,13 +56,35 @@ std::string extractServerParams(const std::string& serverBlock) {
         if (line.find("server {") != std::string::npos) {
             continue; // Ignoramos a linha "server {"
         }
+        serverParams += line + "\n";
+    }
+    return serverParams;
+}
 
-        // Verificamos se o parâmetro já foi adicionado
-        if (uniqueParams.find(line) == uniqueParams.end()) {
-            uniqueParams.insert(line);
-            serverParams += line + "\n";
+
+std::vector<std::string> extractLocations(const std::string& serverBlock) {
+    std::istringstream iss(serverBlock);
+    std::string line;
+    std::vector<std::string> locations;
+    bool insideLocation = false;
+    std::string currentLocation;
+
+    while (std::getline(iss, line)) {
+        if (line.find("location") != std::string::npos) {
+            insideLocation = true;
+            currentLocation = line + "\n";
+            continue; // Ignoramos a linha que contém "location"
+        }
+        if (line.find("}") != std::string::npos && insideLocation) {
+            insideLocation = false;
+            locations.push_back(currentLocation + line); // Adicionamos a localização ao vetor
+            continue; // Ignoramos a linha que contém "}"
+        }
+        if (insideLocation) {
+            currentLocation += line + "\n"; // Adicionamos a linha à localização atual
         }
     }
 
-    return serverParams;
+    return locations;
 }
+

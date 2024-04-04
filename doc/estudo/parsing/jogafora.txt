@@ -28,10 +28,19 @@ Quero que criar uma função que recebe isso
 
 me retorna isso 
 
-            listen 3007;
-            server_name new.42.fr pss.fr localhost;
-            index hello.html;
-            root guide;
-            autoindex on;
-            error_page 404 notfound.html
-            client_max_body_size 1024;
+            location /images {
+                limit_except GET POST;
+                autoindex off;
+                error_page 404 nocake.html;
+            }
+
+            location /method {
+                limit_except GET POST;
+                error_page 404 notfound.html;
+            }
+
+            location /pdfs {
+                limit_except GET;
+                index webserv.pdf;
+            }
+mas cada location guardado em um vetor
