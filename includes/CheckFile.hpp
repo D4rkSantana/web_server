@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:35 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/04 00:39:31 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/04 00:40:27 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ class CheckFile{
         ~CheckFile(void);
 
 };
+
 std::vector<std::string> separateServerBlocks(const std::string& config);
 #endif

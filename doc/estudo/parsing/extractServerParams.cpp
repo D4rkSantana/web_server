@@ -1,39 +1,7 @@
-
-
-#include "ParseConf.hpp"
-
-
-
-
-std::vector<std::string> separateServerBlocks(const std::string& config) {
-    std::vector<std::string> blocks;
-    std::string::size_type pos = 0;
-    
-    while ((pos = config.find("server {", pos)) != std::string::npos) {
-        // Encontra o início do bloco
-        std::string::size_type blockStart = pos;
-        
-        // Encontra o fim do bloco
-        std::string::size_type blockEnd = config.find("}", blockStart);
-        if (blockEnd == std::string::npos) {
-            break; // Se não houver fechamento de bloco, termina
-        }
-        blockEnd = config.find("\n}", blockEnd); // Avança até a próxima linha após }
-        if (blockEnd == std::string::npos) {
-            break; // Se não houver fechamento de bloco, termina
-        }
-        blockEnd += 2; // Avança até o final do bloco
-
-        // Adiciona o bloco encontrado ao vetor
-        blocks.push_back(config.substr(blockStart, blockEnd - blockStart));
-
-        // Move a posição de busca para após o bloco encontrado
-        pos = blockEnd;
-    }
-
-    return blocks;
-}
-
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <set>
 
 std::string extractServerParams(const std::string& serverBlock) {
     std::istringstream iss(serverBlock);
@@ -67,4 +35,40 @@ std::string extractServerParams(const std::string& serverBlock) {
     }
 
     return serverParams;
+}
+
+int main() {
+    std::string serverBlock = R"(
+        server {
+            listen 3007;
+            server_name new.42.fr pss.fr localhost;
+            index hello.html;
+            root guide;
+            autoindex on;
+            error_page 404 notfound.html;
+            root guide;
+
+            location /images {
+                limit_except GET POST;
+                autoindex off;
+                error_page 404 nocake.html;
+            }
+
+            location /method {
+                limit_except GET POST;
+                error_page 404 notfound.html;
+            }
+            client_max_body_size 1024;
+            location /pdfs {
+                limit_except GET;
+                index webserv.pdf;
+            }
+            
+        }
+    )";
+
+    std::string serverParams = extractServerParams(serverBlock);
+    std::cout << serverParams << std::endl;
+
+    return 0;
 }
