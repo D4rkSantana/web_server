@@ -7,6 +7,8 @@
 
 void test_logs(void);
 void test_checkBracketBalance(void);
-void test_isFirstWordinSet(void);
+
+void test_CheckFile(void);
+    
 
 #endif

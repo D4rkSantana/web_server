@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/03 17:53:13 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/03 19:29:43 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@
 
 #include "Logs.hpp"
 #include "CheckArg.hpp"
-
+#include "CheckFile.hpp"
 
 bool isLineEmpty(const std::string& text);
 bool checkBraces(const std::string& text);

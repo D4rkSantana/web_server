@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/03 18:24:59 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/04 00:39:03 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,15 @@ CheckFile::CheckFile(std::string path):_status(true){
     text = readFileContents(path);
     validWords = this->_getValidFirstWords( );
 
+    if(!checkBraces(text)){
+        this->_status= false;
+        Logs::printLog(Logs::ERROR, 11, "The " + path  + " file is not correct closing/opening brackets");
+        return;
+    }
+    
     if(_isFirstWordInSet(text, validWords) > -1){
         this->_status= false;
-        Logs::printLog(Logs::ERROR, 11, "The" + path +"file contains an error on line"+ to_string(_isFirstWordInSet(text, validWords)) +".");
+        Logs::printLog(Logs::ERROR, 11, "The " + path + " file contains an error on line "+ to_string(_isFirstWordInSet(text, validWords)) +".");
         return;
     }
         
@@ -43,12 +49,13 @@ std::set<std::string> CheckFile::_getValidFirstWords(void) {
     std::set<std::string> validWords;
     
     validWords.insert("server");
+    validWords.insert("server_name");
     
     validWords.insert("listen");
     validWords.insert("host");
     validWords.insert("error_page");
     validWords.insert("index");
-    validWords.insert("client_max_body_siz");
+    validWords.insert("client_max_body_size");
     validWords.insert("root");
     validWords.insert("word");
 
@@ -57,7 +64,9 @@ std::set<std::string> CheckFile::_getValidFirstWords(void) {
 
     validWords.insert("autoindex");
     validWords.insert("allow_method");
-    validWords.insert("return");
+    validWords.insert("limit_except");
+    
+    validWords.insert("redirect");
     validWords.insert("alias");
     validWords.insert("cgi_path");
     validWords.insert("cgi_ext");
@@ -98,4 +107,35 @@ int CheckFile::_isFirstWordInSet(const std::string& text, const std::set<std::st
         nbrLine ++;
     }
     return -1; // Se todas as primeiras palavras estiverem no conjunto, retorna true
+}
+
+
+
+std::vector<std::string> separateServerBlocks(const std::string& config) {
+    std::vector<std::string> blocks;
+    std::string::size_type pos = 0;
+    
+    while ((pos = config.find("server {", pos)) != std::string::npos) {
+        // Encontra o início do bloco
+        std::string::size_type blockStart = pos;
+        
+        // Encontra o fim do bloco
+        std::string::size_type blockEnd = config.find("}", blockStart);
+        if (blockEnd == std::string::npos) {
+            break; // Se não houver fechamento de bloco, termina
+        }
+        blockEnd = config.find("\n}", blockEnd); // Avança até a próxima linha após }
+        if (blockEnd == std::string::npos) {
+            break; // Se não houver fechamento de bloco, termina
+        }
+        blockEnd += 2; // Avança até o final do bloco
+
+        // Adiciona o bloco encontrado ao vetor
+        blocks.push_back(config.substr(blockStart, blockEnd - blockStart));
+
+        // Move a posição de busca para após o bloco encontrado
+        pos = blockEnd;
+    }
+
+    return blocks;
 }

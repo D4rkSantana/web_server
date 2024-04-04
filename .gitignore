@@ -1,1 +1,11 @@
 leao
+
+
+
+# Executables
+webserv
+**/a.out
+
+*/build
+/build
+**/test
