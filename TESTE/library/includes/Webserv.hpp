@@ -6,7 +6,7 @@
 /*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/03/01 17:06:38 by lucasmar         ###   ########.fr       */
+/*   Updated: 2024/04/05 10:49:53 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ class Webserv{
 		std::map<int, Data>	_mapServer;
 		Socket				_sockets;
 		std::vector<int>	clientListSockets;
-
-		std::vector<int>&	listenSockets;
+		std::vector<int>*	listSocketsPoint;
+		struct timeval	timeout;
+		fd_set			readFdsCopy;
+		fd_set			writeFdsCopy;
 
 	public:
 		Webserv(void);

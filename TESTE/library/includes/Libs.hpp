@@ -6,7 +6,7 @@
 /*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/03/01 17:25:21 by lucasmar         ###   ########.fr       */
+/*   Updated: 2024/04/04 15:11:34 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 
 //padrão libs
-
 #include <iostream>
 #include <string>
 #include <ctime>
@@ -34,10 +33,10 @@
 #include <sys/socket.h>
 #include <fcntl.h>
 #include <vector>
-
+#include <sstream>
+#include <cstring>
 
 // defines
-
 #define COLOR_RED     "\x1b[31m"
 #define COLOR_YELLOW  "\x1b[33m"
 #define COLOR_BLUE    "\x1b[34m"
