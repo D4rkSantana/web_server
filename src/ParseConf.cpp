@@ -84,7 +84,6 @@ std::vector<std::string> extractLocations(const std::string& serverBlock) {
             currentLocation += line + "\n"; // Adicionamos a linha à localização atual
         }
     }
-
     return locations;
 }
 
