@@ -10,5 +10,6 @@
 std::string readFileContents(const std::string& filename);
 std::string extractServerParams(const std::string& serverBlock);
 std::vector<std::string> extractLocations(const std::string& serverBlock);
+std::vector<std::string> separateServerBlocks(const std::string& config);
 
 #endif

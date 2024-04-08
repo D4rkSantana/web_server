@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 00:46:52 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/08 00:32:33 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/08 00:45:14 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,13 @@ bool CheckArg::check(int argc, char *argv[]){
     if(!_checkArgc(argc))
         return false;
     
-    return _checkArgv(argv);
+    if(!_checkArgv(argv))
+        return false;
+
+    if(!CheckFile::check(argv[1]))
+        return false;
+    
+    return true;
 }
 
 bool CheckArg::_checkArgc(int argc){

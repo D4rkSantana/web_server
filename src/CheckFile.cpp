@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/08 00:20:16 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/08 00:38:57 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool CheckFile::check(std::string path){
     std::set<std::string> validWords;
     
     text = readFileContents(path);
-    validWords = this->_getValidFirstWords( );
+    
 
     // verifica se {} esta correto
     if(!checkBraces(text)){
@@ -28,6 +28,7 @@ bool CheckFile::check(std::string path){
     
     // verifica se existe um elemento difente no arquivo, so se ele for a primeira palavra
     // o restante vou verificar na hora de ver os valores
+    validWords = _getValidFirstWords( );
     if(_isFirstWordInSet(text, validWords) > -1){
         Logs::printLog(Logs::ERROR, 11, "The " + path + " file contains an error on line "+ to_string(_isFirstWordInSet(text, validWords)) +".");
         return false;
