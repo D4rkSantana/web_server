@@ -1,0 +1,15 @@
+crie uma função que recebe dois vetor, um vetor com cada linha sendo elemento 
+
+listen 307
+server_name new.42.fr pss.fr localhost;
+index hello.html;
+root guide;
+autoindex on;
+error_page 404 notfound.html;
+root guide;
+client_max_body_size 1024;
+
+e  outro vetor sedo um conjunto de palavra 
+Ele vai analisar a primeiro palavra de cada linha do primeiro vetor.
+Se essa palavra não estiver no conjunto de palavra do segundo vetor retorna falso 
+caso contrario verdadeiro 

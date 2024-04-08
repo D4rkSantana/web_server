@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/08 00:38:57 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/08 14:53:48 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 
 bool CheckFile::check(std::string path){
+    long unsigned int i;
     std::string  text;
     std::set<std::string> validWords;
+    std::vector<std::string> separateServer;
     
     text = readFileContents(path);
     
-
     // verifica se {} esta correto
     if(!checkBraces(text)){
         Logs::printLog(Logs::ERROR, 11, "The " + path  + " file is not correct closing/opening brackets");
@@ -34,11 +35,24 @@ bool CheckFile::check(std::string path){
         return false;
     }
 
-    // verifica se o elemento do bloco esta correto, 
+    separateServer  =  separateServerBlocks(text);
+    if(separateServer.size() < 1){
+        Logs::printLog(Logs::ERROR, 11, "Server not found or in the wrong position.");
+        return false;
+    }
+       
+    i = 0;
+    while(i < separateServer.size())
+    {
+        
+        if(!_checkServerParams(separateServer[i]))
+            return false;
+        i ++;
+    }
+    
 
-
-
-
+   // verifica se o elemento do bloco esta correto, 
+    
     // verifica se existe elemento necessario 
         
     return true;    
@@ -84,21 +98,18 @@ int CheckFile::_isFirstWordInSet(const std::string& text, const std::set<std::st
     std::string line;
     int nbrLine;
     
-    
     // Itera sobre cada linha do texto
     nbrLine = 1;
     while (std::getline(iss, line)) {
         std::istringstream lineStream(line); // Cria um stream de string a partir da linha
         std::string firstWord;
        
-
         // Lê a primeira palavra da linha
         if (lineStream >> firstWord) {
             // Verifica se a primeira palavra está no conjunto de palavras
             bool found = false;
             for (std::set<std::string>::const_iterator it = wordSet.begin(); it != wordSet.end(); ++it) {
                 if (*it == firstWord) {
-                    
                     found = true;
                     break;
                 }
@@ -111,3 +122,15 @@ int CheckFile::_isFirstWordInSet(const std::string& text, const std::set<std::st
     }
     return -1; // Se todas as primeiras palavras estiverem no conjunto, retorna true
 }
+
+
+
+
+bool CheckFile::_checkServerParams(std::string element){
+    std::string serverParams;
+    
+    serverParams = extractServerParams(element); 
+    return true;
+    
+}
+
