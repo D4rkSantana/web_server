@@ -6,14 +6,14 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/04 15:18:02 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/08 00:20:16 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "CheckFile.hpp"
 
 
-CheckFile::CheckFile(std::string path):_status(true){
+bool CheckFile::check(std::string path){
     std::string  text;
     std::set<std::string> validWords;
     
@@ -22,17 +22,15 @@ CheckFile::CheckFile(std::string path):_status(true){
 
     // verifica se {} esta correto
     if(!checkBraces(text)){
-        this->_status= false;
         Logs::printLog(Logs::ERROR, 11, "The " + path  + " file is not correct closing/opening brackets");
-        return;
+        return false;
     }
     
     // verifica se existe um elemento difente no arquivo, so se ele for a primeira palavra
     // o restante vou verificar na hora de ver os valores
     if(_isFirstWordInSet(text, validWords) > -1){
-        this->_status= false;
         Logs::printLog(Logs::ERROR, 11, "The " + path + " file contains an error on line "+ to_string(_isFirstWordInSet(text, validWords)) +".");
-        return;
+        return false;
     }
 
     // verifica se o elemento do bloco esta correto, 
@@ -42,14 +40,8 @@ CheckFile::CheckFile(std::string path):_status(true){
 
     // verifica se existe elemento necessario 
         
-    
+    return true;    
 
-}
-
-
-CheckFile::~CheckFile(void){
-   return;
-    
 }
 
 
