@@ -87,3 +87,22 @@ std::vector<std::string> extractLocations(const std::string& serverBlock) {
     return locations;
 }
 
+std::string getFirstWord(const std::string& text, int position) {
+    std::istringstream iss(text); // Cria um stream de string a partir do texto
+    std::string line;
+    int nbrLine;
+    
+    // Itera sobre cada linha do texto
+    nbrLine = 0;
+    while (std::getline(iss, line)) {
+        std::istringstream lineStream(line); // Cria um stream de string a partir da linha
+        std::string firstWord;
+       
+        if(nbrLine == position){
+            lineStream >> firstWord;
+            return firstWord;
+        }
+        nbrLine ++;
+    }
+    return "";
+}

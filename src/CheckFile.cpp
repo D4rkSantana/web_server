@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/08 14:53:48 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:23:05 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,23 @@ bool CheckFile::check(std::string path){
     // o restante vou verificar na hora de ver os valores
     validWords = _getValidFirstWords( );
     if(_isFirstWordInSet(text, validWords) > -1){
-        Logs::printLog(Logs::ERROR, 11, "The " + path + " file contains an error on line "+ to_string(_isFirstWordInSet(text, validWords)) +".");
+        Logs::printLog(Logs::ERROR, 12, "The " + path + " file contains an error on line "+ to_string(_isFirstWordInSet(text, validWords)) +".");
         return false;
     }
 
     separateServer  =  separateServerBlocks(text);
     if(separateServer.size() < 1){
-        Logs::printLog(Logs::ERROR, 11, "Server not found or in the wrong position.");
+        Logs::printLog(Logs::ERROR, 13, "Server not found or in the wrong position.");
         return false;
     }
        
     i = 0;
     while(i < separateServer.size())
     {
-        
-        if(!_checkServerParams(separateServer[i]))
+        if(!_checkServerParams(separateServer[i])){
             return false;
+        }
+            
         i ++;
     }
     
@@ -128,8 +129,29 @@ int CheckFile::_isFirstWordInSet(const std::string& text, const std::set<std::st
 
 bool CheckFile::_checkServerParams(std::string element){
     std::string serverParams;
+    std::set<std::string> validWords;
     
-    serverParams = extractServerParams(element); 
+    serverParams = extractServerParams(element);
+
+    if(serverParams.length() < 1)
+        return false;
+    
+    validWords.insert("server_name");
+    validWords.insert("listen");
+    validWords.insert("host");
+    validWords.insert("error_page");
+    validWords.insert("index");
+    validWords.insert("client_max_body_size");
+    validWords.insert("root");
+    validWords.insert("word");
+    validWords.insert("autoindex");
+
+    if(_isFirstWordInSet(serverParams, validWords) != -1){
+        Logs::printLog(Logs::ERROR, 14, "This element is in the wrong position"+ to_string(_isFirstWordInSet(serverParams, validWords)));
+        return false;
+    }
+       
+        
     return true;
     
 }
