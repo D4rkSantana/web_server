@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/08 22:42:58 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/08 22:47:42 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,12 @@ bool CheckFile::_checkSLocationParams(std::string text){
     while(i < location.size()){
         if(_isFirstWordInSet(location[i], validWords) != -1){
             Logs::printLog(Logs::ERROR, 14, "This element is in the wrong position: "+ getFirstWord(location[i], _isFirstWordInSet(location[i], validWords)-1));
+            return false;
+        }
+
+        // fazer para os outros!
+        if(countWordOccurrencesLine(location[i], "autoindex") != 1){
+            Logs::printLog(Logs::ERROR, 14, "autoindex  is duplicated or missing");
             return false;
         }
         i ++;
