@@ -6,11 +6,9 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/08 00:28:09 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/08 21:37:26 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 
 //padrão libs
@@ -32,8 +30,6 @@
 #include <netinet/in.h>
 #include <netdb.h>
 
-#include <unistd.h>
-
 #include <sys/socket.h>
 #include <string>
 #include <sstream>
@@ -42,23 +38,15 @@
 
 #include <vector>
 
-#include "template.tpp"
+#include <unistd.h>
+
 
 // my libs
-
+#include "template.tpp"
 #include "Logs.hpp"
 #include "CheckArg.hpp"
 #include "CheckFile.hpp"
 #include "ParseConf.hpp"
-
-
-
-
-
-
-
-
-
 
 
 // defines

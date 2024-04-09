@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/08 21:27:31 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/08 22:18:51 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,6 @@ bool CheckFile::check(std::string path){
             
         i ++;
     }
-    
-
-   // verifica se o elemento do bloco esta correto, 
-    
-    // verifica se existe elemento necessario 
         
     return true;    
 
@@ -93,6 +88,39 @@ std::set<std::string> CheckFile::_getValidFirstWords(void) {
     return validWords;
 }
 
+std::set<std::string> CheckFile::_getValidServerWords(void) {
+    std::set<std::string> validWords;
+    
+    validWords.insert("server_name");
+    validWords.insert("listen");
+    validWords.insert("host");
+    validWords.insert("error_page");
+    validWords.insert("index");
+    validWords.insert("client_max_body_size");
+    validWords.insert("root");
+    validWords.insert("word");
+    validWords.insert("autoindex");
+    
+    return  (validWords); 
+}
+
+std::set<std::string> CheckFile::_getValidLocationWords(void) {
+    std::set<std::string> validWords;
+    
+    validWords.insert("location");
+    validWords.insert("autoindex");
+    validWords.insert("allow_method");
+    validWords.insert("limit_except");
+    validWords.insert("redirect");
+    validWords.insert("alias");
+    validWords.insert("cgi_path");
+    validWords.insert("cgi_ext");
+    validWords.insert("}");
+  
+    return  (validWords); 
+}
+
+
 
 int CheckFile::_isFirstWordInSet(const std::string& text, const std::set<std::string>& wordSet) {
     std::istringstream iss(text); // Cria um stream de string a partir do texto
@@ -125,8 +153,6 @@ int CheckFile::_isFirstWordInSet(const std::string& text, const std::set<std::st
 }
 
 
-
-
 bool CheckFile::_checkServerParams(std::string element){
     std::string serverParams;
     std::set<std::string> validWords;
@@ -136,29 +162,34 @@ bool CheckFile::_checkServerParams(std::string element){
     if(serverParams.length() < 1)
         return false;
     
-    validWords.insert("server_name");
-    validWords.insert("listen");
-    validWords.insert("host");
-    validWords.insert("error_page");
-    validWords.insert("index");
-    validWords.insert("client_max_body_size");
-    validWords.insert("root");
-    validWords.insert("word");
-    validWords.insert("autoindex");
-
+    validWords = _getValidServerWords( );
     if(_isFirstWordInSet(serverParams, validWords) != -1){
         Logs::printLog(Logs::ERROR, 14, "This element is in the wrong position: "+ getFirstWord(serverParams , _isFirstWordInSet(serverParams, validWords)-1));
         return false;
     }
 
     // fazer para os outros!
-    if(countWordOccurrencesLine(element, "serve_name") != 1){
+    if(countWordOccurrencesLine(element, "listen") != 1){
         Logs::printLog(Logs::ERROR, 14,"server_name is duplicated or missing");
         return false;
     }
-       
-        
     return true;
-    
 }
 
+
+bool CheckFile::_checkSLocationParams(std::string text){
+    std::set<std::string> validWords;
+    std::vector<std::string> location;
+    
+
+    
+    location = extractLocations(text);
+
+    if(location.size() < 1)
+        return false;
+
+    validWords = _getValidLocationWords( );
+    
+    return true;
+
+}
