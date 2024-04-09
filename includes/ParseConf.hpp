@@ -1,11 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ParseConf.hpp                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/08 23:59:47 by ryoshio-          #+#    #+#             */
+/*   Updated: 2024/04/09 00:29:30 by ryoshio-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 #ifndef ParseConf_HPP
 #define ParseConf_HPP
 
 
-#include "library.hpp"
+#include "./library.hpp"
 
+
+/* 
+class ParseConf{
+    private:
+        ParseConf();
+
+
+
+};
+*/
 
 std::string readFileContents(const std::string& filename);
 std::string extractServerParams(const std::string& serverBlock);

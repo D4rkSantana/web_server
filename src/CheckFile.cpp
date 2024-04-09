@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/08 22:54:27 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/09 02:41:56 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ std::set<std::string> CheckFile::_getValidFirstWords(void) {
     std::set<std::string> validWords;
     
     validWords.insert("server");
-    validWords.insert("server_name");
     
+    validWords.insert("server_name");
     validWords.insert("listen");
     validWords.insert("host");
     validWords.insert("error_page");
@@ -82,7 +82,6 @@ std::set<std::string> CheckFile::_getValidFirstWords(void) {
     validWords.insert("autoindex");
     validWords.insert("allow_method");
     validWords.insert("limit_except");
-    
     validWords.insert("redirect");
     validWords.insert("alias");
     validWords.insert("cgi_path");

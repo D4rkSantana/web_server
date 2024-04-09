@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/08 21:37:26 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/09 02:48:40 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <csignal>
 #include <cstdlib>
 #include <cstdio>
+#include <cstring>
 
 #include <fcntl.h>
 #include <fstream>
@@ -42,11 +43,17 @@
 
 
 // my libs
+
 #include "template.tpp"
 #include "Logs.hpp"
 #include "CheckArg.hpp"
 #include "CheckFile.hpp"
 #include "ParseConf.hpp"
+
+
+
+#include "Data.hpp"
+
 
 
 // defines
