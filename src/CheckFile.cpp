@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/09 02:41:56 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:34:43 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,11 +178,21 @@ bool CheckFile::_checkServerParams(std::string element){
         return false;
     }
 
-    // fazer para os outros!
-    if(countWordOccurrencesLine(element, "listen") != 1){
-        Logs::printLog(Logs::ERROR, 16,"server_name is duplicated or missing");
-        return false;
+    // Aqui analisando se tem linha dublicado 
+    for (std::set<std::string>::iterator it = validWords.begin(); it != validWords.end(); ++it) {
+        if(countWordOccurrencesLine(serverParams, *it) > 1){
+            Logs::printLog(Logs::ERROR, 17, *it +  " is duplicated");
+            return false;
+        }
     }
+    /* Analisar, elemento que tem que ter pelo menos um 
+    if(countWordOccurrencesLine(serverParams, "listen") == 1){
+        Logs::printLog(Logs::ERROR, 19, "listen is duplicated");
+        return false;
+    }    
+    */  
+
+    
     return true;
 }
 
@@ -208,13 +218,21 @@ bool CheckFile::_checkSLocationParams(std::string text){
             return false;
         }
 
-        // fazer para os outros!
-        if(countWordOccurrencesLine(location[i], "autoindex") != 1){
-            Logs::printLog(Logs::ERROR, 19, "autoindex  is duplicated or missing");
+        // Aqui analisando se tem linha dublicado 
+        for (std::set<std::string>::iterator it = validWords.begin(); it != validWords.end(); ++it) {
+            if(countWordOccurrencesLine(location[i], *it) > 1){
+                Logs::printLog(Logs::ERROR, 19, *it +  " is duplicated");
+                return false;
+            }
+        }
+        /* Analisar, elemento que tem que ter pelo menos um 
+        if(countWordOccurrencesLine(locarion[i], "root")  == 1){
+            Logs::printLog(Logs::ERROR, 19, "root  is duplicated");
             return false;
         }
+        
+        */        
         i ++;
     }
-    
     return true;
 }
