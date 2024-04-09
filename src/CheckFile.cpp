@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/08 15:23:05 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:59:08 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ bool CheckFile::_checkServerParams(std::string element){
     validWords.insert("autoindex");
 
     if(_isFirstWordInSet(serverParams, validWords) != -1){
-        Logs::printLog(Logs::ERROR, 14, "This element is in the wrong position"+ to_string(_isFirstWordInSet(serverParams, validWords)));
+        Logs::printLog(Logs::ERROR, 14, "This element is in the wrong position: "+ getFirstWord(serverParams , _isFirstWordInSet(serverParams, validWords)-1));
         return false;
     }
        

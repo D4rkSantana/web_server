@@ -106,3 +106,23 @@ std::string getFirstWord(const std::string& text, int position) {
     }
     return "";
 }
+
+
+int countWordOccurrencesLine(const std::string& text, const std::string& word) {
+    std::istringstream iss(text); // Cria um stream de string a partir do texto
+    std::string line;
+    int  count;
+    
+    // Itera sobre cada linha do texto
+    count = 0;
+    while (std::getline(iss, line)) {
+        std::istringstream lineStream(line); // Cria um stream de string a partir da linha
+        std::string firstWord;
+       
+        lineStream >> firstWord;
+        if(firstWord == word){
+            count ++;
+        }
+    }
+    return count;
+}
