@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/08 15:59:08 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/08 21:27:31 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,12 @@ bool CheckFile::_checkServerParams(std::string element){
 
     if(_isFirstWordInSet(serverParams, validWords) != -1){
         Logs::printLog(Logs::ERROR, 14, "This element is in the wrong position: "+ getFirstWord(serverParams , _isFirstWordInSet(serverParams, validWords)-1));
+        return false;
+    }
+
+    // fazer para os outros!
+    if(countWordOccurrencesLine(element, "serve_name") != 1){
+        Logs::printLog(Logs::ERROR, 14,"server_name is duplicated or missing");
         return false;
     }
        
