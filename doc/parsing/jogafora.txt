@@ -1,12 +1,11 @@
-Cria uma função que recebe duas string, sendo que uma dela é 
+cria uma função que recebe um texto no formato de string:
 
-listen 307
-server_name new.42.fr pss.fr localhost;
-index hello.html;
-root guide;
-autoindex on;
-error_page 404 notfound.html;
-root guide;
-client_max_body_size 1024;
+    listen 3007
+    server_name lucas.42.fr dddd.42.fr localhost
+    index hello.html
+    root examples
+    client_max_body_size 1024
+    autoindex on
+    error_page 404 notfound.htm
 
-Outra string, recebemos uma palavra. Vamos supor que foi "root", logo ele retorna 2 pois ele aparece na duas linha
+Que tb recebe uma string, po exemplo server_name, vai retornar nesse exemplo lucas.42.fr dddd.42.fr localhost

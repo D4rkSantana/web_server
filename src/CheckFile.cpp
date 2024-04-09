@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/09 17:34:43 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/09 19:03:24 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,4 +235,34 @@ bool CheckFile::_checkSLocationParams(std::string text){
         i ++;
     }
     return true;
+}
+
+
+
+
+std::string getParameterValue(const std::string& text, const std::string& parameter) {
+    // Encontra a posição do parâmetro no texto
+    size_t pos = text.find(parameter);
+    if (pos == std::string::npos) {
+        // Se o parâmetro não for encontrado, retorna uma string vazia
+        return "";
+    }
+
+    // Avança para o valor do parâmetro
+    pos += parameter.length();
+
+    // Ignora os espaços em branco
+    while (pos < text.length() && text[pos] == ' ') {
+        pos++;
+    }
+
+    // Encontra o fim do valor do parâmetro
+    size_t end_pos = text.find("\n", pos);
+    if (end_pos == std::string::npos) {
+        // Se o fim do texto for alcançado, retorna o restante da string
+        return text.substr(pos);
+    }
+
+    // Retorna a parte do texto contendo o valor do parâmetro
+    return text.substr(pos, end_pos - pos);
 }
