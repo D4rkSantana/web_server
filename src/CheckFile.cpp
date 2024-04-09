@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/08 22:18:51 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/08 22:42:58 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,11 @@ bool CheckFile::_checkServerParams(std::string element){
     
     serverParams = extractServerParams(element);
 
-    if(serverParams.length() < 1)
+    if(serverParams.length() < 1){
+        Logs::printLog(Logs::ERROR, 14, "not found Server");
         return false;
+    }
+        
     
     validWords = _getValidServerWords( );
     if(_isFirstWordInSet(serverParams, validWords) != -1){
@@ -178,18 +181,27 @@ bool CheckFile::_checkServerParams(std::string element){
 
 
 bool CheckFile::_checkSLocationParams(std::string text){
+    long unsigned int i;
     std::set<std::string> validWords;
     std::vector<std::string> location;
     
-
-    
     location = extractLocations(text);
 
-    if(location.size() < 1)
+    if(location.size() < 1){
+        Logs::printLog(Logs::ERROR, 14, "not found Location");
         return false;
-
+    }
+    
     validWords = _getValidLocationWords( );
+
+    i = 0;
+    while(i < location.size()){
+        if(_isFirstWordInSet(location[i], validWords) != -1){
+            Logs::printLog(Logs::ERROR, 14, "This element is in the wrong position: "+ getFirstWord(location[i], _isFirstWordInSet(location[i], validWords)-1));
+            return false;
+        }
+        i ++;
+    }
     
     return true;
-
 }
