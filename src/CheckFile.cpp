@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/08 22:47:42 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/08 22:54:27 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ bool CheckFile::check(std::string path){
     while(i < separateServer.size())
     {
         if(!_checkServerParams(separateServer[i])){
+            return false;
+        }
+        
+        if(!_checkSLocationParams(separateServer[i])){
             return false;
         }
             
@@ -108,6 +112,10 @@ std::set<std::string> CheckFile::_getValidLocationWords(void) {
     std::set<std::string> validWords;
     
     validWords.insert("location");
+    
+    validWords.insert("error_page");
+    validWords.insert("index");
+    
     validWords.insert("autoindex");
     validWords.insert("allow_method");
     validWords.insert("limit_except");
@@ -167,13 +175,13 @@ bool CheckFile::_checkServerParams(std::string element){
     
     validWords = _getValidServerWords( );
     if(_isFirstWordInSet(serverParams, validWords) != -1){
-        Logs::printLog(Logs::ERROR, 14, "This element is in the wrong position: "+ getFirstWord(serverParams , _isFirstWordInSet(serverParams, validWords)-1));
+        Logs::printLog(Logs::ERROR, 15, "This element is in the wrong position: "+ getFirstWord(serverParams , _isFirstWordInSet(serverParams, validWords)-1));
         return false;
     }
 
     // fazer para os outros!
     if(countWordOccurrencesLine(element, "listen") != 1){
-        Logs::printLog(Logs::ERROR, 14,"server_name is duplicated or missing");
+        Logs::printLog(Logs::ERROR, 16,"server_name is duplicated or missing");
         return false;
     }
     return true;
@@ -188,7 +196,7 @@ bool CheckFile::_checkSLocationParams(std::string text){
     location = extractLocations(text);
 
     if(location.size() < 1){
-        Logs::printLog(Logs::ERROR, 14, "not found Location");
+        Logs::printLog(Logs::ERROR, 17, "not found Location");
         return false;
     }
     
@@ -197,13 +205,13 @@ bool CheckFile::_checkSLocationParams(std::string text){
     i = 0;
     while(i < location.size()){
         if(_isFirstWordInSet(location[i], validWords) != -1){
-            Logs::printLog(Logs::ERROR, 14, "This element is in the wrong position: "+ getFirstWord(location[i], _isFirstWordInSet(location[i], validWords)-1));
+            Logs::printLog(Logs::ERROR, 18, "This element is in the wrong position: "+ getFirstWord(location[i], _isFirstWordInSet(location[i], validWords)-1));
             return false;
         }
 
         // fazer para os outros!
         if(countWordOccurrencesLine(location[i], "autoindex") != 1){
-            Logs::printLog(Logs::ERROR, 14, "autoindex  is duplicated or missing");
+            Logs::printLog(Logs::ERROR, 19, "autoindex  is duplicated or missing");
             return false;
         }
         i ++;
