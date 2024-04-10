@@ -22,5 +22,7 @@ class Data{
 	public:
 		Data(void);
 		~Data(void);
-		bool	start(std::string pathConf);
+		bool	start(const char* pathConf);
+		bool	endBlock(const std::string& text);
+		bool	verifyLineEmpty(const std::string& text);
 };

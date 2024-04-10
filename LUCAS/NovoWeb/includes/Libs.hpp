@@ -34,6 +34,7 @@
 #include <vector>
 #include <sstream>
 #include <cstring>
+#include <fstream>
 
 // defines
 #define COLOR_RED     "\x1b[31m"

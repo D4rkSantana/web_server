@@ -15,7 +15,7 @@ Webserv::Webserv(void){}
 
 Webserv::~Webserv(void){}
 
-bool	Webserv::setDataServer(std::string pathConf){
+bool	Webserv::setDataServer(const char* pathConf){
 	if(_data.start(pathConf)){
 		return(true);
 	}else{

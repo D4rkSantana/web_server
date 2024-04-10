@@ -16,7 +16,7 @@ void	handleStop(int signal);
 Webserv	webServer;
 
 int	main(int argc, char *argv[]){
-	std::string confPath;
+	const char*	confPath;
 
 	if(argc > 2) {
 		Logs::printLog(Logs::ERROR, 0, "Number of invalid arguments!");
@@ -30,6 +30,7 @@ int	main(int argc, char *argv[]){
 	signal(SIGINT, handleStop);
 	if(!webServer.setDataServer(confPath)){
 		Logs::printLog(Logs::ERROR, 1, "Erro set data server");
+		return(1);
 	}
 	return(webServer.start());
 }

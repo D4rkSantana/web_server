@@ -22,7 +22,7 @@ class Webserv{
 	public:
 		Webserv(void);
 		~Webserv(void);
-		bool	setDataServer(std::string pathConf);
+		bool	setDataServer(const char* pathConf);
 		int		start(void);
 		void	stop(void);
 };
