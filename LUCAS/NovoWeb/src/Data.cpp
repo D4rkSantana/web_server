@@ -78,6 +78,7 @@ bool	Data::start(const char* pathConf){
 
 	//excluir print aqui
 	std::cout << servers[1][0];
+		std::cout << servers[0][0];
 
 
     populateConfs(servers, locations);
@@ -139,11 +140,8 @@ void	Data::populateConfs(
 		}
 		_qtLocation.push_back(locations[i].size());
 	}
-
-	//excluir print aqui
-	std::cout << _dataServers[0]->server[0].key = "listen" << std::endl;
-
-
+	//excluir aqui print
+	std::cout << _dataServers[1].server->at("root")[0] << std::endl;
 }
 
 void	Data::allocateServers(conf_servers* stConfServer, int qtLocation) {
