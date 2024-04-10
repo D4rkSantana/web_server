@@ -17,13 +17,7 @@
 class Webserv{
 
 	private:
-		std::map<int, Data>	_mapServer;
-		Socket				_sockets;
-		std::vector<int>	clientListSockets;
-		std::vector<int>*	listSocketsPoint;
-		//struct timeval	timeout;
-		//fd_set			readFdsCopy;
-		//fd_set			writeFdsCopy;
+		Data	_data;
 
 	public:
 		Webserv(void);

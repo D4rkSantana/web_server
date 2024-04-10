@@ -17,29 +17,10 @@
 
 class Data{
 
-	private:
-		std::string	_serverName;
-		std::string	_index;
-		std::string	_root;
-		int	_clientMaxBodySize;
-		int	_port;
-		std::string	_errorPage;
+	//private:
 
 	public:
 		Data(void);
 		~Data(void);
-
-		void setServerName(std::string serverName);
-		void setIndex(std::string index);
-		void setRoot(std::string root);
-		void setClientMaxBodySize(int clientMaxBodySize);
-		void setPort(int port);
-		void setErrorPage(std::string errorPage);
-
-		std::string getServerName(void);
-		std::string getIndex(void);
-		std::string getRoot(void);
-		int getClientMaxBodySize(void);
-		int getPort(void);
-		std::string getErrorPage(void);
+		bool	start(std::string pathConf);
 };

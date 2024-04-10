@@ -11,15 +11,16 @@
 /* ************************************************************************** */
 
 #include "../includes/Libs.hpp"
-Webserv::Webserv(void): listSocketsPoint(_sockets.getListenSockets()){}
-
+Webserv::Webserv(void){}
 
 Webserv::~Webserv(void){}
 
 bool	Webserv::setDataServer(std::string pathConf){
-	(void) pathConf;
-	return(true);
-
+	if(_data.start(pathConf)){
+		return(true);
+	}else{
+		return(false);
+	}
 }
 
 int	Webserv::start(void){
@@ -28,5 +29,5 @@ int	Webserv::start(void){
 }
 
 void	Webserv::stop(){
-	_sockets.closed();
+	return;
 }
