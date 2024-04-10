@@ -15,9 +15,19 @@
 
 #include "./Libs.hpp"
 
-class Data{
+typedef std::map<std::string, std::vector<std::string> > dic;
 
-	//private:
+typedef struct {
+	dic  *server;
+	dic **locations;
+} conf_servers;
+
+class	Data{
+
+	private:
+		size_t				_sizeServers;
+		conf_servers*		_dataServers;
+		std::vector<int>	_qtLocation;
 
 	public:
 		Data(void);
@@ -25,4 +35,15 @@ class Data{
 		bool	start(const char* pathConf);
 		bool	endBlock(const std::string& text);
 		bool	verifyLineEmpty(const std::string& text);
+		void	populateConfs(std::vector<std::vector<std::string> > servers,
+			std::vector<std::vector<std::string> > locations);
+		void	allocateServers(conf_servers* stConfServer, int qtLocation);
+		dic*	setParams(const std::string str, dic* vconfs);
+		std::string	rmSpaces(const std::string& input);
+		std::vector<std::string> splitTokens(const std::string str);
+		void	deallocateServers(conf_servers* stConfServer, int qtLocation);
+		void	clearParams();
 };
+
+
+

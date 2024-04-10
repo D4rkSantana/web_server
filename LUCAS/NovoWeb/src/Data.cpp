@@ -76,10 +76,11 @@ bool	Data::start(const char* pathConf){
     }
     conf.close();
 
+	//excluir print aqui
 	std::cout << servers[1][0];
 
 
-    //populateConfs(servers, locations);
+    populateConfs(servers, locations);
 	return(true);
 }
 
@@ -119,4 +120,117 @@ bool	Data::endBlock(const std::string& line) {
         onlyClosingBrace = true;
 
     return onlyClosingBrace;
+}
+
+void	Data::populateConfs(
+	std::vector<std::vector<std::string> > servers,
+	std::vector<std::vector<std::string> > locations){
+
+	_sizeServers = servers.size();
+	_dataServers = new conf_servers[_sizeServers];
+
+
+	for (size_t i = 0; i < _sizeServers; i++) {
+		allocateServers(&_dataServers[i], locations[i].size());
+		_dataServers[i].server = setParams(servers[i][0], _dataServers[i].server);
+		for (size_t j = 0; j < locations[i].size(); j++) {
+		    _dataServers[i].locations[j] =
+				setParams(locations[i][j], _dataServers[i].locations[j]);
+		}
+		_qtLocation.push_back(locations[i].size());
+	}
+
+	//excluir print aqui
+	std::cout << _dataServers[0]->server[0].key = "listen" << std::endl;
+
+
+}
+
+void	Data::allocateServers(conf_servers* stConfServer, int qtLocation) {
+
+	stConfServer->server = new dic;
+	stConfServer->locations = new dic*[qtLocation];
+
+	for (int i = 0; i < qtLocation; i++)
+		stConfServer->locations[i] = new dic;
+}
+
+dic* Data::setParams(const std::string str, dic* vconfs) {
+	std::vector<std::string>    tokens;
+	std::string                 tmp_str = str;
+	std::string                 token;
+
+	size_t pos = str.find('\n');
+	while (pos != std::string::npos) {
+		token = tmp_str.substr(0, pos);
+		tokens.push_back(rmSpaces(token));
+		tmp_str = tmp_str.substr(pos + 1);
+		pos = tmp_str.find('\n');
+	}
+	for (size_t i = 0; i < tokens.size(); i++) {
+		pos = tokens[i].find(' ');
+		if (pos != std::string::npos) {
+			std::string key = tokens[i].substr(0, pos);
+			std::vector<std::string> value = splitTokens(tokens[i].substr(pos + 1));
+			if (key != "server")
+				(*vconfs)[key] = value;
+		}
+	}
+	return vconfs;
+}
+
+std::string	Data::rmSpaces(const std::string& input) {
+	std::string result;
+	bool previousCharWasSpace = false;
+
+	for (size_t i = 0; i < input.length(); i++) {
+	if (input[i] != ' ') {
+		result += input[i];
+		previousCharWasSpace = false;
+	} else if (!previousCharWasSpace) {
+		result += ' ';
+		previousCharWasSpace = true;
+	}
+	}
+	if (result[0] == ' ') {
+		result.erase(0, 1);
+	}
+	if (!result.empty() && result[result.length() - 1] == ' ') {
+		result.erase(result.length() - 1);
+	}
+	return result;
+}
+
+std::vector<std::string> Data::splitTokens(const std::string str) {
+	std::vector<std::string>	vtokens;
+	std::istringstream			iss(str);
+	std::string					token;
+
+	while (iss >> token) {
+		if (token == "{" || token == "}")
+			continue;
+		vtokens.push_back(token);
+	}
+	return vtokens;
+}
+
+void Data::deallocateServers(conf_servers* stConfServer, int qtLocation) {
+    if (stConfServer) {
+        for (int i = 0; i < qtLocation; i++) {
+            if (stConfServer->locations[i]) {
+                delete stConfServer->locations[i];
+            }
+        }
+        if (stConfServer->locations) {
+            delete[] stConfServer->locations;
+        }
+        delete stConfServer->server;
+    }
+}
+
+void	Data::clearParams() {
+    for (size_t i = 0; i < _sizeServers; i++) {
+        deallocateServers(&_dataServers[i], _qtLocation[i]);
+    }
+    delete [] _dataServers;
 }
