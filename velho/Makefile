@@ -4,9 +4,14 @@ CC = c++
 RM = rm -rf
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-INCLUDES = -I ./includes
-DIR_SOURCES = ./src
+INCLUDES = -I library/include
+DIR_SOURCES = library/src
 DIR_OBJS = obj
+
+
+DIR_TESTS = library/tests/src/
+INCLUDES_TESTS = -I library/test/include
+DIR_TEST_OBJS = obj/tests
 
 SOURCES := $(wildcard $(DIR_SOURCES)/*.cpp)
 SOURCES += main.cpp
@@ -36,11 +41,15 @@ $(DIR_TEST_OBJS)/%.o: $(DIR_TESTS)/%.cpp
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
 
+test: $(TEST_OBJS) 
+	$(CC) $(CFLAGS) $(INCLUDES) $(INCLUDES_TESTS) $^ -o test_runner
+	./test_runner
+
 clean:
 	$(RM) $(DIR_OBJS) $(DIR_TEST_OBJS) test_runner
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) 
 
 re: fclean all
 
