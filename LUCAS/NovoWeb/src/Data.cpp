@@ -14,7 +14,9 @@
 
 Data::Data(void){}
 
-Data::~Data(void){}
+Data::~Data(void){
+	clearParams();
+}
 
 bool	Data::start(const char* pathConf){
 	std::string                             line;
@@ -27,6 +29,7 @@ bool	Data::start(const char* pathConf){
 	std::vector<std::string>                serverBlocks;
 	std::vector<std::string>                locationBlocks;
 	std::string                             currentLocationBlock;
+	//std::vector<int>         				serverInfo;
 
 	std::ifstream	conf(pathConf);
 	if (!conf.is_open()) {
@@ -80,9 +83,30 @@ bool	Data::start(const char* pathConf){
 	std::cout << servers[1][0];
 		std::cout << servers[0][0];
 
-
+	if (servers.size() < 1)
+	{
+		return (false);
+	}
     populateConfs(servers, locations);
+	/*
+    serverInfo = getSizeServers();
+    if (serverInfo.empty()) {
+        Logs::printLog(Logs::ERROR, 3, "The server was not configured correctly");
+        exit(1);
+    }
+	*/
+	//exit(1);
 	return(true);
+}
+
+std::vector<int> Data::getSizeServers () {
+    std::vector<int> sizeServers;
+
+    sizeServers.push_back(_sizeServers);//Numero total de servers
+    for (size_t i = 0; i < _sizeServers; i++) {
+        sizeServers.push_back(_qtLocation[i]);//quantidade de locations de casa server
+    }
+    return sizeServers;
 }
 
 bool	Data::verifyLineEmpty(const std::string& text) {

@@ -43,6 +43,7 @@ class	Data{
 		std::vector<std::string> splitTokens(const std::string str);
 		void	deallocateServers(conf_servers* stConfServer, int qtLocation);
 		void	clearParams();
+		std::vector<int>	getSizeServers();
 };
 
 
