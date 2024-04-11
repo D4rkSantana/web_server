@@ -45,4 +45,5 @@ class Data {
 		void deallocateServers(conf_servers *stConfServer, int qtLocation);
 		void clearParams();
 		std::vector<int> getSizeServers();
+		std::vector<std::string> getServerParam(size_t serverIndex, std::string param); 
 };

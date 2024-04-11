@@ -32,7 +32,7 @@ bool Data::start(const char *pathConf)
 	std::vector<std::string> locationBlocks;
 	std::string currentLocationBlock;
 	int numLocation;
-	// std::vector<int>         				serverInfo;
+	std::vector<int>         				serverInfo;
 
 	numLocation = 0;
 	std::ifstream conf(pathConf);
@@ -93,22 +93,17 @@ bool Data::start(const char *pathConf)
 	}
 	conf.close();
 
-	// excluir print aqui
-	//  std::cout << servers[1][0];
-	//  std::cout << servers[0][0];
-
 	if (servers.size() < 1)
 		return (false);
 
 	populateConfs(servers, locations);
-	/*
+	
 	serverInfo = getSizeServers();
 	if (serverInfo.empty()) {
 		Logs::printLog(Logs::ERROR, 3, "The server was not configured correctly");
-		exit(1);
+		return (false);
 	}
-	*/
-	// exit(1);
+	
 	return (true);
 }
 
@@ -188,7 +183,7 @@ void Data::populateConfs(
 		_qtLocation.push_back(locations[i].size());
 	}
 	// excluir aqui print
-	std::cout << _dataServers[1].server->at("root")[0] << std::endl;
+	//std::cout << _dataServers[1].server->at("root")[0] << std::endl;
 }
 
 void Data::allocateServers(conf_servers *stConfServer, int qtLocation)
@@ -299,4 +294,21 @@ void Data::clearParams()
 		deallocateServers(&_dataServers[i], _qtLocation[i]);
 	}
 	delete[] _dataServers;
+}
+
+
+
+std::vector<std::string> Data::getServerParam(size_t serverIndex, std::string param) {
+
+    if (serverIndex >= _sizeServers){
+		Logs::printLog(Logs::WARNING, 3, "There is no such index on the server");
+		return std::vector<std::string>();
+	}
+        
+    if (_dataServers[serverIndex].server->find(param) != _dataServers[serverIndex].server->end()) {
+        std::vector<std::string> serverParam = (*_dataServers[serverIndex].server)[param];
+        return serverParam;
+    }
+	Logs::printLog(Logs::WARNING, 3, "Parameter was not found:" + param);
+    return std::vector<std::string>();
 }

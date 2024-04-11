@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/11 09:23:33 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/11 11:12:04 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,10 @@ int Webserv::start(void)
 void Webserv::stop()
 {
 	return;
+}
+
+bool Webserv::connect(void){
+	std::cout << _data.getServerParam(1, "listen")[0]; 
+
+	return (true);
 }

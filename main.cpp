@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:57:54 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/11 01:18:41 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/11 10:46:53 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ int	main(int argc, char *argv[]){
 		Logs::printLog(Logs::ERROR, 1, "Erro set data server");
 		return(1);
 	}
+
+	if(!webServer.connect()){
+		Logs::printLog(Logs::ERROR, 1, "Error when trying to connect"); // Frase é boa?
+		return(1);
+	}
+	
 	return(webServer.start());
 }
 
