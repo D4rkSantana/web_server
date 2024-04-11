@@ -6,14 +6,14 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:57:54 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/11 10:46:53 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/11 11:17:16 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/Libs.hpp"
 
 void	handleStop(int signal);
-Webserv	webServer;
+WebServ	webServer;
 
 int	main(int argc, char *argv[]){
 	const char*	confPath;

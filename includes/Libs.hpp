@@ -6,13 +6,13 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/11 09:19:07 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/11 11:17:24 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // my libs
 #include "Logs.hpp"
-#include "Webserv.hpp"
+#include "WebServ.hpp"
 #include "Data.hpp"
 #include "CheckFile.hpp"
 #include "ParseConf.hpp"
