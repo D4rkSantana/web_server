@@ -29,8 +29,10 @@ bool	Data::start(const char* pathConf){
 	std::vector<std::string>                serverBlocks;
 	std::vector<std::string>                locationBlocks;
 	std::string                             currentLocationBlock;
+	int										numLocation;
 	//std::vector<int>         				serverInfo;
 
+	numLocation = 0;
 	std::ifstream	conf(pathConf);
 	if (!conf.is_open()) {
 	  return (false);
@@ -54,14 +56,17 @@ bool	Data::start(const char* pathConf){
             currentServerBlock += line + "\n";
 
         if(inLocation)
+		{
+			numLocation++;
             currentLocationBlock += line + "\n";
+		}
 
         if (endBlock(line)){
             if (inLocation){
                 locationBlocks.push_back(currentLocationBlock);
                 currentLocationBlock.clear();
                 inLocation = false;
-            } else if (inServer && !inLocation) {
+            } else if (inServer && !inLocation && numLocation > 0) {
                 serverBlocks.push_back(currentServerBlock);
                 currentServerBlock.clear();
                 inServer = false;
@@ -80,13 +85,12 @@ bool	Data::start(const char* pathConf){
     conf.close();
 
 	//excluir print aqui
-	std::cout << servers[1][0];
-		std::cout << servers[0][0];
+	// std::cout << servers[1][0];
+	// std::cout << servers[0][0];
 
 	if (servers.size() < 1)
-	{
 		return (false);
-	}
+
     populateConfs(servers, locations);
 	/*
     serverInfo = getSizeServers();
