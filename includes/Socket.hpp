@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:02:53 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/11 16:10:54 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/11 19:33:08 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #define Socket_HPP
 
 #include "./Libs.hpp"
+
+#define IP "127.0.0.1"
 
 class Socket {
 
@@ -28,16 +30,17 @@ class Socket {
     ~Socket(void);
 
     void  init(void);
-    void  bind(void);
-    void  listen(void);
-    void *get_in_addr(struct sockaddr *sa);
-    int   acceptConnection(int socketFd);
-    void  close(void);
+    void  bindAddr(void);
+    void  listenConnections(void);
+    //void *get_in_addr(struct sockaddr *sa);
+    //int   acceptConnection(int socketFd);
+    void  finish(void);
 
-    int         getSocketFd(void) const;
-    std::string getPort(void) const;
-    std::string getIp(void) const;
+    //int         getSocketFd(void) const;
+    //std::string getPort(void) const;
+    //std::string getIp(void) const;
 
+    /*
     class SocketException : public std::exception {
         private:
         std::string _msg;
@@ -47,6 +50,7 @@ class Socket {
         virtual ~SocketException() throw();
         virtual const char *what() const throw();
     };
+    */
 };
 
 #endif

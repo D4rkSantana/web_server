@@ -312,3 +312,8 @@ std::vector<std::string> Data::getServerParam(size_t serverIndex, std::string pa
 	Logs::printLog(Logs::WARNING, 3, "Parameter was not found:" + param);
     return std::vector<std::string>();
 }
+
+size_t Data::getQtSevers(void)
+{
+	return (this->_sizeServers);
+}

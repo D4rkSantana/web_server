@@ -26,9 +26,10 @@ typedef struct
 class Data {
 
 	private:
-		size_t _sizeServers;
-		conf_servers *_dataServers;
-		std::vector<int> _qtLocation;
+		size_t					_sizeServers;
+		conf_servers			*_dataServers;
+		std::vector<int>		_qtLocation;
+		//std::vector<Socket *>	_sockets;
 
 	public:
 		Data(void);
@@ -45,5 +46,6 @@ class Data {
 		void deallocateServers(conf_servers *stConfServer, int qtLocation);
 		void clearParams();
 		std::vector<int> getSizeServers();
+		size_t getQtSevers(void);
 		std::vector<std::string> getServerParam(size_t serverIndex, std::string param); 
 };
