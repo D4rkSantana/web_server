@@ -3,54 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   Logs.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/02/26 20:35:54 by lucasmar         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:22:59 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/Libs.hpp"
 
-
 Logs::Logs(void){};
 Logs::~Logs(void){};
 
-
-std::string Logs::_getFullData(void){
+std::string Logs::_getFullData(void)
+{
 	std::time_t currentTime;
-	std::tm    *localTime;
-	char        timeStr[24];
+	std::tm *localTime;
+	char timeStr[24];
 
 	currentTime = std::time(0);
-	localTime   = std::localtime(&currentTime);
+	localTime = std::localtime(&currentTime);
 	std::strftime(timeStr, sizeof(timeStr), "[%d/%m/%Y - %H:%M:%S]", localTime);
 	return (std::string(timeStr));
 }
 
-void Logs::printLog(typeLog type, int numberLog, std::string message){
+void Logs::printLog(typeLog type, int numberLog, std::string message)
+{
 	std::string color;
 	std::string strType;
 
-	switch (type){
-		case Logs::ERROR:
-			color = COLOR_RED;
-			strType = "ERROR";
-			break;
-		case Logs::INFO:
-			color = COLOR_BLUE;
-			strType = "INFO";
-			break;
-		case Logs::WARNING:
-			color = COLOR_YELLOW;
-			strType = "WARNING";
-			break;
-		case Logs::VERBOSE:
-			color = COLOR_GREEN;
-			strType = "VERBOSE";
-			break;
-		default:
-			break;
+	switch (type)
+	{
+	case Logs::ERROR:
+		color = COLOR_RED;
+		strType = "ERROR";
+		break;
+	case Logs::INFO:
+		color = COLOR_BLUE;
+		strType = "INFO";
+		break;
+	case Logs::WARNING:
+		color = COLOR_YELLOW;
+		strType = "WARNING";
+		break;
+	case Logs::VERBOSE:
+		color = COLOR_GREEN;
+		strType = "VERBOSE";
+		break;
+	default:
+		break;
 	}
 
 	std::cout

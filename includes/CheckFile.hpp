@@ -6,35 +6,34 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:35 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/10 22:45:22 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:20:57 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CheckFile_HPP
 #define CheckFile_HPP
 
-
 #include "./Libs.hpp"
 
-class CheckFile{
+class CheckFile
+{
     private:
         CheckFile();
-        
+
         static std::set<std::string> _getValidFirstWords(void);
         static std::set<std::string> _getValidServerWords(void);
         static std::set<std::string> _getValidLocationWords(void);
-        
-        static int _isFirstWordInSet(const std::string& text, const std::set<std::string>& wordSet);
+
+        static int _isFirstWordInSet(const std::string &text, const std::set<std::string> &wordSet);
         static bool _checkServerParams(std::string element);
         static bool _checkSLocationParams(std::string text);
         static bool _checkServerParamsValue(std::string text);
-       
+
     public:
         static bool check(std::string path);
 };
 
-bool checkBraces(const std::string& text);
+bool checkBraces(const std::string &text);
 bool fileExists(char *path);
-
 
 #endif

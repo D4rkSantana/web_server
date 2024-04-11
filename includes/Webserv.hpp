@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Webserv.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/05 10:49:53 by lucasmar         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:21:50 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 #include "./Libs.hpp"
 
-class Webserv{
+class Webserv
+{
 
 	private:
-		Data	_data;
+		Data _data;
 
 	public:
 		Webserv(void);
 		~Webserv(void);
-		bool	setDataServer(const char* pathConf);
-		int		start(void);
-		void	stop(void);
+		bool setDataServer(const char *pathConf);
+		int start(void);
+		void stop(void);
 };
