@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:55 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/12 16:15:07 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:31:29 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ class Poll {
 
     void init(int fd);
     int execute(void);
-    /*
-    int  execute(void);
     bool isReadable(size_t i);
+ 
+ 
+    /*
+ 
     bool isListeningSocketMatch(size_t i);
     void addFdToClose(int fd);
     void removeMarkedElements(void);
