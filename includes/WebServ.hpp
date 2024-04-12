@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/12 16:20:34 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:13:58 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ class WebServ
 		
 		Poll						_poll;
 
+		bool _acceptNewConnection(size_t i);
+
 	public:
 		WebServ(void);
 		~WebServ(void);
@@ -35,4 +37,5 @@ class WebServ
 		void						finish(void);
 		size_t						getQtSevers(void);
 		std::vector<std::string>	getServerValue(size_t index, std::string key);
+	
 };

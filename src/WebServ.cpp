@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/12 16:22:14 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:32:33 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,28 +38,27 @@ int WebServ::start(void)
             Logs::printLog(Logs::ERROR, 1, "Error creating poll");
             return (1);
         }
-        /*
+     
         for (size_t i = 0; i < this->_poll.getSize(); ++i) {
-            if (this->_poll.isReadable(i)) {
-                if (this->_poll.isListeningSocketMatch(i)) {
+            if (this->_poll.isReadable(i)) { //mudar o nome isReadable
+                if (this->_poll.waitMatch(i)) {
                     if (!this->_acceptNewConnection(i))
                         continue;
+                   
                 } else {
                     int clientSocket = this->_poll.getPollFd(i);
                     if (clientSocket < 0) {
-                        Logger::error << "Index out of bounds of vector _pollFds" << std::endl;
+                        Logs::printLog(Logs::ERROR, 1, "I didn't find the index");
                         continue;
                     }
-                    _processClientData(clientSocket);
+                   // _processClientData(clientSocket);
                 }
             }
         }
-        this->_poll.removeMarkedElements();
-    */
+       // this->_poll.removeMarkedElements();
+    
     
     }
-    
-
 
     
 	return (0);
@@ -128,4 +127,30 @@ void WebServ::finish(void)
     this->_sockets.clear();
     //this->_parser.clearParams();
     //this->_poll.closePoll();
+}
+
+
+
+bool WebServ::_acceptNewConnection(size_t i) //mudar de nome
+{
+    /* 
+    try {
+        Socket *client;
+        int     clientSocketFd;
+
+        client         = new Socket();
+        clientSocketFd = client->acceptConnection(this->_poll.getListeningSocket(i));
+        this->_poll.addPoll(clientSocketFd, POLLIN | POLLOUT);
+        delete client;
+
+        return (true);
+    } catch (const std::exception &e) {
+        Logger::error << e.what() << std::endl;
+        return (false);
+    }
+
+    */
+    if(i >10)
+        return (true);
+    return(false);
 }

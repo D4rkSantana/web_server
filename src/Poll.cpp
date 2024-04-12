@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/12 16:54:59 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:30:32 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int Poll::execute(void){
 }
 
 
-bool    Poll::isReadable(size_t i){ 
+bool    Poll::isReadable(size_t i) const{ 
     bool    result;
         
     result = this->_pollFds[i].revents & POLLIN;
@@ -56,4 +56,32 @@ bool Poll::waitMatch(size_t i)
     result =  i < this->_sockets.size() && this->_pollFds[i].fd == this->_sockets[i];
     
     return (result);
+}
+
+
+
+int Poll::getPollFd(size_t i) const
+{
+    if (i < this->_pollFds.size()) {
+        return this->_pollFds[i].fd;
+    }
+    return (-1);
+}
+
+
+
+size_t Poll::getSize(void) const{ 
+    size_t result;
+
+    result = this->_pollFds.size();
+    return (result); 
+}
+
+
+bool Poll::isReadable(size_t i){ 
+    bool   result;
+    
+    result = this->_pollFds[i].revents & POLLIN;
+    return (result);
+
 }
