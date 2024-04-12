@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/12 17:32:33 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/12 18:22:45 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int WebServ::start(void)
         }
      
         for (size_t i = 0; i < this->_poll.getSize(); ++i) {
-            if (this->_poll.isReadable(i)) { //mudar o nome isReadable
+            if (this->_poll.isRead(i)) { //mudar o nome isReadable
                 if (this->_poll.waitMatch(i)) {
                     if (!this->_acceptNewConnection(i))
                         continue;

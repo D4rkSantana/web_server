@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/12 17:30:32 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/12 18:22:56 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int Poll::execute(void){
 }
 
 
-bool    Poll::isReadable(size_t i) const{ 
+bool    Poll::isRead(size_t i) const{ 
     bool    result;
         
     result = this->_pollFds[i].revents & POLLIN;
@@ -78,10 +78,3 @@ size_t Poll::getSize(void) const{
 }
 
 
-bool Poll::isReadable(size_t i){ 
-    bool   result;
-    
-    result = this->_pollFds[i].revents & POLLIN;
-    return (result);
-
-}

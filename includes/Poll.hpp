@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:55 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/12 17:30:52 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/12 18:23:15 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ class Poll {
     bool isReadable(size_t i);
     bool waitMatch(size_t i);
     int getPollFd(size_t i) const;
-    bool  isReadable(size_t i) const;
+    bool  isRead(size_t i) const;
     size_t getSize(void) const;
  
     
