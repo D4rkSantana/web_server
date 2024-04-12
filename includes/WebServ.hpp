@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   WebServ.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/11 20:03:19 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:20:34 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ class WebServ
 	private:
 		Data						_data;
 		std::vector<Socket *>		_sockets;
+		
+		Poll						_poll;
 
 	public:
 		WebServ(void);

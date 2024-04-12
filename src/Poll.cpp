@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/12 15:38:23 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:17:34 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,12 @@ void Poll::init(int fd)
     pollFd.revents = 0;
     this->_sockets.push_back(fd);
     this->_pollFds.push_back(pollFd);
+}
+
+
+int Poll::execute(void){ 
+    int result;
+    result = poll(&this->_pollFds[0], this->_pollFds.size(), 0);
+    
+    return result; 
 }

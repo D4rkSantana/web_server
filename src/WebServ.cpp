@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   WebServ.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/11 20:02:51 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:22:14 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,35 @@ bool WebServ::setDataServer(const char *pathConf)
 
 int WebServ::start(void)
 {
-	// Logs::printLog(Logs::ERROR, 2, "Erro start server");
+	while (true) {
+        if (this->_poll.execute() == -1) {
+            Logs::printLog(Logs::ERROR, 1, "Error creating poll");
+            return (1);
+        }
+        /*
+        for (size_t i = 0; i < this->_poll.getSize(); ++i) {
+            if (this->_poll.isReadable(i)) {
+                if (this->_poll.isListeningSocketMatch(i)) {
+                    if (!this->_acceptNewConnection(i))
+                        continue;
+                } else {
+                    int clientSocket = this->_poll.getPollFd(i);
+                    if (clientSocket < 0) {
+                        Logger::error << "Index out of bounds of vector _pollFds" << std::endl;
+                        continue;
+                    }
+                    _processClientData(clientSocket);
+                }
+            }
+        }
+        this->_poll.removeMarkedElements();
+    */
+    
+    }
+    
+
+
+    
 	return (0);
 }
 
