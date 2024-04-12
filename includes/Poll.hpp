@@ -1,14 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Pull.hpp                                           :+:      :+:    :+:   */
+/*   Poll.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:55 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/11 21:54:27 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:36:48 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef Poll_HPP
+#define Poll_HPP
 
 #include "Libs.hpp"
 
@@ -37,5 +40,7 @@ class Poll {
     size_t getSize(void) const;
     int    getListeningSocket(size_t i) const;
     int    getPollFd(size_t i) const;
-    */s
+    */
 };
+
+#endif

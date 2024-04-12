@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Libs.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/11 19:49:48 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:41:02 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "CheckFile.hpp"
 #include "ParseConf.hpp"
 #include "Socket.hpp"
+#include "Poll.hpp"
 #include "template.tpp"
 
 #include <arpa/inet.h>
@@ -43,6 +44,10 @@
 #include <sstream>
 #include <stack>
 #include <set>
+#include <arpa/inet.h>
+#include <sys/types.h>
+#include <sys/poll.h>
+
 
 #include <vector>
 
