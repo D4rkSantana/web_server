@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/12 16:32:04 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:50:38 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,13 @@ bool    Poll::isReadable(size_t i){
         return (true);
     else
         return (false);
+}
+
+bool Poll::isListeningSocketMatch(size_t i)
+{
+    bool result;
+
+    result =  i < this->_sockets.size() && this->_pollFds[i].fd == this->_sockets[i];
+    
+    return (result);
 }
