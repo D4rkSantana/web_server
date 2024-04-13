@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   Libs.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/13 11:24:53 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/13 12:17:28 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// my libs
-#include "Logs.hpp"
-#include "WebServ.hpp"
-#include "Data.hpp"
-#include "CheckFile.hpp"
-#include "ParseConf.hpp"
-#include "Socket.hpp"
-#include "Poll.hpp"
-#include "template.tpp"
+
+#ifndef Libs_HPP
+#define Libs_HPP
+
+
+
+
+
+
+
 
 #include <algorithm>
 #include <arpa/inet.h>
@@ -59,11 +60,23 @@
 #define COLOR_GREEN "\x1b[32m"
 #define COLOR_RESET "\x1b[0m"
 
-struct responseData {
-    int         status;
-    std::string content;
-    std::string statusCode;
-    std::string contentType;
-    int         contentLength;
-    std::string location;
-};
+
+
+
+
+
+// my libs
+#include "Data.hpp"
+#include "Logs.hpp"
+#include "CheckFile.hpp"
+#include "ParseConf.hpp"
+#include "Socket.hpp"
+#include "Poll.hpp"
+#include "clientProcess.hpp"
+#include "WebServ.hpp"
+#include "template.tpp"
+
+
+
+
+# endif

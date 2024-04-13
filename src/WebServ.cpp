@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   WebServ.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/13 00:18:56 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/13 12:17:51 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,13 @@ bool WebServ::_newCliet(size_t i) //mudar de nome
 
         return (true);
     } catch (const std::exception &e) {
-        //Logger::error << e.what() << std::endl;
         Logs::printLog(Logs::ERROR, 1, e.what());
         return (false);
     }
 }
+
+
+
+
+
+
