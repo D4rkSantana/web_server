@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   WebServ.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/13 12:52:22 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/13 17:55:13 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ class WebServ
 {
 
 	private:
-		Data						_data;
-		std::vector<Socket *>		_sockets;
-		int 						_bytesRead;
-		
-		Poll						_poll;
+		Data								_data;
+		int 								_bytesRead;
+		Poll								_poll;
+		std::map<std::string, std::string>	_statusCodes;
+		std::vector<Socket *>				_sockets;
 
-		bool _newCliet(size_t i);
+		bool	_newCliet(size_t i);
+		void	_setStatusCode(void);
 
 	public:
 		WebServ(void);
@@ -37,6 +38,7 @@ class WebServ
 		void						stop(void);
 		void						finish(void);
 		size_t						getQtSevers(void);
+		std::string					getStatusCode(std::string code);
 		std::vector<std::string>	getServerValue(size_t index, std::string key);
 
 		int getBytesRead(void);

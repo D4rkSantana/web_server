@@ -26,7 +26,8 @@ responseData setResponseData(int         status,
 
 
 
+void        processClientData(int fd);
 std::string getStatusCodes(std::string status);
 std::string readClientData(int fd);
-std::string vector_join(std::vector<std::string> vec, std::string delimiter);
+std::string mergeStrVector(std::vector<std::string> vec, std::string delimiter);
 #endif

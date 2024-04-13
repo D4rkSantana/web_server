@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   WebServ.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/13 12:53:50 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/13 17:55:06 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/Libs.hpp"
 
 
-WebServ::WebServ(void) {}
+WebServ::WebServ(void) {
+    this->_setStatusCode();
+}
 
 WebServ::~WebServ(void) {
 	this->finish();
@@ -88,7 +90,7 @@ int WebServ::start(void)
                         Logs::printLog(Logs::ERROR, 1, "I didn't find the index");
                         continue;
                     }
-                    //this->_processClientData(clientSocket);
+                    processClientData(clientSocket);
                 }
             }
         }
@@ -152,5 +154,76 @@ void WebServ::setBytesRead(int nbr){
     _bytesRead = nbr;
 }
 
+std::string WebServ::getStatusCode(std::string code)
+{
+    std::map<std::string, std::string>::const_iterator it = this->_statusCodes.find(code);
 
+    if (it == this->_statusCodes.end())
+        return ("");
+    return (it->second);
+}
 
+void WebServ::_setStatusCode(void)
+{
+    this->_statusCodes["100"] = "Continue";
+    this->_statusCodes["101"] = "Switching Protocols";
+    this->_statusCodes["102"] = "Processing";
+    this->_statusCodes["103"] = "Early Hints";
+    this->_statusCodes["200"] = "OK";
+    this->_statusCodes["201"] = "Created";
+    this->_statusCodes["202"] = "Accepted";
+    this->_statusCodes["203"] = "Non-Authoritative Information";
+    this->_statusCodes["204"] = "No Content";
+    this->_statusCodes["205"] = "Reset Content";
+    this->_statusCodes["206"] = "Partial Content";
+    this->_statusCodes["207"] = "Multi-Status";
+    this->_statusCodes["208"] = "Already Reported";
+    this->_statusCodes["226"] = "IM Used";
+    this->_statusCodes["300"] = "Multiple Choices";
+    this->_statusCodes["301"] = "Moved Permanently";
+    this->_statusCodes["302"] = "Found";
+    this->_statusCodes["303"] = "See Other";
+    this->_statusCodes["304"] = "Not Modified";
+    this->_statusCodes["307"] = "Temporary Redirect";
+    this->_statusCodes["308"] = "Permanent Redirect";
+    this->_statusCodes["400"] = "Bad Request";
+    this->_statusCodes["401"] = "Unauthorized";
+    this->_statusCodes["402"] = "Payment Required";
+    this->_statusCodes["403"] = "Forbidden";
+    this->_statusCodes["404"] = "Not Found";
+    this->_statusCodes["405"] = "Method Not Allowed";
+    this->_statusCodes["406"] = "Not Acceptable";
+    this->_statusCodes["407"] = "Proxy Authentication Required";
+    this->_statusCodes["408"] = "Request Timeout";
+    this->_statusCodes["409"] = "Conflict";
+    this->_statusCodes["410"] = "Gone";
+    this->_statusCodes["411"] = "Length Required";
+    this->_statusCodes["412"] = "Precondition Failed";
+    this->_statusCodes["413"] = "Payload Too Large";
+    this->_statusCodes["414"] = "URI Too Long";
+    this->_statusCodes["415"] = "Unsupported Media Type";
+    this->_statusCodes["416"] = "Range Not Satisfiable";
+    this->_statusCodes["417"] = "Expectation Failed";
+    this->_statusCodes["418"] = "I'm a teapot";
+    this->_statusCodes["421"] = "Misdirected Request";
+    this->_statusCodes["422"] = "Unprocessable Content";
+    this->_statusCodes["423"] = "Locked";
+    this->_statusCodes["424"] = "Failed Dependency";
+    this->_statusCodes["425"] = "Too Early";
+    this->_statusCodes["426"] = "Upgrade Required";
+    this->_statusCodes["428"] = "Precondition Required";
+    this->_statusCodes["429"] = "Too Many Requests";
+    this->_statusCodes["431"] = "Request Header Fields Too Large";
+    this->_statusCodes["451"] = "Unavailable For Legal Reasons";
+    this->_statusCodes["500"] = "Internal Server Error";
+    this->_statusCodes["501"] = "Not Implemented";
+    this->_statusCodes["502"] = "Bad Gateway";
+    this->_statusCodes["503"] = "Service Unavailable";
+    this->_statusCodes["504"] = "Gateway Timeout";
+    this->_statusCodes["505"] = "HTTP Version Not Supported";
+    this->_statusCodes["506"] = "Variant Also Negotiates";
+    this->_statusCodes["507"] = "Insufficient Storage";
+    this->_statusCodes["508"] = "Loop Detected";
+    this->_statusCodes["510"] = "Not Extended";
+    this->_statusCodes["511"] = "Network Authentication Required";
+}
