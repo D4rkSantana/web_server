@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:02:53 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/11 19:33:08 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/13 00:14:37 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ class Socket {
     Socket(std::string port = "8080", std::string ip = IP);
     ~Socket(void);
 
-    void  init(void);
-    void  bindAddr(void);
-    void  listenConnections(void);
-    //void *get_in_addr(struct sockaddr *sa);
-    //int   acceptConnection(int socketFd);
-    void  finish(void);
+    void    init(void);
+    void    bindAddr(void);
+    void    listenConnections(void);
+    void    *get_in_addr(struct sockaddr *sa);
+    int     acceptClient(int socketFd);
+    void    finish(void);
 
     //int         getSocketFd(void) const;
     //std::string getPort(void) const;

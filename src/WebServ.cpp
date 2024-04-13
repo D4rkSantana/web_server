@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   WebServ.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/12 18:22:45 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/13 00:18:56 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,44 +29,6 @@ bool WebServ::setDataServer(const char *pathConf)
 	{
 		return (false);
 	}
-}
-
-int WebServ::start(void)
-{
-	while (true) {
-        if (this->_poll.execute() == -1) {
-            Logs::printLog(Logs::ERROR, 1, "Error creating poll");
-            return (1);
-        }
-     
-        for (size_t i = 0; i < this->_poll.getSize(); ++i) {
-            if (this->_poll.isRead(i)) { //mudar o nome isReadable
-                if (this->_poll.waitMatch(i)) {
-                    if (!this->_acceptNewConnection(i))
-                        continue;
-                   
-                } else {
-                    int clientSocket = this->_poll.getPollFd(i);
-                    if (clientSocket < 0) {
-                        Logs::printLog(Logs::ERROR, 1, "I didn't find the index");
-                        continue;
-                    }
-                   // _processClientData(clientSocket);
-                }
-            }
-        }
-       // this->_poll.removeMarkedElements();
-    
-    
-    }
-
-    
-	return (0);
-}
-
-void WebServ::stop()
-{
-	return;
 }
 
 bool WebServ::connect(void){
@@ -108,6 +70,38 @@ bool WebServ::connect(void){
 	return (true);
 }
 
+int WebServ::start(void)
+{
+	while (true) {
+        if (this->_poll.execute() == -1) {//coloca um socket dentro da poll
+            Logs::printLog(Logs::ERROR, 1, "Error creating poll");
+            return (1);
+        }
+        for (size_t i = 0; i < this->_poll.getSize(); ++i) {
+            if (this->_poll.isRead(i)) { //veridica se o socket tem alguma conexão pendente
+                if (this->_poll.isSocketServer(i)){//verifica se o socket é do server ou cliente
+                    if (!this->_newCliet(i))//aceita e cria o novo cliente
+                        continue;
+                } else {
+                    int clientSocket = this->_poll.getPollFd(i);
+                    if (clientSocket < 0) {
+                        Logs::printLog(Logs::ERROR, 1, "I didn't find the index");
+                        continue;
+                    }
+                    //this->_processClientData(clientSocket);
+                }
+            }
+        }
+        this->_poll.removeMarkedElements();
+    }
+	return (0);
+}
+
+void WebServ::stop()
+{
+	return;
+}
+
 size_t WebServ::getQtSevers(void)
 {
 	return (this->_data.getQtSevers());
@@ -129,28 +123,21 @@ void WebServ::finish(void)
     //this->_poll.closePoll();
 }
 
-
-
-bool WebServ::_acceptNewConnection(size_t i) //mudar de nome
+bool WebServ::_newCliet(size_t i) //mudar de nome
 {
-    /* 
     try {
         Socket *client;
         int     clientSocketFd;
 
         client         = new Socket();
-        clientSocketFd = client->acceptConnection(this->_poll.getListeningSocket(i));
+        clientSocketFd = client->acceptClient(this->_poll.getPollFd(i));
         this->_poll.addPoll(clientSocketFd, POLLIN | POLLOUT);
         delete client;
 
         return (true);
     } catch (const std::exception &e) {
-        Logger::error << e.what() << std::endl;
+        //Logger::error << e.what() << std::endl;
+        Logs::printLog(Logs::ERROR, 1, e.what());
         return (false);
     }
-
-    */
-    if(i >10)
-        return (true);
-    return(false);
 }

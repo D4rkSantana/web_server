@@ -1,0 +1,1 @@
+[] modificar o nome das funções de limpeza _ListeningSocket na poll

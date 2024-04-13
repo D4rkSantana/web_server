@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Libs.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/12 15:41:02 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/13 00:12:30 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@
 #include "Poll.hpp"
 #include "template.tpp"
 
+#include <algorithm>
 #include <arpa/inet.h>
 
 #include <ctime>
-#include <csignal>
-#include <cstdlib>
 #include <cstdio>
 #include <cstring>
+#include <csignal>
+#include <cstdlib>
 
 #include <fcntl.h>
 #include <fstream>
@@ -36,18 +37,16 @@
 
 #include <map>
 
-#include <netinet/in.h>
 #include <netdb.h>
+#include <netinet/in.h>
 
-#include <sys/socket.h>
+#include <set>
+#include <stack>
 #include <string>
 #include <sstream>
-#include <stack>
-#include <set>
-#include <arpa/inet.h>
-#include <sys/types.h>
 #include <sys/poll.h>
-
+#include <sys/types.h>
+#include <sys/socket.h>
 
 #include <vector>
 

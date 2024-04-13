@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Poll.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/12 18:22:56 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/13 00:20:41 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,12 @@ void Poll::init(int fd)
     this->_pollFds.push_back(pollFd);
 }
 
-
 int Poll::execute(void){ 
     int result;
     result = poll(&this->_pollFds[0], this->_pollFds.size(), 0);
     
     return result; 
 }
-
 
 bool    Poll::isRead(size_t i) const{ 
     bool    result;
@@ -49,7 +47,7 @@ bool    Poll::isRead(size_t i) const{
         return (false);
 }
 
-bool Poll::waitMatch(size_t i)
+bool Poll::isSocketServer(size_t i)
 {
     bool result;
 
@@ -58,7 +56,15 @@ bool Poll::waitMatch(size_t i)
     return (result);
 }
 
+void Poll::addPoll(int socketFd, short events)
+{
+    struct pollfd clientPoolFd;
 
+    clientPoolFd.fd      = socketFd;
+    clientPoolFd.events  = events;
+    clientPoolFd.revents = 0;
+    this->_pollFds.push_back(clientPoolFd);
+}
 
 int Poll::getPollFd(size_t i) const
 {
@@ -68,8 +74,6 @@ int Poll::getPollFd(size_t i) const
     return (-1);
 }
 
-
-
 size_t Poll::getSize(void) const{ 
     size_t result;
 
@@ -77,4 +81,42 @@ size_t Poll::getSize(void) const{
     return (result); 
 }
 
+void Poll::removeMarkedElements(void)
+{
+    int fd;
 
+    for (std::vector<int>::iterator it = this->_fdToClose.begin(); it != this->_fdToClose.end();
+         ++it) {
+        fd = *it;
+
+        removeListeningSocket(fd);
+        removePollFd(fd);
+        close(fd);//fecha o socket
+    }
+    this->_fdToClose.clear();
+}
+
+void Poll::removeListeningSocket(int fd)
+{
+    // Encontre e remova o socketFd do vetor _listeningSockets
+    std::vector<int>::iterator it
+        = std::find(_sockets.begin(), _sockets.end(), fd);
+
+    if (it != _sockets.end()) {
+        _sockets.erase(it);
+    }
+}
+
+void Poll::removePollFd(int fd)
+{
+    std::vector<struct pollfd>::iterator it = _pollFds.begin();
+
+    while (it != _pollFds.end()) {
+        if (it->fd == fd) {
+            it = _pollFds.erase(it);
+        }
+        else {
+            ++it;
+        }
+    }
+}

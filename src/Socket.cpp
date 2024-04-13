@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:11:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/11 18:53:15 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/13 00:17:51 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,4 +115,42 @@ void Socket::finish(void)
         freeaddrinfo(this->_serverInfo);
         this->_serverInfo = NULL;
     }
+}
+
+int Socket::acceptClient(int socketFd)
+{
+    struct sockaddr_storage clientAddr;//guada as informações de endereço do cliente
+    std::string             msg;//Mensagem de erro
+    int                     newFdClient;//fd do socket cliente
+    char                    remoteIP[INET6_ADDRSTRLEN];
+    std::stringstream       ss;
+
+    //aceita a conexão e guada o endereço
+    newFdClient = accept(socketFd, (struct sockaddr *)&clientAddr, (unsigned int*)sizeof(clientAddr));
+    //verificação de erro
+    if (newFdClient == -1) {
+        msg = "Error accepting client connection: " + std::string(strerror(errno));
+        //throw Socket::SocketException(msg.c_str());
+        Logs::printLog(Logs::ERROR, 1, msg);
+    }
+    //modificar depois a geração do log de conexão com o cliente
+    ss << "New connection from client "
+       << inet_ntop(clientAddr.ss_family,
+                    get_in_addr((struct sockaddr *)&clientAddr),
+                    remoteIP,
+                    INET6_ADDRSTRLEN)
+       << " on socket " << newFdClient;
+    msg = ss.str();
+    Logs::printLog(Logs::INFO, 1, msg);
+
+    return (newFdClient);
+}
+
+//pertence a geração de logs da conexão com o cliente
+void *Socket::get_in_addr(struct sockaddr *sa)
+{
+    if (sa->sa_family == AF_INET) {
+        return &(((struct sockaddr_in *)sa)->sin_addr);
+    }
+    return &(((struct sockaddr_in6 *)sa)->sin6_addr);
 }

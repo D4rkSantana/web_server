@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Poll.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:55 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/12 18:23:15 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/13 00:08:17 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,36 +19,30 @@ class Poll {
     private:
     std::vector<int>           _sockets;
     std::vector<struct pollfd> _pollFds;
-    //std::vector<int>           _fdToClose;
+    std::vector<int>           _fdToClose;
 
     public:
     Poll(void);
     ~Poll(void);
 
-    void init(int fd);
-    int execute(void);
-    bool isReadable(size_t i);
-    bool waitMatch(size_t i);
-    int getPollFd(size_t i) const;
-    bool  isRead(size_t i) const;
-    size_t getSize(void) const;
- 
-    
-    /*
-    bool isListeningSocketMatch(size_t i);
-    void addFdToClose(int fd);
+    void    init(int fd);
+    int     execute(void);
+    bool    waitMatch(size_t i);
+    int     getPollFd(size_t i) const;
+    bool    isRead(size_t i) const;
+    size_t  getSize(void) const;
+    void    addPoll(int socketFd, short events);
+
+    bool    isSocketServer(size_t i);
+    //void addFdToClose(int fd);
     void removeMarkedElements(void);
-    void closePoll(void);
-
-    void removeListeningSocket(int socketFd);
-    void removePollFd(int socketFd);
-
-    size_t getSize(void) const;
-    int    getListeningSocket(size_t i) const;
-    int    getPollFd(size_t i) const;
-
-    */
     
+    //void closePoll(void);
+
+    void removeListeningSocket(int fd);
+    void removePollFd(int fd);
+
+    //int    getListeningSocket(size_t i) const;
 };
 
 #endif
