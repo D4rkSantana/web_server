@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/13 12:17:28 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/13 17:22:05 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,18 @@
 #define COLOR_RESET "\x1b[0m"
 
 
-
+//mudar de nome?
+#define OK 200
+#define NO_CONTENT 204
+#define PERMANENT_REDIRECT 301
+#define TEMPORARY_REDIRECT 302
+#define BAD_REQUEST 400
+#define FORBIDDEN 403
+#define NOT_FOUND 404
+#define METHOD_NOT_ALLOWED 405
+#define ENTITY_TOO_LARGE 413
+#define INTERNAL_SERVER_ERROR 500
+#define HTTP_VERSION_NOT_SUPPORTED 505
 
 
 
@@ -72,11 +83,13 @@
 #include "ParseConf.hpp"
 #include "Socket.hpp"
 #include "Poll.hpp"
-#include "clientProcess.hpp"
+
 #include "WebServ.hpp"
+#include "clientProcess.hpp"
 #include "template.tpp"
 
 
+extern WebServ 	webServer;
 
 
 # endif

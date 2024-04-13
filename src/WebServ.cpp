@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/13 12:17:51 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/13 12:53:50 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,15 @@ bool WebServ::_newCliet(size_t i) //mudar de nome
 }
 
 
+int WebServ::getBytesRead(void){
+    return (_bytesRead);
 
+    
+}
+
+void WebServ::setBytesRead(int nbr){
+    _bytesRead = nbr;
+}
 
 
 

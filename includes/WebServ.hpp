@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   WebServ.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/12 23:46:56 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/13 12:52:22 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ class WebServ
 	private:
 		Data						_data;
 		std::vector<Socket *>		_sockets;
+		int 						_bytesRead;
 		
 		Poll						_poll;
 
@@ -37,5 +38,8 @@ class WebServ
 		void						finish(void);
 		size_t						getQtSevers(void);
 		std::vector<std::string>	getServerValue(size_t index, std::string key);
+
+		int getBytesRead(void);
+		void setBytesRead(int nbr);
 	
 };

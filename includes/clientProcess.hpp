@@ -8,6 +8,7 @@
 #include "./Libs.hpp"
 
 
+
 struct responseData {
     int         status;
     std::string content;
@@ -26,6 +27,6 @@ responseData setResponseData(int         status,
 
 
 std::string getStatusCodes(std::string status);
-
-
+std::string readClientData(int fd);
+std::string vector_join(std::vector<std::string> vec, std::string delimiter);
 #endif
