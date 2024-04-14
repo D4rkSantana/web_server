@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/13 21:30:26 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/14 02:37:48 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,12 @@ class WebServ
 		std::string					getStatusCode(std::string code);
 		std::vector<std::string>	getServerValue(size_t index, std::string key);
 
-		int getBytesRead(void);
-		void setBytesRead(int nbr);
-	
+		int							getBytesRead(void);
+		void						setBytesRead(int nbr);
+		int							searchServer(std::string port);
+		std::vector<int>			getSizeServers();
+
+		std::vector<std::string> 	getLocationParam(size_t iS, size_t iL, std::string key);
 };
 
 # endif

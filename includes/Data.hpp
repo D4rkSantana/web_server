@@ -48,10 +48,14 @@ class Data {
 		std::vector<std::string> splitTokens(const std::string str);
 		void deallocateServers(conf_servers *stConfServer, int qtLocation);
 		void clearParams();
-		std::vector<int> getSizeServers();
-		size_t getQtSevers(void);
-		std::vector<std::string> getServerParam(size_t serverIndex, std::string param);
+		
 		int	searchServer(std::string port);
+	
+		//getters
+		size_t getQtSevers(void);
+		std::vector<int> getSizeServers();//verificar depois
+		std::vector<std::string> getServerParam(size_t serverIndex, std::string param);
+		std::vector<std::string> getLocationParam(size_t iS, size_t iL, std::string key);
 };
 
 # endif

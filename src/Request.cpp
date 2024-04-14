@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/13 22:51:41 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/14 02:39:15 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ bool Request::requestHttp(std::string request, Parser &parser)
 
     if (!_parseFirstLine(requestLine))
         return (false);
-
     _parseHeaders(headersPart);
-    //
-    _getMaxBody(parser);
+
+    _getMaxBody();
     _getServerParam(parser);
+    //
     _setAutoIndex(parser);
     _getHost();
 
@@ -183,4 +183,83 @@ void Request::_findHeaders(std::string key, std::string value)
             _contentLength = length;
         }
     }
+}
+
+void Request::_getMaxBody(void)
+{
+
+    std::vector<std::string> maxBody;
+
+    this->_serverIndex = webServer.searchServer(this->_port);
+
+    if (this->_serverIndex == -1)
+        return ;
+    maxBody = webServer.getServerValue(this->_serverIndex, "client_max_body_size");
+    if (!maxBody.empty() && !maxBody[0].empty())
+                this->_maxBodySize = std::atoi(maxBody[0].c_str());
+}
+
+void Request::_getServerParam(Parser &parser)
+{
+    std::vector<int> serverSize = webServer.getSizeServers();
+
+    //this->_serverIndex   = this->_findServerIndex(parser, serverSize[0], this->_port);
+
+    this->_locationSize  = serverSize[this->_serverIndex];
+    this->_locationIndex = this->_findLocationIndex();
+    this->_setRoot();
+    this->_setLimitExcept(parser);
+    this->_setErrorPage(parser);
+}
+
+int Request::_findLocationIndex(void)
+{
+    std::vector<std::string>           locationParam;
+    int                                i = 0;
+    std::string                        path;
+
+    path  = this->_catchPathURI();
+
+    while (i < this->_locationSize)
+    {
+        locationParam = webServer.getLocationParam(this->_serverIndex, i, "location");
+        if (std::find(locationParam.begin(), locationParam.end(), path) != locationParam.end())
+            return (i) ;
+        i++;
+    }
+    return (i);
+}
+
+std::string Request::_catchPathURI(void)
+{
+    size_t pos;
+
+    if (this->_uri == "/")
+        return this->_uri;
+
+    pos = this->_uri.find('/', 1);
+    if (pos != std::string::npos)
+        return this->_uri.substr(0, pos);
+    else
+        return this->_uri;
+}
+
+void Request::_setRoot(void)
+{
+    std::vector<std::string> rootParam;
+
+    this->_root = DEFAULT_ROOT;
+
+    rootParam = webServer.getServerValue(this->_serverIndex, "root");
+
+    if (!rootParam.empty())
+        this->_root = rootParam[0];
+
+    if (this->_locationSize != this->_locationIndex) {
+        rootParam = webServer.getLocationParam(this->_serverIndex, this->_locationIndex, "root");
+        if (!rootParam.empty()) {
+            this->_root = rootParam[0];
+        }
+    }
+    return;
 }

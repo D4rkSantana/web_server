@@ -332,3 +332,15 @@ int	Data::searchServer(std::string port)
 	}
 	return (-1);
 }
+
+std::vector<std::string> Data::getLocationParam(size_t iS, size_t iL, std::string key)
+{
+	if (iS < 0 || iS >= _sizeServers)
+        return std::vector<std::string>();
+    if (iL < 0 || iL >= _qtLocation[iS])
+        return std::vector<std::string>();
+
+	if (_dataServers[iS]->location[iL].find(key) == _dataServers[iS]->location[iL].end())
+		return std::vector<std::string>()
+	return (_dataServers[iS]->location[iL][key]); 
+}

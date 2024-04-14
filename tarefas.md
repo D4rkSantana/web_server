@@ -4,3 +4,5 @@
     no Request.cpp
 
 [] melhor o codigo void Request::_parseQuery()
+
+[] mudar o nome do "std::vector<int> getSizeServers();" em Data e WebServ

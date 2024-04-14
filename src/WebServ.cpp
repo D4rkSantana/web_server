@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/13 17:55:06 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/14 02:35:52 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,4 +226,13 @@ void WebServ::_setStatusCode(void)
     this->_statusCodes["508"] = "Loop Detected";
     this->_statusCodes["510"] = "Not Extended";
     this->_statusCodes["511"] = "Network Authentication Required";
+}
+
+int		            WebServ::searchServer(std::string port) { return (_data->searchServer(port)); }
+
+std::vector<int>    WebServ::getSizeServers(void){ return (_data->getSizeServers()) };
+
+std::vector<std::string> WebServ::getLocationParam(size_t iS, size_t iL, std::string key)
+{
+    return (_data->getLocationParam(iS, iL, key));
 }
