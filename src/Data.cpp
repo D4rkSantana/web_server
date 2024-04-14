@@ -93,17 +93,20 @@ bool Data::start(const char *pathConf)
 	}
 	conf.close();
 
-	if (servers.size() < 1)
+	if (servers.size() < 1){
+		Logs::printLog(Logs::ERROR, 3, "The server was not configured correctly");
 		return (false);
+	}
 
 	populateConfs(servers, locations);
 	
-	serverInfo = getSizeServers();
+	/*  
+    serverInfo = getSizeServers();
 	if (serverInfo.empty()) {
 		Logs::printLog(Logs::ERROR, 3, "The server was not configured correctly");
 		return (false);
 	}
-	
+	*/
 	return (true);
 }
 
@@ -321,18 +324,19 @@ std::vector<std::string> Data::getServerValue(size_t iS, std::string key)
     if (_dataServers[iS].server->find(key) != _dataServers[iS].server->end())
         return (*_dataServers[iS].server)[key];;
 
-	Logs::printLog(Logs::WARNING, 3, "Parameter was not found:" + param);
+	Logs::printLog(Logs::WARNING, 3, "Parameter was not found:" + key);
     return std::vector<std::string>();
 }
 
 std::vector<std::string> Data::getLocationValue(size_t iS, size_t iL, std::string key)
 {
-	if (iS < 0 || iS >= _sizeServers)
+	if (iS >=(size_t) _sizeServers)
         return std::vector<std::string>();
-    if (iL < 0 || iL >= _qtLocation[iS])
-        return std::vector<std::string>();
+    
+	if (iL >= (size_t) _qtLocation[iS])
+	    return std::vector<std::string>();
 
-	if (_dataServers[iS]->location[iL].find(key) == _dataServers[iS]->location[iL].end())
-		return std::vector<std::string>()
-	return (_dataServers[iS]->location[iL][key]); 
+	if (_dataServers[iS].locations[iL]->find(key) == _dataServers[iS].locations[iL]->end())
+		return std::vector<std::string>();
+	return ((*_dataServers[iS].locations[iL])[key]); 
 }
