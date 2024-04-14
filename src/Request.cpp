@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/14 02:39:15 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/14 14:51:11 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ bool Request::requestHttp(std::string request, Parser &parser)
     _parseHeaders(headersPart);
 
     _getMaxBody();
-    _getServerParam(parser);
+    _getServerParam();
     //
     _setAutoIndex(parser);
     _getHost();
@@ -118,7 +118,7 @@ bool Request::_parseFirstLine(std::string &requestLine)
     return (true);
 }
 
-void Request::_parseQuery()
+void Request::_parseQuery(void)
 {
     size_t      posQuery = this->_uri.find("?");
     std::string query;
@@ -199,35 +199,15 @@ void Request::_getMaxBody(void)
                 this->_maxBodySize = std::atoi(maxBody[0].c_str());
 }
 
-void Request::_getServerParam(Parser &parser)
+void Request::_getServerParam(void)
 {
     std::vector<int> serverSize = webServer.getSizeServers();
 
-    //this->_serverIndex   = this->_findServerIndex(parser, serverSize[0], this->_port);
-
     this->_locationSize  = serverSize[this->_serverIndex];
-    this->_locationIndex = this->_findLocationIndex();
+    this->_locationIndex = webServer.searchLocation(this->_serverIndex, this->_catchPathURI());
     this->_setRoot();
-    this->_setLimitExcept(parser);
-    this->_setErrorPage(parser);
-}
-
-int Request::_findLocationIndex(void)
-{
-    std::vector<std::string>           locationParam;
-    int                                i = 0;
-    std::string                        path;
-
-    path  = this->_catchPathURI();
-
-    while (i < this->_locationSize)
-    {
-        locationParam = webServer.getLocationParam(this->_serverIndex, i, "location");
-        if (std::find(locationParam.begin(), locationParam.end(), path) != locationParam.end())
-            return (i) ;
-        i++;
-    }
-    return (i);
+    this->_setLimitExcept();
+    this->_setErrorPage();
 }
 
 std::string Request::_catchPathURI(void)
@@ -256,10 +236,54 @@ void Request::_setRoot(void)
         this->_root = rootParam[0];
 
     if (this->_locationSize != this->_locationIndex) {
-        rootParam = webServer.getLocationParam(this->_serverIndex, this->_locationIndex, "root");
+        rootParam = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "root");
         if (!rootParam.empty()) {
             this->_root = rootParam[0];
         }
     }
     return;
+}
+
+void Request::_setLimitExcept(void)
+{
+    this->_limitExcept.clear();
+    if (this->_locationSize != this->_locationIndex) {
+        this->_limitExcept
+            = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "limit_except");
+    }
+}
+
+void Request::_setErrorPage(void)
+{
+    if (this->_locationSize != this->_locationIndex) {
+        this->_errorPageConfig
+            = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "error_page");
+        if (!this->_errorPageConfig.empty())
+            return;
+    }
+    this->_errorPageConfig = webServer.getServerValue(this->_serverIndex, "error_page");
+}
+
+void HttpRequest::_setAutoIndex()
+{
+    std::vector<std::string>    serverValue;
+    std::vector<std::string>    locationParam;
+
+    autoIndexServer = false;
+    autoIndexLoc    = false;
+    serverValue     = webServer.getServerValue(this->_serverIndex, "autoindex");
+
+    if (!server.empty() && serverValue[0] == "on")
+        autoIndexServer = true;
+    else
+    {
+        std::vector<std::string> autoindexParam;
+        autoindexParam = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "autoindex");
+        
+        if (autoindexParam[0] == "on")
+        {
+            _path        = locationPath[0];//ENTENDER ESSA PARTE
+            autoIndexLoc = true;
+        }
+    }
 }

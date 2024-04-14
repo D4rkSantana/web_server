@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/14 02:35:52 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/14 14:36:54 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,16 +104,6 @@ void WebServ::stop()
 	return;
 }
 
-size_t WebServ::getQtSevers(void)
-{
-	return (this->_data.getQtSevers());
-}
-
-std::vector<std::string>	WebServ::getServerValue(size_t index, std::string key)
-{
-	return (this->_data.getServerParam(index, key));
-}
-
 void WebServ::finish(void)
 {
     for (std::vector<Socket *>::iterator it = this->_sockets.begin();
@@ -141,26 +131,6 @@ bool WebServ::_newCliet(size_t i) //mudar de nome
         Logs::printLog(Logs::ERROR, 1, e.what());
         return (false);
     }
-}
-
-
-int WebServ::getBytesRead(void){
-    return (_bytesRead);
-
-    
-}
-
-void WebServ::setBytesRead(int nbr){
-    _bytesRead = nbr;
-}
-
-std::string WebServ::getStatusCode(std::string code)
-{
-    std::map<std::string, std::string>::const_iterator it = this->_statusCodes.find(code);
-
-    if (it == this->_statusCodes.end())
-        return ("");
-    return (it->second);
 }
 
 void WebServ::_setStatusCode(void)
@@ -228,11 +198,56 @@ void WebServ::_setStatusCode(void)
     this->_statusCodes["511"] = "Network Authentication Required";
 }
 
-int		            WebServ::searchServer(std::string port) { return (_data->searchServer(port)); }
 
-std::vector<int>    WebServ::getSizeServers(void){ return (_data->getSizeServers()) };
+int WebServ::getBytesRead(void){
+    return (_bytesRead);
 
-std::vector<std::string> WebServ::getLocationParam(size_t iS, size_t iL, std::string key)
+    
+}
+
+void WebServ::setBytesRead(int nbr){
+    _bytesRead = nbr;
+}
+
+std::string WebServ::getStatusCode(std::string code)
 {
-    return (_data->getLocationParam(iS, iL, key));
+    std::map<std::string, std::string>::const_iterator it = this->_statusCodes.find(code);
+
+    if (it == this->_statusCodes.end())
+        return ("");
+    return (it->second);
+}
+
+int                         WebServ::searchServer(std::string port) { return (_data->searchServer(port)); }
+
+int							WebServ::searchLocation(size_t iS, std::string path)
+{
+    int locationSize = this->getAllQtLocations()[iS];
+    int i = 0;
+
+    while (i < locationSize)
+    {
+        locationParam = _data->getLocationValue(iS, i, "location");
+        if (std::find(locationParam.begin(), locationParam.end(), path) != locationParam.end())
+            break ;
+        i++;
+    }
+    return (i);
+}
+
+size_t                      WebServ::getQtSevers(void)
+{
+	return (this->_data.getQtSevers());
+}
+
+std::vector<int>            WebServ::getAllQtLocations(void){ return (_data->getAllQtLocations()) };
+
+std::vector<std::string>    WebServ::getServerValue(size_t index, std::string key)
+{
+	return (this->_data.getServerValue(index, key));
+}
+
+std::vector<std::string>    WebServ::getLocationValue(size_t iS, size_t iL, std::string key)
+{
+    return (_data->getLocationValue(iS, iL, key));
 }

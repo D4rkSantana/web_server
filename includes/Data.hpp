@@ -53,9 +53,10 @@ class Data {
 	
 		//getters
 		size_t getQtSevers(void);
-		std::vector<int> getSizeServers();//verificar depois
-		std::vector<std::string> getServerParam(size_t serverIndex, std::string param);
-		std::vector<std::string> getLocationParam(size_t iS, size_t iL, std::string key);
+		std::vector<int> getAllQtLocations(void);//verificar depois
+
+		std::vector<std::string> getServerValue(size_t iS, std::string key);
+		std::vector<std::string> getLocationValue(size_t iS, size_t iL, std::string key);
 };
 
 # endif

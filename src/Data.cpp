@@ -107,18 +107,6 @@ bool Data::start(const char *pathConf)
 	return (true);
 }
 
-std::vector<int> Data::getSizeServers()
-{
-	std::vector<int> sizeServers;
-
-	sizeServers.push_back(_sizeServers); // Numero total de servers
-	for (size_t i = 0; i < _sizeServers; i++)
-	{
-		sizeServers.push_back(_qtLocation[i]); // quantidade de locations de casa server
-	}
-	return sizeServers;
-}
-
 bool Data::verifyLineEmpty(const std::string &text)
 {
 
@@ -296,28 +284,6 @@ void Data::clearParams()
 	delete[] _dataServers;
 }
 
-
-
-std::vector<std::string> Data::getServerParam(size_t serverIndex, std::string param) {
-
-    if (serverIndex >= _sizeServers){
-		Logs::printLog(Logs::WARNING, 3, "There is no such index on the server");
-		return std::vector<std::string>();
-	}
-        
-    if (_dataServers[serverIndex].server->find(param) != _dataServers[serverIndex].server->end()) {
-        std::vector<std::string> serverParam = (*_dataServers[serverIndex].server)[param];
-        return serverParam;
-    }
-	Logs::printLog(Logs::WARNING, 3, "Parameter was not found:" + param);
-    return std::vector<std::string>();
-}
-
-size_t Data::getQtSevers(void)
-{
-	return (this->_sizeServers);
-}
-
 int	Data::searchServer(std::string port)
 {
 	int i = 0;
@@ -325,7 +291,7 @@ int	Data::searchServer(std::string port)
 
 	while (i < (int)_sizeServers)
 	{
-		temp = getServerParam(i, "listen")[0];
+		temp = getServerValue(i, "listen")[0];
 		if (temp == port)
 			return (i);
 		i++;
@@ -333,7 +299,33 @@ int	Data::searchServer(std::string port)
 	return (-1);
 }
 
-std::vector<std::string> Data::getLocationParam(size_t iS, size_t iL, std::string key)
+size_t Data::getQtSevers(void) { return (this->_sizeServers); }
+
+std::vector<int> Data::getAllQtLocations(void)
+{
+	std::vector<int> sizeServers;
+
+	sizeServers.push_back(_sizeServers); // Numero total de servers
+	for (size_t i = 0; i < _sizeServers; i++)
+		sizeServers.push_back(_qtLocation[i]); // quantidade de locations de casa server
+	return sizeServers;
+}
+
+std::vector<std::string> Data::getServerValue(size_t iS, std::string key)
+{
+    if (iS >= _sizeServers){
+		Logs::printLog(Logs::WARNING, 3, "There is no such index on the server");
+		return std::vector<std::string>();
+	}
+        
+    if (_dataServers[iS].server->find(key) != _dataServers[iS].server->end())
+        return (*_dataServers[iS].server)[key];;
+
+	Logs::printLog(Logs::WARNING, 3, "Parameter was not found:" + param);
+    return std::vector<std::string>();
+}
+
+std::vector<std::string> Data::getLocationValue(size_t iS, size_t iL, std::string key)
 {
 	if (iS < 0 || iS >= _sizeServers)
         return std::vector<std::string>();

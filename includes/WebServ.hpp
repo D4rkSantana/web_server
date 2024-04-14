@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/14 02:37:48 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/14 14:37:05 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,33 @@ class WebServ
 		int							start(void);
 		void						stop(void);
 		void						finish(void);
-		size_t						getQtSevers(void);
+		
 		std::string					getStatusCode(std::string code);
-		std::vector<std::string>	getServerValue(size_t index, std::string key);
 
 		int							getBytesRead(void);
 		void						setBytesRead(int nbr);
-		int							searchServer(std::string port);
-		std::vector<int>			getSizeServers();
 
-		std::vector<std::string> 	getLocationParam(size_t iS, size_t iL, std::string key);
+
+
+		//retorna o indice do servidor compativel com a porta passada
+		int							searchServer(std::string port);
+		int							searchLocation(size_t iS, std::string path);
+		//================================================================================
+		
+		//GETS DE QUANTIDADE DE SERVERS E LOCATIONS DEFINIDOS
+
+		//informa quantos servidores existem
+		size_t						getQtSevers(void);
+		//retorna um vetor onde cada elemento tem a quantidade de locations do seu servidor
+		std::vector<int>			getAllQtLocations(void);
+		//================================================================================
+		
+		//GETS DE VALORES DEFINIDOS EM HEADERS
+
+		//os valores definidos em um header de um servidor
+		std::vector<std::string>	getServerValue(size_t index, std::string key);
+		//retorna os valores definidos no header "key" de um location "iL" de um server "iS"
+		std::vector<std::string> 	getLocationValue(size_t iS, size_t iL, std::string key);
 };
 
 # endif
