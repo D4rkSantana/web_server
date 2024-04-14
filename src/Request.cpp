@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/14 18:16:47 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/14 19:30:14 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Libs.hpp"
+#include "Request.hpp"
 
-Request::
 
 Request::Request() { init(); }
 
@@ -44,7 +43,7 @@ void Request::init()
     */
 }
 
-bool Request::requestHttp(std::string request, Parser &parser)
+bool Request::requestHttp(std::string request)
 {
     std::map<std::string, std::string>::const_iterator it;
     std::string requestLine;
@@ -52,7 +51,7 @@ bool Request::requestHttp(std::string request, Parser &parser)
     size_t firstLineEnd;
     
 
-    firstLineEnd = request.find("\r\n")
+    firstLineEnd = request.find("\r\n");
     if (firstLineEnd == std::string::npos) {
         this->statusCode = BAD_REQUEST;
         return (false);
@@ -68,7 +67,8 @@ bool Request::requestHttp(std::string request, Parser &parser)
     _getMaxBody();
     _getServerParam();
     //
-    _setAutoIndex(parser);
+    
+    //_setAutoIndex(parser);
     _getHost();
 
     if (has_body) {
@@ -185,6 +185,8 @@ void Request::_findHeaders(std::string key, std::string value)
     }
 }
 
+
+
 void Request::_getMaxBody(void)
 {
 
@@ -264,7 +266,7 @@ void Request::_setErrorPage(void)
     this->_errorPageConfig = webServer.getServerValue(this->_serverIndex, "error_page");
 }
 
-void HttpRequest::_setAutoIndex(void)
+void Request::_setAutoIndex(void)
 {
     std::vector<std::string>    serverValue;
     std::vector<std::string>    autoindexParam;
