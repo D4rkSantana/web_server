@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/14 17:33:40 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/14 18:16:47 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,14 +272,12 @@ void HttpRequest::_setAutoIndex(void)
     autoIndexServer = false;
     autoIndexLoc    = false;
     serverValue     = webServer.getServerValue(this->_serverIndex, "autoindex");
-    
 
     if (!server.empty() && serverValue[0] == "on")
         autoIndexServer = true;
     else
     {
         autoindexParam = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "autoindex");
-        
         if (autoindexParam[0] == "on")
         {
             _path = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "location")[0];
