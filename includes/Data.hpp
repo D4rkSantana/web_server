@@ -12,6 +12,9 @@
 
 #pragma once
 
+#ifndef DATA_HPP
+#define DATA_HPP
+
 #include "./Libs.hpp"
 
 
@@ -47,5 +50,8 @@ class Data {
 		void clearParams();
 		std::vector<int> getSizeServers();
 		size_t getQtSevers(void);
-		std::vector<std::string> getServerParam(size_t serverIndex, std::string param); 
+		std::vector<std::string> getServerParam(size_t serverIndex, std::string param);
+		int	searchServer(std::string port);
 };
+
+# endif

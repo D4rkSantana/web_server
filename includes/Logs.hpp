@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Logs.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:15:30 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/02/29 15:10:55 by lucasmar         ###   ########.fr       */
+/*   Updated: 2024/04/13 21:30:45 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+#ifndef LOGS_HPP
+#define LOGS_HPP
 
 #include "./Libs.hpp"
 
@@ -33,3 +36,5 @@ class Logs{
 		static 	std::string	_getFullData(void);
 
 };
+
+# endif

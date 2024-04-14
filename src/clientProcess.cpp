@@ -16,11 +16,10 @@ void processClientData(int fd)
         Logs::printLog(Logs::INFO, 3, "Client closed: " + to_string(fd));
         return;
     }/*
-    if (this->_request.requestHttp(clientReq, this->_parser)) {
-        response = _errorPage.getErrorPageStandard(_request.statusCode);
-    } else {
+    if (this->_request.requestHttp(clientReq, this->_parser))
         response = this->_responseHandlers.exec(this->_parser, this->_request);
-    }
+    else
+        response = _errorPage.getErrorPageStandard(_request.statusCode);
     this->_sendClientData(fd, response);
     */
 }

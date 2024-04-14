@@ -317,3 +317,18 @@ size_t Data::getQtSevers(void)
 {
 	return (this->_sizeServers);
 }
+
+int	Data::searchServer(std::string port)
+{
+	int i = 0;
+	std::string	temp;
+
+	while (i < (int)_sizeServers)
+	{
+		temp = getServerParam(i, "listen")[0];
+		if (temp == port)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
