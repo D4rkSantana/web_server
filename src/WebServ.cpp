@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/15 00:32:17 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 00:57:44 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ bool WebServ::connect(void){
             socket->bindAddr();
             socket->listenConnections();
             this->_sockets.push_back(socket);
+            this->_poll.init(socket->getFd());
 			i++;
         }
     /*} catch (const std::exception &e) {
@@ -79,6 +80,7 @@ int WebServ::start(void)
             Logs::printLog(Logs::ERROR, 1, "Error creating poll");
             return (1);
         }
+        sleep(1);
         for (size_t i = 0; i < this->_poll.getSize(); ++i) {
             if (this->_poll.isRead(i)) { //veridica se o socket tem alguma conexão pendente
                 if (this->_poll.isSocketServer(i)){//verifica se o socket é do server ou cliente

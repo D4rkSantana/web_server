@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/15 00:27:23 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 01:19:57 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -346,6 +346,6 @@ void    Request::printInfos(void)
     std::cout << "Boundary: " << _boundary << std::endl;
     std::cout << "htppVersion: " << _httpVersion << std::endl;
     std::cout << "allowMethods[0]: " << _allowMethods[0] << std::endl;
-    std::cout << "paramQuery[0]: " << _paramQuery[0] << std::endl;
+    //std::cout << "paramQuery[0]: " << _paramQuery[0] << std::endl;
     std::cout << "=========================\n"; 
 }

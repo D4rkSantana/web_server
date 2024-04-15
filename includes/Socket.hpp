@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:02:53 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/13 00:14:37 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 00:55:27 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ class Socket {
     int     acceptClient(int socketFd);
     void    finish(void);
 
+    int     getFd(void);
     //int         getSocketFd(void) const;
     //std::string getPort(void) const;
     //std::string getIp(void) const;

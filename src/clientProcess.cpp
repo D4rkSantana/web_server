@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/15 00:11:11 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 01:18:50 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void processClientData(int fd)
         Logs::printLog(Logs::INFO, 3, "Client closed: " + to_string(fd));
         return;
     }
-    if (reqClient.requestStart(clientReq))
+    if (!reqClient.requestStart(clientReq))
         reqClient.printInfos();
     //    response = this->_responseHandlers.exec(this->_parser, this->_request);
     /*

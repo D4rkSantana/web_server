@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/13 00:20:41 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 00:57:52 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void Poll::init(int fd)
 
 int Poll::execute(void){ 
     int result;
-    result = poll(&this->_pollFds[0], this->_pollFds.size(), 0);
     
+    result = poll(&this->_pollFds[0], this->_pollFds.size(), 0);
     return result; 
 }
 

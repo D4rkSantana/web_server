@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:11:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/13 00:17:51 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 01:11:54 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,11 @@ int Socket::acceptClient(int socketFd)
     std::stringstream       ss;
 
     //aceita a conexão e guada o endereço
-    newFdClient = accept(socketFd, (struct sockaddr *)&clientAddr, (unsigned int*)sizeof(clientAddr));
+    socklen_t   addr_size = sizeof clientAddr;
+    newFdClient = accept(socketFd, (struct sockaddr *)&clientAddr, &addr_size);
     //verificação de erro
     if (newFdClient == -1) {
-        msg = "Error accepting client connection: " + std::string(strerror(errno));
+        msg = "xError accepting client connection: " + std::string(strerror(errno));
         //throw Socket::SocketException(msg.c_str());
         Logs::printLog(Logs::ERROR, 1, msg);
     }
@@ -154,3 +155,5 @@ void *Socket::get_in_addr(struct sockaddr *sa)
     }
     return &(((struct sockaddr_in6 *)sa)->sin6_addr);
 }
+
+int Socket::getFd(void) { return (this->_fd); }

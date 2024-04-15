@@ -324,7 +324,7 @@ std::vector<std::string> Data::getServerValue(size_t iS, std::string key)
     if (_dataServers[iS].server->find(key) != _dataServers[iS].server->end())
         return (*_dataServers[iS].server)[key];;
 
-	Logs::printLog(Logs::WARNING, 3, "Parameter was not found:" + key);
+	//Logs::printLog(Logs::WARNING, 3, "Parameter was not found:" + key);
     return std::vector<std::string>();
 }
 
