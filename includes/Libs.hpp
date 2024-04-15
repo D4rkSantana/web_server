@@ -6,14 +6,13 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/13 20:52:52 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 00:29:00 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #ifndef Libs_HPP
 #define Libs_HPP
-
 
 
 #include <algorithm>
@@ -55,6 +54,8 @@
 #define COLOR_GREEN "\x1b[32m"
 #define COLOR_RESET "\x1b[0m"
 
+//
+#define DEFAULT_ROOT "www/html"
 
 //mudar de nome?
 #define OK 200
@@ -78,9 +79,9 @@
 #include "ParseConf.hpp"
 #include "Socket.hpp"
 #include "Poll.hpp"
-
 #include "WebServ.hpp"
 #include "clientProcess.hpp"
+#include "Request.hpp"
 #include "template.tpp"
 
 

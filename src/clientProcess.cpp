@@ -1,23 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clientProcess.cpp                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
+/*   Updated: 2024/04/15 00:11:11 by esilva-s         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-
-
-
-# include"clientProcess.hpp"
-
+# include "clientProcess.hpp"
 
 void processClientData(int fd)
 {
     std::string  clientReq;
     responseData response;
+    Request     reqClient;
 
     response       = setResponseData(0, "", "", 0, "");
     clientReq = readClientData(fd);
     if (webServer.getBytesRead() == -1) {
         Logs::printLog(Logs::INFO, 3, "Client closed: " + to_string(fd));
         return;
-    }/*
-    if (this->_request.requestHttp(clientReq, this->_parser))
-        response = this->_responseHandlers.exec(this->_parser, this->_request);
+    }
+    if (reqClient.requestStart(clientReq))
+        reqClient.printInfos();
+    //    response = this->_responseHandlers.exec(this->_parser, this->_request);
+    /*
     else
         response = _errorPage.getErrorPageStandard(_request.statusCode);
     this->_sendClientData(fd, response);
@@ -121,18 +131,6 @@ std::string readClientData(int fd)
     return (clientReq);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 std::string mergeStrVector(std::vector<std::string> vec, std::string delimiter)
 {
     std::string                        result = "";
@@ -147,22 +145,9 @@ std::string mergeStrVector(std::vector<std::string> vec, std::string delimiter)
     return (result);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-responseData setResponseData(int         status,
-                             std::string contentType,
-                             std::string content,
-                             int         contentLength,
-                             std::string location) {
+responseData setResponseData(int status, std::string contentType, std::string content,
+                             int contentLength, std::string location) 
+{
     responseData response;
 
     std::string msg;

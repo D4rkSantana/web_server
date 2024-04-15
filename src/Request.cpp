@@ -3,29 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/14 19:30:14 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/15 00:27:23 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Request.hpp"
 
 
-Request::Request() { init(); }
+Request::Request() { _init(); }
 
 Request::~Request() {}
 
 
-void Request::init()
+void Request::_init()
 {
     
     _allowMethods.push_back("GET");
     _allowMethods.push_back("POST");
     _allowMethods.push_back("DELETE");
     _paramQuery.clear();
-    /*
     has_body       = false;
     has_form       = false;
     has_multipart  = false;
@@ -38,12 +37,10 @@ void Request::init()
     _httpVersion   = "";
     _maxBodySize   = 0;
     _contentLength = 0;
-    
     _header.clear();
-    */
 }
 
-bool Request::requestHttp(std::string request)
+bool Request::requestStart(std::string request)
 {
     std::map<std::string, std::string>::const_iterator it;
     std::string requestLine;
@@ -66,10 +63,8 @@ bool Request::requestHttp(std::string request)
 
     _getMaxBody();
     _getServerParam();
-    //
-    
-    //_setAutoIndex(parser);
-    _getHost();
+    _setAutoIndex();
+    _getHost();//compreender e melhorar
 
     if (has_body) {
         has_multipart = false;
@@ -83,10 +78,10 @@ bool Request::requestHttp(std::string request)
     }
 
     if (has_multipart) {
-        if (_getMultipartData(request))
+        if (_getMultipartData(request))//compreender e melhorar
             return (true);
     } else if (has_body) {
-        if (_getBody(request))
+        if (_getBody(request))//compreender e melhorar
             return (true);
     }
     return (false);
@@ -179,13 +174,11 @@ void Request::_findHeaders(std::string key, std::string value)
     if (key == "Content-Length") {
         int length = atoi(value.c_str());
         if (length > 0) {
-            has_body             = true;
+            has_body = true;
             _contentLength = length;
         }
     }
 }
-
-
 
 void Request::_getMaxBody(void)
 {
@@ -203,7 +196,7 @@ void Request::_getMaxBody(void)
 
 void Request::_getServerParam(void)
 {
-    std::vector<int> serverSize = webServer.getSizeServers();
+    std::vector<int> serverSize = webServer.getAllQtLocations();
 
     this->_locationSize  = serverSize[this->_serverIndex];
     this->_locationIndex = webServer.searchLocation(this->_serverIndex, this->_catchPathURI());
@@ -275,7 +268,7 @@ void Request::_setAutoIndex(void)
     autoIndexLoc    = false;
     serverValue     = webServer.getServerValue(this->_serverIndex, "autoindex");
 
-    if (!server.empty() && serverValue[0] == "on")
+    if (!serverValue.empty() && serverValue[0] == "on")
         autoIndexServer = true;
     else
     {
@@ -286,4 +279,73 @@ void Request::_setAutoIndex(void)
             autoIndexLoc = true;
         }
     }
+}
+
+void Request::_getHost(void)
+{
+    std::string       uri = _header["Host"];
+    std::stringstream ss(uri);
+
+    if (std::getline(ss, _host, ':'))
+        _host.erase(std::remove_if(_host.begin(), _host.end(), ::isspace), _host.end());
+}
+
+bool Request::_getMultipartData(std::string request)
+{
+    std::string contentType = _header["Content-Type"];
+
+    size_t pos = contentType.find("boundary=");
+    if (pos != std::string::npos) {
+        this->_boundary = contentType.substr(pos + 9);
+        this->_boundary = "--" + _boundary;
+    } else {
+        this->statusCode = BAD_REQUEST;
+        return (true);
+    }
+
+    size_t startBody = request.find("\r\n\r\n") + 4;
+
+    if (startBody != std::string::npos)
+        _body = request.substr(startBody);
+    else {
+        this->statusCode = BAD_REQUEST;
+        return (true);
+    }
+    return (false);
+}
+
+bool Request::_getBody(std::string request)
+{
+    std::size_t bodyStart = request.find("\r\n\r\n") + 4;
+
+    if (bodyStart != std::string::npos)
+        this->_body = request.substr(bodyStart);
+
+
+    if (_maxBodySize > 0) {
+        if ((_body.size() / 1024) > _maxBodySize) {
+            this->statusCode = ENTITY_TOO_LARGE;
+            return (true);
+        }
+    } else {
+        Logs::printLog(Logs::ERROR, 1, "Invalid client_max_body_size.");
+        return (true);
+    }
+    return (false);
+}
+
+void    Request::printInfos(void)
+{
+    std::cout << "===== REQUEST INFOS =====\n";
+    std::cout << "statusCode: " << statusCode << std::endl;
+    std::cout << "Uri: " << _uri << std::endl;
+    std::cout << "Body: " << _body << std::endl;
+    std::cout << "Port: " << _port << std::endl;
+    std::cout << "Host: " << _host << std::endl;
+    std::cout << "Method: " << _method << std::endl;
+    std::cout << "Boundary: " << _boundary << std::endl;
+    std::cout << "htppVersion: " << _httpVersion << std::endl;
+    std::cout << "allowMethods[0]: " << _allowMethods[0] << std::endl;
+    std::cout << "paramQuery[0]: " << _paramQuery[0] << std::endl;
+    std::cout << "=========================\n"; 
 }

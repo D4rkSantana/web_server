@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:29:29 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/14 19:27:47 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/15 00:24:06 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,27 @@
 class Request
 {
     private:
-    std::string                        _uri;//
-    std::string                        _body;
-    std::string                        _port;
-    std::string                        _host;
-    std::string                        _method;//
-    std::string                        _boundary;
-    std::string                        _httpVersion;//
-    std::vector<std::string>			_allowMethods;//
-    std::vector<std::string>           _paramQuery;
+        std::string                         _uri;//
+        std::string                         _path;
+        std::string                         _body;
+        std::string                         _port;
+        std::string                         _host;
+        std::string                         _method;//
+        std::string                         _boundary;
+        std::string                         _httpVersion;//
+        std::vector<std::string>            _allowMethods;//
+        std::vector<std::string>            _paramQuery;
+        std::map<std::string, std::string>  _header;
+        std::string                        _root;
+        std::vector<std::string>           _errorPageConfig;
+        std::vector<std::string>           _limitExcept;
+        int                                 _serverIndex;
+        int                                 _locationIndex;
+        int                                 _locationSize;
+        size_t                              _maxBodySize;
+        size_t                              _contentLength;
 
-    public:
-    
-        Request();
-        ~Request();
-        int         statusCode;
-        void        init();
-        bool        requestHttp(std::string request);
+        void        _init();
         bool        _parseFirstLine(std::string &requestLine);
         void        _parseQuery(void);
         void        _parseHeaders(const std::string &request);
@@ -46,6 +50,24 @@ class Request
         void        _setLimitExcept(void);
         void        _setErrorPage(void);
         void        _setAutoIndex(void);
+        void        _getHost(void);
+        bool        _getMultipartData(std::string request);
+        bool        _getBody(std::string request);
+
+    public:
+        
+        bool        has_body;
+        bool        has_form;
+        bool        has_multipart;
+        bool        autoIndexServer;
+        bool        autoIndexLoc;
+        std::string content;
+
+        Request();
+        ~Request();
+        int         statusCode;
+        bool        requestStart(std::string request);
+        void        printInfos(void);
 
 
 };

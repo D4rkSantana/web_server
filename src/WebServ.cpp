@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/14 14:36:54 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/15 00:32:17 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int WebServ::start(void)
                 }
             }
         }
-        this->_poll.removeMarkedElements();
+        //this->_poll.removeMarkedElements();
     }
 	return (0);
 }
@@ -198,14 +198,13 @@ void WebServ::_setStatusCode(void)
     this->_statusCodes["511"] = "Network Authentication Required";
 }
 
-
-int WebServ::getBytesRead(void){
+int WebServ::getBytesRead(void)
+{
     return (_bytesRead);
-
-    
 }
 
-void WebServ::setBytesRead(int nbr){
+void WebServ::setBytesRead(int nbr)
+{
     _bytesRead = nbr;
 }
 
@@ -218,16 +217,20 @@ std::string WebServ::getStatusCode(std::string code)
     return (it->second);
 }
 
-int                         WebServ::searchServer(std::string port) { return (_data->searchServer(port)); }
+int                         WebServ::searchServer(std::string port)
+{
+    return (_data.searchServer(port));
+}
 
 int							WebServ::searchLocation(size_t iS, std::string path)
 {
     int locationSize = this->getAllQtLocations()[iS];
+    std::vector<std::string> locationParam;
     int i = 0;
 
     while (i < locationSize)
     {
-        locationParam = _data->getLocationValue(iS, i, "location");
+        locationParam = _data.getLocationValue(iS, i, "location");
         if (std::find(locationParam.begin(), locationParam.end(), path) != locationParam.end())
             break ;
         i++;
@@ -240,7 +243,10 @@ size_t                      WebServ::getQtSevers(void)
 	return (this->_data.getQtSevers());
 }
 
-std::vector<int>            WebServ::getAllQtLocations(void){ return (_data->getAllQtLocations()) };
+std::vector<int>            WebServ::getAllQtLocations(void)
+{
+    return (_data.getAllQtLocations());
+}
 
 std::vector<std::string>    WebServ::getServerValue(size_t index, std::string key)
 {
@@ -249,5 +255,5 @@ std::vector<std::string>    WebServ::getServerValue(size_t index, std::string ke
 
 std::vector<std::string>    WebServ::getLocationValue(size_t iS, size_t iL, std::string key)
 {
-    return (_data->getLocationValue(iS, iL, key));
+    return (_data.getLocationValue(iS, iL, key));
 }

@@ -1,13 +1,19 @@
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clientProcess.hpp                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/15 00:10:21 by esilva-s          #+#    #+#             */
+/*   Updated: 2024/04/15 00:11:55 by esilva-s         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef clientProcess_HPP
 #define clientProcess_HPP
 
 #include "./Libs.hpp"
-
-
 
 struct responseData {
     int         status;
@@ -18,13 +24,8 @@ struct responseData {
     std::string location;
 };
 
-responseData setResponseData(int         status,
-                             std::string contentType,
-                             std::string content,
-                             int         contentLength,
-                             std::string location);
-
-
+responseData setResponseData(int status, std::string contentType, std::string content,
+                             int contentLength, std::string location);
 
 void        processClientData(int fd);
 std::string getStatusCodes(std::string status);
