@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/15 00:29:00 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/19 19:33:01 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,15 @@
 #define INTERNAL_SERVER_ERROR 500
 #define HTTP_VERSION_NOT_SUPPORTED 505
 
+typedef std::map<std::string, std::vector<std::string> > dic;
 
+typedef struct
+{
+	dic *server;
+	dic **locations;
+} conf_servers;
 
 // my libs
-#include "Data.hpp"
 #include "Logs.hpp"
 #include "CheckFile.hpp"
 #include "ParseConf.hpp"
@@ -83,7 +88,6 @@
 #include "clientProcess.hpp"
 #include "Request.hpp"
 #include "template.tpp"
-
 
 extern WebServ 	webServer;
 

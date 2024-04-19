@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:57:54 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/11 11:17:16 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/19 19:36:35 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int argc, char *argv[]){
 
 void	handleStop(int signal){
 	if (signal == SIGINT) {
-		webServer.stop();
+		//webServer.stop();
 		Logs::printLog(Logs::INFO, 3, "Stop server :(");
 		std::exit(0);
 	}

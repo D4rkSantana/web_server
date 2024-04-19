@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ParseConf.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 23:59:47 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/11 09:19:26 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/19 19:30:46 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,7 @@
 
 #include "./Libs.hpp"
 
-/*
-class ParseConf{
-    private:
-        ParseConf();
-
-
-
-};
-*/
+//typedef std::map<std::string, std::vector<std::string> > dic;
 
 std::string readFileContents(const std::string &filename);
 std::string extractServerParams(const std::string &serverBlock);
@@ -33,5 +25,12 @@ std::string getFirstWord(const std::string &text, int position);
 int countWordOccurrencesLine(const std::string &text, const std::string &word);
 std::string getParameterValue(const std::string &text, const std::string &parameter);
 bool isNumeric(const std::string &str);
+//old data
+bool verifyLineEmpty(const std::string &text);
+std::vector<std::string> splitTokens(const std::string str);
+std::string rmSpaces(const std::string &input);
+bool endBlock(const std::string &line);
+void allocateServers(conf_servers *stConfServer, int qtLocation);
+void deallocateServers(conf_servers *stConfServer, int qtLocation);
 
 #endif

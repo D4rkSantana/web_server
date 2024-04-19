@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/14 14:37:05 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/19 19:40:17 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,53 +19,52 @@
 
 class Socket;
 
+/*typedef std::map<std::string, std::vector<std::string> > dic;
+
+typedef struct
+{
+	dic *server;
+	dic **locations;
+} conf_servers;*/
+
 class WebServ
 {
 
 	private:
-		Data								_data;
+		size_t								_sizeServers;
+		conf_servers						*_dataServers;
+		std::vector<int>					_qtLocation;
+		//Data								_data;
 		int 								_bytesRead;
 		Poll								_poll;
 		std::map<std::string, std::string>	_statusCodes;
 		std::vector<Socket *>				_sockets;
 
-		bool	_newCliet(size_t i);
-		void	_setStatusCode(void);
+		bool								_newCliet(size_t i);
+		void								_setStatusCode(void);
 
 	public:
 		WebServ(void);
 		~WebServ(void);
-		bool						setDataServer(const char *pathConf);
+		//Metodos
 		bool						connect(void);
 		int							start(void);
 		void						stop(void);
 		void						finish(void);
-		
-		std::string					getStatusCode(std::string code);
-
-		int							getBytesRead(void);
-		void						setBytesRead(int nbr);
-
-
-
-		//retorna o indice do servidor compativel com a porta passada
+		void						populateConfs(std::vector<std::vector<std::string> > servers, std::vector<std::vector<std::string> > locations);
+		//Search's
 		int							searchServer(std::string port);
 		int							searchLocation(size_t iS, std::string path);
-		//================================================================================
-		
-		//GETS DE QUANTIDADE DE SERVERS E LOCATIONS DEFINIDOS
-
-		//informa quantos servidores existem
+		//Set's
+		bool						setDataServer(const char *pathConf);
+		void						setBytesRead(int nbr);
+		dic							*setParams(const std::string str, dic *vconfs);
+		//Get's
+		int							getBytesRead(void);
 		size_t						getQtSevers(void);
-		//retorna um vetor onde cada elemento tem a quantidade de locations do seu servidor
 		std::vector<int>			getAllQtLocations(void);
-		//================================================================================
-		
-		//GETS DE VALORES DEFINIDOS EM HEADERS
-
-		//os valores definidos em um header de um servidor
+		std::string					getStatusCode(std::string code);
 		std::vector<std::string>	getServerValue(size_t index, std::string key);
-		//retorna os valores definidos no header "key" de um location "iL" de um server "iS"
 		std::vector<std::string> 	getLocationValue(size_t iS, size_t iL, std::string key);
 };
 
