@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/19 20:31:57 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/20 11:46:44 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void processClientData(int fd)
     
     if (!reqClient.requestStart(clientReq))
     {
-        res = _errorPage.getErrorPageStandard(_request.statusCode);
+        //res = _errorPage.getErrorPageStandard(_request.statusCode);
         reqClient.printInfos();
     }
     //else
     //    res = this->_responseHandlers.exec(this->_parser, this->_request);
-    this->_sendClientData(clientSocket, res);
+    //this->_sendClientData(clientSocket, res);
 }
 /*
 struct responseData {
@@ -161,7 +161,7 @@ std::string mergeStrVector(std::vector<std::string> vec, std::string delimiter)
     }
     return (result);
 }
-
+/*
 responseData setResponseData(int status, std::string contentType, std::string content,
                              int contentLength, std::string location) 
 {
@@ -182,3 +182,4 @@ responseData setResponseData(int status, std::string contentType, std::string co
     response.location      = location;
     return (response);
 }
+*/

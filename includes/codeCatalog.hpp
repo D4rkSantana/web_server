@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clientProcess.hpp                                  :+:      :+:    :+:   */
+/*   codeCatalog.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/15 00:10:21 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/20 11:46:51 by esilva-s         ###   ########.fr       */
+/*   Created: 2024/04/20 10:32:59 by esilva-s          #+#    #+#             */
+/*   Updated: 2024/04/20 10:56:33 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef clientProcess_HPP
-#define clientProcess_HPP
+#ifndef codeCatalog_HPP
+#define codeCatalog_HPP
 
 #include "./Libs.hpp"
 
-//responseData setResponseData(int status, std::string contentType, std::string content,
-//                             int contentLength, std::string location);
-
-void        processClientData(int fd);
-std::string getStatusCodes(std::string status);
-std::string readClientData(int fd);
-std::string mergeStrVector(std::vector<std::string> vec, std::string delimiter);
+std::string getStatus(std::string status, map_ss codes);
+std::string getTypes(std::string extension, map_ss types);
+map_ss setStatus(void);
+map_ss setTypes(void);
 
 #endif

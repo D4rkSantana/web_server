@@ -6,15 +6,15 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:39:55 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/19 20:58:52 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/20 11:45:45 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/negativeResponse.hpp"
+#include "../includes/negativeResponse.hpp"
 
 responseData getErrorPageStandard(int statusCode)
 {
-    responseData result;
+    responseData res;
     std::string file;
 
     file = "/";
@@ -36,7 +36,7 @@ responseData getContent(std::string root, std::string file, int status)
     responseData      data;
     std::string       extension;
 
-    data      = setResponseData(0, "", "", 0);
+    data      = setResponseData(0, "", "", 0 , "");
     extension = extractFileExtension(file);
     fullPathStream << root << file;
     fullPath = fullPathStream.str();
@@ -44,8 +44,7 @@ responseData getContent(std::string root, std::string file, int status)
     if (ifs.is_open()) {
         std::string content((std::istreambuf_iterator<char>(ifs)),
                             std::istreambuf_iterator<char>());
-        data = setResponseData(
-            status, Constants::getMimeTypes(extension), content, (int)content.length());
+        data = setResponseData(status, getTypes(extension, webServer.getDicTypes()), content, (int)content.length(), "");
         ifs.close();
     }
     return (data);
@@ -62,16 +61,13 @@ std::string extractFileExtension(std::string file)
     return "";
 }
 
-responseData setResponseData(int         status,
-                             std::string contentType,
-                             std::string content,
-                             int         contentLength,
-                             std::string location)
+responseData setResponseData(int         status, std::string contentType, std::string content,
+                             int         contentLength, std::string location)
 {
     responseData res;
 
     res.status        = status;
-    res.statusCode    = Constants::getStatusCodes(to_string(status));
+    res.statusCode    = getStatus(to_string(status), webServer.getDicStatusCodes());
     res.contentType   = contentType;
     res.content       = content;
     res.contentLength = contentLength;

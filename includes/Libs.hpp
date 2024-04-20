@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/19 20:42:06 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/20 11:38:14 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@
 
 //
 #define DEFAULT_ROOT "www/html"
+#define DEFAULT_ERROR_ROOT "www/error"
 
 //mudar de nome?
 #define OK 200
@@ -70,6 +71,7 @@
 #define HTTP_VERSION_NOT_SUPPORTED 505
 
 typedef std::map<std::string, std::vector<std::string> > dic;
+typedef std::map<std::string, std::string> map_ss;
 
 typedef struct
 {
@@ -97,6 +99,8 @@ typedef struct
 #include "clientProcess.hpp"
 #include "Request.hpp"
 #include "template.tpp"
+#include "negativeResponse.hpp"
+#include "codeCatalog.hpp"
 
 extern WebServ 	webServer;
 

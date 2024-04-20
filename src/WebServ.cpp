@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/19 19:35:46 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/20 11:41:39 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 WebServ::WebServ(void)
 {
-	this->_setStatusCode();
+	this->_statusCodes = setStatus();
+	this->_types = setTypes();
 }
 
 WebServ::~WebServ(void)
@@ -417,4 +418,14 @@ std::vector<std::string> WebServ::getLocationValue(size_t iS, size_t iL, std::st
 	if (_dataServers[iS].locations[iL]->find(key) == _dataServers[iS].locations[iL]->end())
 		return std::vector<std::string>();
 	return ((*_dataServers[iS].locations[iL])[key]); 
+}
+
+map_ss	WebServ::getDicStatusCodes(void)
+{
+	return (this->_statusCodes);
+}
+
+map_ss	WebServ::getDicTypes(void)
+{
+	return (this->_types);
 }

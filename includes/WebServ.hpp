@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/19 19:44:02 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/20 11:26:46 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@ class WebServ
 {
 
 	private:
-		size_t								_sizeServers;
-		conf_servers						*_dataServers;
-		std::vector<int>					_qtLocation;
-		//Data								_data;
-		int 								_bytesRead;
-		Poll								_poll;
-		std::map<std::string, std::string>	_statusCodes;
 		std::vector<Socket *>				_sockets;
+		std::vector<int>					_qtLocation;
+		conf_servers						*_dataServers;
+		size_t								_sizeServers;
+		int 								_bytesRead;
+		map_ss								_statusCodes;
+		map_ss								_types;
+		
+		Poll								_poll;
 
 		bool								_newCliet(size_t i);
 		void								_setStatusCode(void);
@@ -52,6 +53,8 @@ class WebServ
 		void						setBytesRead(int nbr);
 		dic							*setParams(const std::string str, dic *vconfs);
 		//Get's
+		map_ss						getDicTypes(void);
+		map_ss						getDicStatusCodes(void);
 		int							getBytesRead(void);
 		size_t						getQtSevers(void);
 		std::vector<int>			getAllQtLocations(void);
