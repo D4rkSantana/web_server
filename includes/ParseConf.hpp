@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 23:59:47 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/19 19:30:46 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/19 19:44:10 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #define ParseConf_HPP
 
 #include "./Libs.hpp"
-
-//typedef std::map<std::string, std::vector<std::string> > dic;
 
 std::string readFileContents(const std::string &filename);
 std::string extractServerParams(const std::string &serverBlock);

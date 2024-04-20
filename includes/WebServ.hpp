@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/19 19:40:17 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/19 19:44:02 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,6 @@
 #include "./Libs.hpp"
 
 class Socket;
-
-/*typedef std::map<std::string, std::vector<std::string> > dic;
-
-typedef struct
-{
-	dic *server;
-	dic **locations;
-} conf_servers;*/
 
 class WebServ
 {

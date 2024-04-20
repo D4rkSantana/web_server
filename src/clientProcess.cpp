@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/19 12:05:19 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/19 20:31:57 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,34 @@ void processClientData(int fd)
     clientReq = readClientData(fd);
     if (webServer.getBytesRead() == -1) {
         Logs::printLog(Logs::INFO, 3, "Client closed: " + to_string(fd));
+        //this->_poll.addFdToClose(clientSocket);
         return;
     }
+    
     if (!reqClient.requestStart(clientReq))
+    {
+        res = _errorPage.getErrorPageStandard(_request.statusCode);
         reqClient.printInfos();
-    //    response = this->_responseHandlers.exec(this->_parser, this->_request);
-    /*
-    else
-        response = _errorPage.getErrorPageStandard(_request.statusCode);
-    this->_sendClientData(fd, response);
-    */
+    }
+    //else
+    //    res = this->_responseHandlers.exec(this->_parser, this->_request);
+    this->_sendClientData(clientSocket, res);
 }
+/*
+struct responseData {
+    int         status;
+    std::string content;
+    std::string statusCode;
+    std::string contentType;
+    int         contentLength;
+    std::string location;
+};
+
+1. instancia a struct requestData
+2. a) se estiver tudo certo, usa _responseHadlers.exec() para gravar infos dentro dela
+2. b) se estiver errado, usa  _errorPage.getErrorPageStandard() para gravar infos dentro dela
+3. envia com a _sendClientData()
+*/
 
 
 

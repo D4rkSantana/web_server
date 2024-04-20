@@ -6,10 +6,9 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/19 19:33:01 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/19 20:42:06 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef Libs_HPP
 #define Libs_HPP
@@ -77,6 +76,16 @@ typedef struct
 	dic *server;
 	dic **locations;
 } conf_servers;
+
+typedef struct
+{
+    int         status;
+    std::string content;
+    std::string statusCode;
+    std::string contentType;
+    int         contentLength;
+    std::string location;
+} responseData;
 
 // my libs
 #include "Logs.hpp"
