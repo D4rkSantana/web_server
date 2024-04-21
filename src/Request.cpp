@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/15 01:19:57 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/21 19:28:10 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,12 @@ bool Request::requestStart(std::string request)
 
     if (has_multipart) {
         if (_getMultipartData(request))//compreender e melhorar
-            return (true);
+            return (false);
     } else if (has_body) {
         if (_getBody(request))//compreender e melhorar
-            return (true);
+            return (false);
     }
-    return (false);
+    return (true);
 }
 
 bool Request::_parseFirstLine(std::string &requestLine)

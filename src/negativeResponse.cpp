@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:39:55 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/20 11:45:45 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/21 19:40:59 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ responseData getErrorPageStandard(int statusCode)
     if (res.contentLength)
         return (res);
 
-    res = getContent(DEFAULT_ERROR_ROOT, "not_configured.html", statusCode);
+    res = getContent(DEFAULT_ERROR_ROOT, "/not_configured.html", statusCode);
     return (res);
 }
 
@@ -38,12 +38,15 @@ responseData getContent(std::string root, std::string file, int status)
 
     data      = setResponseData(0, "", "", 0 , "");
     extension = extractFileExtension(file);
+    
     fullPathStream << root << file;
     fullPath = fullPathStream.str();
     std::ifstream ifs(fullPath.c_str());
-    if (ifs.is_open()) {
-        std::string content((std::istreambuf_iterator<char>(ifs)),
-                            std::istreambuf_iterator<char>());
+    std::cout << fullPath << std::endl;
+    if (ifs.is_open())
+    {
+        std::string content((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+
         data = setResponseData(status, getTypes(extension, webServer.getDicTypes()), content, (int)content.length(), "");
         ifs.close();
     }

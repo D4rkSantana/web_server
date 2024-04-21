@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/20 11:46:44 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/21 19:30:06 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,86 +22,73 @@ void processClientData(int fd)
     clientReq = readClientData(fd);
     if (webServer.getBytesRead() == -1) {
         Logs::printLog(Logs::INFO, 3, "Client closed: " + to_string(fd));
-        //this->_poll.addFdToClose(clientSocket);
+        //this->_poll.addFdToClose(fd);
         return;
     }
-    
+    /*
     if (!reqClient.requestStart(clientReq))
     {
-        //res = _errorPage.getErrorPageStandard(_request.statusCode);
+        response = getErrorPageStandard(reqClient.statusCode);
+        reqClient.printInfos();
+    }
+    */
+    if (reqClient.requestStart(clientReq))
+    {
+        response = getErrorPageStandard(404);
         reqClient.printInfos();
     }
     //else
     //    res = this->_responseHandlers.exec(this->_parser, this->_request);
-    //this->_sendClientData(clientSocket, res);
+    sendClientData(fd, response);
 }
-/*
-struct responseData {
-    int         status;
-    std::string content;
-    std::string statusCode;
-    std::string contentType;
-    int         contentLength;
-    std::string location;
-};
 
-1. instancia a struct requestData
-2. a) se estiver tudo certo, usa _responseHadlers.exec() para gravar infos dentro dela
-2. b) se estiver errado, usa  _errorPage.getErrorPageStandard() para gravar infos dentro dela
-3. envia com a _sendClientData()
-*/
-
-
-
-/* 
-
-void  sendClientData(int fd, responseData response)
+void  sendClientData(int fd, responseData res)
 {
     char responseHeader[1024];
+    int bytes_sent;
 
-    if (response.contentLength < 0) {
+    if (res.contentLength < 0)
         return;
+
+    if (res.status == PERMANENT_REDIRECT || res.status == TEMPORARY_REDIRECT)
+    {
+        sprintf(responseHeader, "HTTP/1.1 %s\r\nlocation: %s\r\n\r\n",
+                res.statusCode.c_str(), res.location.c_str());
     }
-    if (response.status == PERMANENT_REDIRECT || response.status == TEMPORARY_REDIRECT) {
-        sprintf(responseHeader,
-                "HTTP/1.1 %s\r\nlocation: "
-                "%s\r\n\r\n",
-                response.statusCode.c_str(),
-                response.location.c_str());
-    } else if (response.contentType.empty()) {
-        sprintf(responseHeader, "HTTP/1.1 %s\r\n\r\n", response.statusCode.c_str());
-    } else if (response.status == METHOD_NOT_ALLOWED) {
-        sprintf(responseHeader,
-                "HTTP/1.1 %s\r\nAllow: %s\r\nContent-Type: %s\r\nContent-Length: %d\r\n\r\n",
-                response.statusCode.c_str(),
-           //     vector_join(this->_request.getLimitExcept(), " ").c_str(),
-                response.contentType.c_str(),
-                response.contentLength);
-    } else {
-        sprintf(responseHeader,
-                "HTTP/1.1 %s\r\nContent-Type: %s\r\nContent-Length: %d\r\n\r\n",
-                response.statusCode.c_str(),
-                response.contentType.c_str(),
-                response.contentLength);
+    else if (res.contentType.empty())
+    {
+        sprintf(responseHeader, "HTTP/1.1 %s\r\n\r\n", res.statusCode.c_str());
+    }
+    else if (res.status == METHOD_NOT_ALLOWED)
+    {
+        sprintf(responseHeader, "HTTP/1.1 %s\r\nAllow: GET\r\nContent-Type: %s\r\nContent-Length: %d\r\n\r\n",
+                res.statusCode.c_str(), res.contentType.c_str(), res.contentLength);//falta o allow
+    }
+    else
+    {
+        sprintf(responseHeader, "HTTP/1.1 %s\r\nContent-Type: %s\r\nContent-Length: %d\r\n\r\n",
+                res.statusCode.c_str(), res.contentType.c_str(), res.contentLength);
     }
 
-    int bytes_sent = send(fd, responseHeader, strlen(responseHeader), MSG_NOSIGNAL);
-    if (bytes_sent == -1) {
-        Logs::printLog(logs::INFO, 3, "Client connection closed:" + to_string(fd));
-        //Logger::info << "Client connection closed"  << " on socket " << fd << std::endl;
-        this->_poll.addFdToClose(fd);
+    bytes_sent = send(fd, responseHeader, strlen(responseHeader), MSG_NOSIGNAL);
+    if (bytes_sent == -1)
+    {
+        Logs::printLog(Logs::INFO, 3, "Client connection closed:" + to_string(fd));
+        //this->_poll.addFdToClose(fd);
         return;
     }
-    if (response.contentLength) {
-        int bytes_sent = send(fd, response.content.c_str(), response.contentLength, MSG_NOSIGNAL);
-        if (bytes_sent == -1) {
-             Logs::printLog(logs::INFO, 3, "Client connection closed:" + to_string(fd));
-            //Logger::info << "Client connection closed"<< " on socket " << fd << std::endl;
-            this->_poll.addFdToClose(fd);
-            return;
+
+    if (res.contentLength)
+    {
+        bytes_sent = send(fd, res.content.c_str(), res.contentLength, MSG_NOSIGNAL);
+        if (bytes_sent == -1)
+        {
+            Logs::printLog(Logs::INFO, 3, "Client connection closed:" + to_string(fd));
+            //this->_poll.addFdToClose(fd);
         }
     }
 }
+/* 
 */
 
 

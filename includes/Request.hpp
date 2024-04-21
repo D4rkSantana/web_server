@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:29:29 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/15 00:24:06 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/21 18:56:04 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ class Request
         std::string                         _body;
         std::string                         _port;
         std::string                         _host;
-        std::string                         _method;//
+        std::string                         _method;
         std::string                         _boundary;
-        std::string                         _httpVersion;//
-        std::vector<std::string>            _allowMethods;//
+        std::string                         _httpVersion;
+        std::vector<std::string>            _allowMethods;
         std::vector<std::string>            _paramQuery;
         std::map<std::string, std::string>  _header;
         std::string                        _root;
@@ -68,7 +68,6 @@ class Request
         int         statusCode;
         bool        requestStart(std::string request);
         void        printInfos(void);
-
 
 };
 
