@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:10:21 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/21 18:42:52 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/21 20:45:17 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ void        processClientData(int fd);
 std::string getStatusCodes(std::string status);
 std::string readClientData(int fd);
 std::string mergeStrVector(std::vector<std::string> vec, std::string delimiter);
-void        sendClientData(int fd, responseData res);
+void        sendResponse(int fd, responseData res);
 
 #endif

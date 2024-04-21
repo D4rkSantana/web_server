@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/21 19:30:06 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/21 20:45:09 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,38 +39,34 @@ void processClientData(int fd)
     }
     //else
     //    res = this->_responseHandlers.exec(this->_parser, this->_request);
-    sendClientData(fd, response);
+    sendResponse(fd, response);
 }
 
-void  sendClientData(int fd, responseData res)
+void  sendResponse(int fd, responseData res)
 {
-    char responseHeader[1024];
+    std::string response_header = "";
     int bytes_sent;
 
+    response_header =  "HTTP/1.1 " + res.statusCode + "\r\n";
     if (res.contentLength < 0)
         return;
 
     if (res.status == PERMANENT_REDIRECT || res.status == TEMPORARY_REDIRECT)
-    {
-        sprintf(responseHeader, "HTTP/1.1 %s\r\nlocation: %s\r\n\r\n",
-                res.statusCode.c_str(), res.location.c_str());
-    }
+        response_header += "location: " + res.location + "\r\n\r\n";
     else if (res.contentType.empty())
-    {
-        sprintf(responseHeader, "HTTP/1.1 %s\r\n\r\n", res.statusCode.c_str());
-    }
+        response_header += "\r\n";
     else if (res.status == METHOD_NOT_ALLOWED)
     {
-        sprintf(responseHeader, "HTTP/1.1 %s\r\nAllow: GET\r\nContent-Type: %s\r\nContent-Length: %d\r\n\r\n",
-                res.statusCode.c_str(), res.contentType.c_str(), res.contentLength);//falta o allow
+        response_header += "Allow: GET\r\nContent-Type: " + res.contentType;
+        response_header += "\r\nContent-Length: " + to_string(res.contentLength) + "\r\n\r\n";
     }
     else
     {
-        sprintf(responseHeader, "HTTP/1.1 %s\r\nContent-Type: %s\r\nContent-Length: %d\r\n\r\n",
-                res.statusCode.c_str(), res.contentType.c_str(), res.contentLength);
+        response_header += "Content-Type: " + res.contentType;
+        response_header += "\r\nContent-Length: " + to_string(res.contentLength) + "\r\n\r\n";
     }
 
-    bytes_sent = send(fd, responseHeader, strlen(responseHeader), MSG_NOSIGNAL);
+    bytes_sent = send(fd, response_header.c_str(), strlen(response_header.c_str()), MSG_NOSIGNAL);
     if (bytes_sent == -1)
     {
         Logs::printLog(Logs::INFO, 3, "Client connection closed:" + to_string(fd));
@@ -88,9 +84,6 @@ void  sendClientData(int fd, responseData res)
         }
     }
 }
-/* 
-*/
-
 
 std::string readClientData(int fd)
 {
