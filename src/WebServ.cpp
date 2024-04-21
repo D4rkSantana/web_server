@@ -6,11 +6,11 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/21 18:48:10 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/21 20:50:44 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Libs.hpp"
+#include "WebServ.hpp"
 
 
 WebServ::WebServ(void)

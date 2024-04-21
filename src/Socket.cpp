@@ -6,11 +6,11 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:11:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/15 01:11:54 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/21 20:50:27 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./Socket.hpp"
+#include "Socket.hpp"
 
 Socket::Socket(std::string port, std::string ip) :
     _fd(-1), _port(port), _ip(ip), _serverInfo(NULL)

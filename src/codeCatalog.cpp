@@ -6,11 +6,11 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 10:32:03 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/20 11:27:22 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/21 20:49:55 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/codeCatalog.hpp"
+#include "codeCatalog.hpp"
 
 std::string getStatus(std::string status, map_ss codes)
 {

@@ -6,11 +6,11 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:39:55 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/21 19:40:59 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/21 20:49:34 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/negativeResponse.hpp"
+#include "negativeResponse.hpp"
 
 responseData getErrorPageStandard(int statusCode)
 {

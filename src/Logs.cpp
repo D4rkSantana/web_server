@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Logs.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/11 09:22:59 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/21 20:49:47 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Libs.hpp"
+#include "Logs.hpp"
 
 Logs::Logs(void){};
 Logs::~Logs(void){};
