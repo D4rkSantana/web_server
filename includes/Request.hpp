@@ -6,14 +6,14 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:29:29 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/21 18:56:04 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/22 23:16:58 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef REQUEST_HPP
 #define REQUEST_HPP
 
-#include "Libs.hpp"
+#include "./Libs.hpp"
 
 class Request
 {

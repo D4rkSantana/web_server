@@ -6,14 +6,16 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:55 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/13 00:08:17 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/22 23:31:16 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef Poll_HPP
 #define Poll_HPP
 
-#include "Libs.hpp"
+#include "./Libs.hpp"
+
+class Poll;
 
 class Poll {
     private:

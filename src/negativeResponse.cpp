@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:39:55 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/21 20:49:34 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/22 23:10:13 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,67 @@ responseData getErrorPageStandard(int statusCode)
 
     res = getContent(DEFAULT_ERROR_ROOT, "/not_configured.html", statusCode);
     return (res);
+}
+
+responseData getErrorPageContent(std::vector<std::string> errorPage, int statusCode, std::string uri, std::string root)
+{
+    std::string  filePath;
+    responseData res;
+
+    if (hasErrorPageConfig(errorPage, statusCode)) {
+        
+        filePath = getPath(uri);
+
+        if (filePath[filePath.length() - 1] != '/')
+            filePath += '/';
+
+        filePath += errorPage.back();
+
+        res = getContent(root, filePath, statusCode);
+
+        if (res.contentLength)
+            return (res);
+    }
+    res = getErrorPageStandard(statusCode);
+    return (res);
+}
+
+bool hasErrorPageConfig(std::vector<std::string> errorPage, int statusCode)
+{
+    std::vector<std::string>::iterator  it;
+    
+    it = errorPage.begin();
+    while (it != errorPage.end())
+    {
+        if (*it == to_string(statusCode))
+            return (true);
+        it++;
+    }
+    return (false);
+}
+
+std::string getPath(std::string uri)
+{
+    size_t firstSlashPos;
+    size_t lastSlashPos;
+    size_t dotPos;
+
+    if (uri.length() == 1)
+        return ("/");
+
+    firstSlashPos = uri.find('/', 1);
+
+    if (firstSlashPos == std::string::npos)
+        return ("/");
+
+    dotPos = uri.rfind('.');
+
+    if (dotPos == std::string::npos)
+        return (uri);
+
+    lastSlashPos = uri.rfind('/');
+
+    return (uri.substr(0, lastSlashPos));
 }
 
 responseData getContent(std::string root, std::string file, int status)
@@ -64,8 +125,8 @@ std::string extractFileExtension(std::string file)
     return "";
 }
 
-responseData setResponseData(int         status, std::string contentType, std::string content,
-                             int         contentLength, std::string location)
+responseData setResponseData(int status, std::string contentType, std::string content,
+                             int contentLength, std::string location)
 {
     responseData res;
 

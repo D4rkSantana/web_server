@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/21 20:51:19 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/22 23:34:17 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ typedef struct
 #include "Logs.hpp"
 #include "CheckFile.hpp"
 #include "ParseConf.hpp"
-#include "Socket.hpp"
 #include "Poll.hpp"
+#include "Socket.hpp"
 #include "WebServ.hpp"
 #include "clientProcess.hpp"
 #include "Request.hpp"

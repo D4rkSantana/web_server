@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/20 11:26:46 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/22 23:34:03 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 #include "./Libs.hpp"
 
 class Socket;
+class Poll;
 
 class WebServ
 {
-
 	private:
 		std::vector<Socket *>				_sockets;
 		std::vector<int>					_qtLocation;
@@ -30,9 +30,7 @@ class WebServ
 		int 								_bytesRead;
 		map_ss								_statusCodes;
 		map_ss								_types;
-		
 		Poll								_poll;
-
 		bool								_newCliet(size_t i);
 		void								_setStatusCode(void);
 
