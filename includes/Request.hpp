@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:29:29 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/23 21:04:53 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:25:18 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ class Request
         void        _setLimitExcept(void);
         void        _setErrorPage(void);
         void        _setAutoIndex(void);
-
+// os get que estão com get com retonro void mudar de nome para catch, take ou algo do genero
 
     public:
         

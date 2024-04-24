@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   positiveResponse.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:48:20 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/23 21:06:25 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:45:50 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ responseData processResponse(Request &request)
     /*
     switch (this->_resolveOption(request.getMethod())) {
         case GET:
-            this->_getHandler(request, parser);
+            this->_getHandler(request, parser); //parse
             break;
         case POST:
             this->_postHandler(request, parser);
@@ -87,7 +87,6 @@ responseData verifyRedirection(Request &request)
 
     if (!server_redirection.empty())
     {
-        //pensar em como reornar esse res
         res = setResponseData(std::atoi(it_s[0].c_str()), "", "", 0, it_s[1]);
         return (res);
     }
@@ -97,7 +96,6 @@ responseData verifyRedirection(Request &request)
 
     if (!location_redirection.empty())
     {
-        //pensar em como reornar esse res
         res = setResponseData(std::atoi(it_p[0].c_str()), "", "", 0, it_p[1]);
         return (res);
     }
@@ -130,14 +128,18 @@ int resolveOption(std::string method)
     return (i);
 }
 
+
+
+
+
 /*
 responseData getHandler(Request &request)
 {
     Location        location(request);
     AutoIndex       autoIndex(request);
     responseData    res;
-
-    res = setResponseData(0, "", "", 0);
+ 
+    res = setResponseData(0, "", "", 0); 
 
     if (request.autoIndexServer && request.getUri() == "/autoindex")
         res = autoIndex.autoIndex(request.getRoot(), "/", request.getPort());
@@ -179,3 +181,41 @@ responseData deleteHandler(Request &request)
     return (res);
 }
 */
+
+
+responseData autoIndex(std::string root, std::string path, std::string port, Request request)
+{
+    std::string dirPath = root + path; // ok
+    responseData resp;
+    struct dirent *entry;
+    DIR *dir;
+    std::string    content;
+    std::string entryPath;
+
+    
+    dir = opendir(dirPath.c_str()); // abrir diretorio 
+    
+    if (dir == NULL) { // erro ao abrir o diretorio 
+        resp = getErrorPageContent(request.getErrorPageConfig(),
+                                                       NOT_FOUND,
+                                                       request.getUri(),
+                                                       request.getRoot());
+        return (resp);
+    }
+
+    content = "<html><body><h2>Index of: " + dirPath + "</h2><ul>";
+    
+    for (entry = readdir(dir); entry; entry = readdir(dir)) {
+        entryPath
+            = port + path + (path[path.size() - 1] != '/' ? "/" : "") + std::string(entry->d_name);
+        content += "<li><a href=\"http://localhost:" + entryPath + "\">"
+            + std::string(entry->d_name) + "</a></li>\n";
+    }
+
+    content += "</ul></body></html>";
+    resp = setResponseData(OK, "text/html", content, content.length(), path );
+
+    closedir(dir);
+    return (resp);
+}
+
