@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/23 21:05:31 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:05:47 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,11 +268,15 @@ void Request::_setAutoIndex(void)
     autoIndexLoc    = false;
     serverValue     = webServer.getServerValue(this->_serverIndex, "autoindex");
 
-    if (!serverValue.empty() && serverValue[0] == "on")
-        autoIndexServer = true;
+    if (!serverValue.empty()){
+        if(serverValue[0] == "on")
+            autoIndexServer = true;
+    }
     else
     {
         autoindexParam = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "autoindex");
+        if(autoindexParam.empty())
+            return;
         if (autoindexParam[0] == "on")
         {
             _path = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "location")[0];
