@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/21 19:28:10 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/23 21:05:31 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,6 +334,46 @@ bool Request::_getBody(std::string request)
     return (false);
 }
 
+std::vector<std::string>    Request::getErrorPageConfig(void)
+{
+    return (this->_errorPageConfig);
+}
+
+std::vector<std::string>    Request::getLimitExcept(void)
+{
+    return (this->_limitExcept);
+}
+
+std::string Request::getUri(void)
+{
+    return (this->_uri);
+}
+
+std::string Request::getRoot(void)
+{
+    return (this->_root);
+}
+
+std::string Request::getMethod(void)
+{
+    return (this->_method);
+}
+
+std::string Request::getHost(void)
+{
+    return (this->_host);
+}
+
+int Request::getServerIndex(void)
+{
+    return (this->_serverIndex);
+}
+
+int Request::getLocationIndex(void)
+{
+    return (this->_locationIndex);
+}
+
 void    Request::printInfos(void)
 {
     std::cout << "===== REQUEST INFOS =====\n";
@@ -346,6 +386,7 @@ void    Request::printInfos(void)
     std::cout << "Boundary: " << _boundary << std::endl;
     std::cout << "htppVersion: " << _httpVersion << std::endl;
     std::cout << "allowMethods[0]: " << _allowMethods[0] << std::endl;
+    std::cout << "errorPageConfig[0]: " << _errorPageConfig[0] << std::endl;
     //std::cout << "paramQuery[0]: " << _paramQuery[0] << std::endl;
     std::cout << "=========================\n"; 
 }

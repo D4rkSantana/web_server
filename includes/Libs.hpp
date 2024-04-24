@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/22 23:34:17 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/23 21:09:08 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ typedef struct
 } responseData;
 
 // my libs
+#include "Poll.hpp"
 #include "Logs.hpp"
 #include "CheckFile.hpp"
 #include "ParseConf.hpp"
-#include "Poll.hpp"
 #include "Socket.hpp"
 #include "WebServ.hpp"
 #include "clientProcess.hpp"
@@ -102,6 +102,8 @@ typedef struct
 #include "negativeResponse.hpp"
 #include "codeCatalog.hpp"
 #include "positiveResponse.hpp"
+
+class WebServ;
 
 extern WebServ 	webServer;
 

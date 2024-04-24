@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:29:29 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/22 23:16:58 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/23 21:04:53 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ class Request
         std::string                         _httpVersion;
         std::vector<std::string>            _allowMethods;
         std::vector<std::string>            _paramQuery;
-        std::map<std::string, std::string>  _header;
-        std::string                        _root;
+        map_ss                              _header;
+        std::string                         _root;
         std::vector<std::string>           _errorPageConfig;
         std::vector<std::string>           _limitExcept;
         int                                 _serverIndex;
@@ -38,21 +38,22 @@ class Request
         size_t                              _maxBodySize;
         size_t                              _contentLength;
 
+        void        _getHost(void);
+        bool        _getMultipartData(std::string request);
+        bool        _getBody(std::string request);
+        void        _getServerParam(void);
+        void        _getMaxBody(void);
         void        _init();
         bool        _parseFirstLine(std::string &requestLine);
         void        _parseQuery(void);
         void        _parseHeaders(const std::string &request);
         void        _findHeaders(std::string key, std::string value);
-        void        _getServerParam(void);
-        void        _getMaxBody(void);
         std::string _catchPathURI(void);
         void        _setRoot(void);
         void        _setLimitExcept(void);
         void        _setErrorPage(void);
         void        _setAutoIndex(void);
-        void        _getHost(void);
-        bool        _getMultipartData(std::string request);
-        bool        _getBody(std::string request);
+
 
     public:
         
@@ -68,7 +69,15 @@ class Request
         int         statusCode;
         bool        requestStart(std::string request);
         void        printInfos(void);
+        std::vector<std::string>    getErrorPageConfig(void);
+        std::vector<std::string>    getLimitExcept(void);
 
+        std::string getUri(void);
+        std::string getRoot(void);
+        std::string getMethod(void);
+        std::string getHost(void);
+        int getServerIndex(void);
+        int getLocationIndex(void);
 };
 
 

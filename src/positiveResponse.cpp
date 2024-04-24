@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:48:20 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/22 23:09:19 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/23 21:06:25 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ responseData processResponse(Request &request)
     if (temp.status != 999)
         return (temp);
 
-    if (methodAllowed(request)) {
-        res = getErrorPageContent(request.getErrorPageConfig(), METHOD_NOT_ALLOWED, request.getUri(), request.getRoot()));
+    if (methodAllowed(request))
+    {
+        res = getErrorPageContent(request.getErrorPageConfig(), METHOD_NOT_ALLOWED, request.getUri(), request.getRoot());
         return (res);
     }
 
@@ -49,7 +50,7 @@ responseData processResponse(Request &request)
         default:
             break;
     }
-    */+
+    */
     return (res);
 }
 
@@ -58,7 +59,7 @@ bool verifyServerName(Request &request)
     std::vector<std::string>            server_names;
     std::vector<std::string>::iterator  it;
 
-    server_names = webServer.getServerParam(request.getServerIndex(), "server_name");
+    server_names = webServer.getServerValue(request.getServerIndex(), "server_name");
     if (server_names.empty())
         return (true);
     it = server_names.begin();
@@ -79,7 +80,7 @@ responseData verifyRedirection(Request &request)
     std::vector<std::string>            location_redirection;
     responseData                        res;
 
-    server_redirection = webServer.getServerValue(request.autoIndexServer, "redirect");
+    server_redirection = webServer.getServerValue(request.getServerIndex(), "redirect");
     it_s = server_redirection.begin();
 
     res = setResponseData(999, "", "", -1, "");
@@ -91,7 +92,7 @@ responseData verifyRedirection(Request &request)
         return (res);
     }
 
-    location_redirection = webServer.getLocationValue(request.autoIndex, request.autoIndexLoc, "redirect");
+    location_redirection = webServer.getLocationValue(request.getServerIndex(), request.getLocationIndex(), "redirect");
     it_p = location_redirection.begin();
 
     if (!location_redirection.empty())

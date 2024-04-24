@@ -6,11 +6,9 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/22 23:34:03 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/23 21:08:14 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma once
 
 #ifndef WEBSERV_HPP
 #define WEBSERV_HPP
@@ -18,7 +16,6 @@
 #include "./Libs.hpp"
 
 class Socket;
-class Poll;
 
 class WebServ
 {
