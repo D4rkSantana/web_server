@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/09 19:03:24 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/24 11:18:22 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,13 +185,9 @@ bool CheckFile::_checkServerParams(std::string element){
             return false;
         }
     }
-    /* Analisar, elemento que tem que ter pelo menos um 
-    if(countWordOccurrencesLine(serverParams, "listen") == 1){
-        Logs::printLog(Logs::ERROR, 19, "listen is duplicated");
-        return false;
-    }    
-    */  
 
+    if(!_checkServerParamsValue(serverParams))
+        return false;
     
     return true;
 }
@@ -225,44 +221,76 @@ bool CheckFile::_checkSLocationParams(std::string text){
                 return false;
             }
         }
-        /* Analisar, elemento que tem que ter pelo menos um 
-        if(countWordOccurrencesLine(locarion[i], "root")  == 1){
-            Logs::printLog(Logs::ERROR, 19, "root  is duplicated");
-            return false;
-        }
-        
-        */        
+      
         i ++;
     }
     return true;
 }
 
 
+bool CheckFile:: _checkServerParamsValue(std::string text){
+    std::string value;
 
+    value =  getParameterValue(text, "listen");
+    if(!isNumeric(value)){
+        Logs::printLog(Logs::ERROR, 20, "listen is not correct:" + value);
+        return false;
+    }
+    
+    
+    return true;
+}
 
-std::string getParameterValue(const std::string& text, const std::string& parameter) {
-    // Encontra a posição do parâmetro no texto
-    size_t pos = text.find(parameter);
-    if (pos == std::string::npos) {
-        // Se o parâmetro não for encontrado, retorna uma string vazia
+bool checkBraces(const std::string& text) {
+    std::stack<char> stack;
+    char c;
+    size_t i;
+
+    i = 0;
+    while (i < text.length()) {
+        c = text[i];
+        if (c == '{') {
+            stack.push(c);
+        } else if (c == '}') {
+            if (stack.empty() || stack.top() != '{') {
+                return false; 
+            }
+            stack.pop();
+        }
+        i ++;
+    }
+
+    return stack.empty(); 
+}
+
+bool fileExists(char *path) {
+    std::ifstream file(path);
+    bool exists = file.good();
+    file.close(); 
+    return exists; 
+}
+
+std::string readFileContents(const std::string& filename) {
+    std::ifstream file(filename.c_str());
+    std::stringstream buffer;
+
+    if (file) {
+        buffer << file.rdbuf();
+        file.close(); 
+        return buffer.str();
+    } else {
         return "";
     }
+}
 
-    // Avança para o valor do parâmetro
-    pos += parameter.length();
-
-    // Ignora os espaços em branco
-    while (pos < text.length() && text[pos] == ' ') {
-        pos++;
-    }
-
-    // Encontra o fim do valor do parâmetro
-    size_t end_pos = text.find("\n", pos);
-    if (end_pos == std::string::npos) {
-        // Se o fim do texto for alcançado, retorna o restante da string
-        return text.substr(pos);
-    }
-
-    // Retorna a parte do texto contendo o valor do parâmetro
-    return text.substr(pos, end_pos - pos);
+bool isLineEmpty(const std::string& text) {
+    size_t  i;
+    
+    i  = 0;
+    while(i < text.length()){
+        if (!isspace(text[i]))
+            return false;
+        i ++;
+    } 
+    return true;
 }

@@ -15,7 +15,7 @@ std::string getFirstWord(const std::string& text, int position) {
     while (std::getline(iss, line)) {
         std::istringstream lineStream(line); // Cria um stream de string a partir da linha
         std::string firstWord;
-       
+    
         if(nbrLine == position){
             lineStream >> firstWord;
             return firstWord;

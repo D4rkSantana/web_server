@@ -126,3 +126,48 @@ int countWordOccurrencesLine(const std::string& text, const std::string& word) {
     }
     return count;
 }
+
+
+
+std::string getParameterValue(const std::string& text, const std::string& parameter) {
+    // Encontra a posição do parâmetro no texto
+    size_t pos = text.find(parameter);
+    if (pos == std::string::npos) {
+        // Se o parâmetro não for encontrado, retorna uma string vazia
+        return "";
+    }
+
+    // Avança para o valor do parâmetro
+    pos += parameter.length();
+
+    // Ignora os espaços em branco
+    while (pos < text.length() && text[pos] == ' ') {
+        pos++;
+    }
+
+    // Encontra o fim do valor do parâmetro
+    size_t end_pos = text.find("\n", pos);
+    if (end_pos == std::string::npos) {
+        // Se o fim do texto for alcançado, retorna o restante da string
+        return text.substr(pos);
+    }
+
+    // Retorna a parte do texto contendo o valor do parâmetro
+    return text.substr(pos, end_pos - pos);
+}
+
+bool isNumeric(const std::string& str) {
+    size_t i;
+
+    // Verifica cada caractere da string
+    i = 0;
+    while( i <  str.length()){
+        // Se o caractere não for um dígito, retorna falso
+        if (!(str[i] >= '0' && str[i] <= '9')) {
+            return false;
+        }
+        i ++;
+    }
+    // Se todos os caracteres forem dígitos, retorna verdadeiro
+    return true;
+}
