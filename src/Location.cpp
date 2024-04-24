@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Location.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:59:13 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/24 16:59:48 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/24 19:01:53 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,39 @@ Location::Location(HttpRequest request) : _req(request) {}
 
 Location::~Location(void) {}
 
-void Location::setup(Parser &parser)
+
+
+
+void Location::setup(void)
 {
     this->_responseData = setResponseData(0, "", "", 0);
+
     this->_uriExtension = extractFileExtension(this->_req.getUri());
+
     this->_setIndexPage(parser);
 }
 
-void Location::_setIndexPage(Parser &parser)
+
+
+
+void Location::_setIndexPage(void)
 {
     std::vector<std::string> indexParam;
 
-    if (this->_req.getLocationSize() != this->_req.getLocationIndex()) {
-        indexParam = parser.getLocationParam(
-            this->_req.getServerIndex(), this->_req.getLocationIndex(), "index");
-        if (!indexParam.empty()) {
+    if (this->_req.getQtLocationsInServer() != this->_req.getLocationIndex())
+    {
+        indexParam = webServer.getLocationValue(this->_req.getServerIndex(), this->_req.getLocationIndex(), "index");
+        if (!indexParam.empty())
+        {
             this->_indexPage = indexParam[0];
             return;
         }
     }
-    indexParam       = parser.getServerParam(this->_req.getServerIndex(), "index");
-    this->_indexPage = indexParam.empty() ? "index.html" : indexParam[0];
+    indexParam = webServer.getServerValue(this->_req.getServerIndex(), "index");
+    if (!indexParam.empty())
+        this->_indexPage = indexParam[0];
+    else
+        this->_indexPage = "index.html";
     return;
 }
 

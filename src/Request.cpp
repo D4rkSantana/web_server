@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/24 15:05:47 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:55:59 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ bool Request::requestStart(std::string request)
 
     if (!_parseFirstLine(requestLine))
         return (false);
+
+    std::cout << std::endl << request << std::endl << std::endl;
+    
     _parseHeaders(headersPart);
 
     _getMaxBody();
@@ -366,6 +369,11 @@ std::string Request::getMethod(void)
 std::string Request::getHost(void)
 {
     return (this->_host);
+}
+
+int Request::getQtLocationsInServer(void)
+{
+    return (this->_locationSize);
 }
 
 int Request::getServerIndex(void)
