@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:21:24 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/25 20:11:31 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 20:50:50 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,14 +268,14 @@ std::string getDir(void)
     size_t      pos;
     std::string rPath;
 
-    rPath = "webserv";
+    rPath = "./";
 
     if (getcwd(cwd, 1024) != NULL)
     {
         std::string dir(cwd);
         pos = dir.find(rPath);
         if (pos != std::string::npos)
-            dir = dir.substr(0, pos + 7);
+            dir = dir.substr(0, pos + 2);
         return dir;
     }
     else

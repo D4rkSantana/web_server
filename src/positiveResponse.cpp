@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:48:20 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/25 19:55:20 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 20:22:00 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ responseData processResponse(Request &request)
         res = getHandler(request);
     else if (opt == 1)
         res = postHandler(request);
-    //else if (opt == 2)
-        //res = deleteHandler(request);
+    else if (opt == 2)
+        res = deleteHandler(request);
 
     return (res);
 }
@@ -158,20 +158,6 @@ responseData postHandler(Request &request)
     return (res);
 }
 
-/*
-responseData deleteHandler(Request &request)
-{
-    DeleteMethod delete_method(request);
-    responseData    res;
-
-    res = delete_method.handleMethod();
-
-    //Logs::warning << "Delete Method" << std::endl;
-    return (res);
-}
-*/
-
-
 responseData autoIndex(std::string root, std::string path, std::string port, Request request)
 {
     std::string     dirPath = root + path;
@@ -206,5 +192,48 @@ responseData autoIndex(std::string root, std::string path, std::string port, Req
     res = setResponseData(OK, "text/html", content, content.length(), path );
 
     closedir(dir);
+    return (res);
+}
+
+responseData deleteHandler(Request &request)
+{
+    responseData    res;
+
+    res = handleMethod(request);
+    Logs::printLog(Logs::WARNING, 30, "DELETE METHOD");
+    return (res);
+}
+
+responseData handleMethod(Request &request)
+{
+    std::string resourcePath;
+     responseData res;
+    
+    resourcePath = getDir();
+
+    resourcePath = resourcePath + "/" + request.getRoot() + request.getUri();
+
+    Logs::printLog(Logs::WARNING, 30, "resourcePath: " + resourcePath);
+
+    std::ifstream file(resourcePath.c_str());
+
+    if (file.is_open()) {
+        file.close();
+        if (std::remove(resourcePath.c_str()) == 0) {
+            res = setResponseData(NO_CONTENT, "", "", 0, "");
+            Logs::printLog(Logs::INFO, 30, "Resource deleted!");
+        } else {
+            res =  getErrorPageContent(request.getErrorPageConfig(),
+                                                              INTERNAL_SERVER_ERROR,
+                                                              request.getUri(),
+                                                              request.getRoot());
+           
+            Logs::printLog(Logs::INFO, 30, "Error delet resource!");
+        }
+    } else {
+            res = getErrorPageContent(
+                    request.getErrorPageConfig(), NOT_FOUND, request.getUri(), request.getRoot());
+        Logs::printLog(Logs::WARNING, 30, "RESOURCE NOT FOUND!");
+    }
     return (res);
 }
