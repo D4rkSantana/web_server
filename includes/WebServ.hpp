@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/23 21:08:14 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:38:06 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ class WebServ
 		int							start(void);
 		void						stop(void);
 		void						finish(void);
+		void						addFdToClose(int fd);
 		void						populateConfs(std::vector<std::vector<std::string> > servers, std::vector<std::vector<std::string> > locations);
 		//Search's
 		int							searchServer(std::string port);

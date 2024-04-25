@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/24 23:03:59 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:17:37 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ void processClientData(int fd)
 
     if (webServer.getBytesRead() == -1) {
         Logs::printLog(Logs::INFO, 3, "Client closed: " + to_string(fd));
-        //this->_poll.addFdToClose(fd);
+        webServer.addFdToClose(fd);
         return;
     }
 
     if (!reqClient.requestStart(clientReq))
     {
         res = getErrorPageStandard(reqClient.statusCode);
-        reqClient.printInfos();
+        //reqClient.printInfos();
     }
     else
     {
         res = processResponse(reqClient);
-        reqClient.printInfos();
+        //reqClient.printInfos();
     }
         
     sendResponse(fd, res);
@@ -66,22 +66,25 @@ void  sendResponse(int fd, responseData res)
     }
 
     bytes_sent = send(fd, response_header.c_str(), strlen(response_header.c_str()), MSG_NOSIGNAL);
-    if (bytes_sent == -1)
+    //std::cout << "1bytes_sent: " << bytes_sent << std::endl;
+    if (bytes_sent == 0)//era -1 e alteramos para 0
     {
         Logs::printLog(Logs::INFO, 3, "Client connection closed:" + to_string(fd));
-        //this->_poll.addFdToClose(fd);
+        webServer.addFdToClose(fd);
         return;
     }
 
     if (res.contentLength)
     {
         bytes_sent = send(fd, res.content.c_str(), res.contentLength, MSG_NOSIGNAL);
-        if (bytes_sent == -1)
+        //std::cout << "2bytes_sent: " << bytes_sent << std::endl;
+        if (bytes_sent == 0)//era -1 e alteramos para 0
         {
             Logs::printLog(Logs::INFO, 3, "Client connection closed:" + to_string(fd));
-            //this->_poll.addFdToClose(fd);
+            webServer.addFdToClose(fd);
         }
     }
+    webServer.addFdToClose(fd);
 }
 
 std::string readClientData(int fd)

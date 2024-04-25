@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/24 22:48:02 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:27:01 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ bool Request::requestStart(std::string request)
     if (!_parseFirstLine(requestLine))
         return (false);
 
-    std::cout << std::endl << request << std::endl << std::endl;
+    //std::cout << std::endl << request << std::endl << std::endl;
     
     _parseHeaders(headersPart);
 

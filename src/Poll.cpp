@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/23 20:22:09 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:43:40 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void Poll::init(int fd)
 int Poll::execute(void){ 
     int result;
     
-    result = poll(&this->_pollFds[0], this->_pollFds.size(), 0);
+    result = poll(&this->_pollFds[0], this->_pollFds.size(), 10);
     return result; 
 }
 
@@ -68,7 +68,8 @@ void Poll::addPoll(int socketFd, short events)
 
 int Poll::getPollFd(size_t i) const
 {
-    if (i < this->_pollFds.size()) {
+    if (i < this->_pollFds.size())
+    {
         return this->_pollFds[i].fd;
     }
     return (-1);
@@ -81,17 +82,28 @@ size_t Poll::getSize(void) const{
     return (result); 
 }
 
+void Poll::addFdToClose(int fd)
+{
+    //std::cout << "add fd: " << fd << " to close\n";
+    this->_fdToClose.push_back(fd);
+}
+
 void Poll::removeMarkedElements(void)
 {
     int fd;
+    std::vector<int>::iterator it;
 
-    for (std::vector<int>::iterator it = this->_fdToClose.begin(); it != this->_fdToClose.end();
-         ++it) {
+    it = this->_fdToClose.begin();
+
+    while (it != this->_fdToClose.end())
+    {
         fd = *it;
 
         removeListeningSocket(fd);
         removePollFd(fd);
         close(fd);//fecha o socket
+        Logs::printLog(Logs::INFO, 3, "Client connection closed:" + to_string(fd));
+        it++;
     }
     this->_fdToClose.clear();
 }

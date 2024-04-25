@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:55 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/23 20:14:50 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:39:45 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ class Poll
         bool    isRead(size_t i) const;
         size_t  getSize(void) const;
         void    addPoll(int socketFd, short events);
-
         bool    isSocketServer(size_t i);
-        //void addFdToClose(int fd);
-        void removeMarkedElements(void);
+
+        void    addFdToClose(int fd);
+        void    removeMarkedElements(void);
         
         //void closePoll(void);
 
-        void removeListeningSocket(int fd);
-        void removePollFd(int fd);
+        void    removeListeningSocket(int fd);
+        void    removePollFd(int fd);
 
         //int    getListeningSocket(size_t i) const;
 };

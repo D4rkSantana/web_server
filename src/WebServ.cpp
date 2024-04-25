@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/21 20:50:44 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:49:47 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,20 +194,28 @@ bool WebServ::connect(void)
 
 int WebServ::start(void)
 {
-	while (true) {
-		if (this->_poll.execute() == -1) {//coloca um socket dentro da poll
+	while (true)
+	{
+		if (this->_poll.execute() == -1)//coloca um socket dentro da poll
+		{
 			Logs::printLog(Logs::ERROR, 1, "Error creating poll");
 			return (1);
 		}
 		sleep(1);
-		for (size_t i = 0; i < this->_poll.getSize(); ++i) {
-			if (this->_poll.isRead(i)) { //veridica se o socket tem alguma conexão pendente
-				if (this->_poll.isSocketServer(i)){//verifica se o socket é do server ou cliente
+		for (size_t i = 0; i < this->_poll.getSize(); ++i)
+		{
+			if (this->_poll.isRead(i))//veridica se o socket tem alguma conexão pendente
+			{ 
+				if (this->_poll.isSocketServer(i))//verifica se o socket é do server ou cliente
+				{
 					if (!this->_newCliet(i))//aceita e cria o novo cliente
 						continue;
-				} else {
+				}
+				else
+				{
 					int clientSocket = this->_poll.getPollFd(i);
-					if (clientSocket < 0) {
+					if (clientSocket < 0)
+					{
 						Logs::printLog(Logs::ERROR, 1, "I didn't find the index");
 						continue;
 					}
@@ -215,7 +223,7 @@ int WebServ::start(void)
 				}
 			}
 		}
-		//this->_poll.removeMarkedElements();
+		this->_poll.removeMarkedElements();
 	}
 	return (0);
 }
@@ -235,6 +243,11 @@ void WebServ::finish(void)
 	delete[] _dataServers;
 	//this->_parser.clearParams();
 	//this->_poll.closePoll();
+}
+
+void WebServ::addFdToClose(int fd)
+{
+	_poll.addFdToClose(fd);
 }
 
 /////////////////////////////////////////////////

@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:39:55 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/24 23:17:47 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:30:04 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ responseData getContent(std::string root, std::string file, int status)
     fullPathStream << root << file;
     fullPath = fullPathStream.str();
     std::ifstream ifs(fullPath.c_str());
-    std::cout << fullPath << std::endl;
+    //std::cout << fullPath << std::endl;
     if (ifs.is_open())
     {
         std::string content((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());

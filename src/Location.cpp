@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:59:13 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/24 23:19:37 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:31:24 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ responseData Location::_getIndexContent(void)
 
     indexPath = uri + this->_indexPage;
     res = getContent(this->_req.getRoot(), indexPath, OK);
-    std::cout << std::endl << indexPath << std::endl << std::endl;
+    //std::cout << std::endl << indexPath << std::endl << std::endl;
     if (!res.contentLength)
         res = getErrorPageContent(  this->_req.getErrorPageConfig(), FORBIDDEN,
                                     uri, this->_req.getRoot());
