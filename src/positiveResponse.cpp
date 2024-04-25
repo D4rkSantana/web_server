@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:48:20 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/25 19:21:19 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:55:20 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,14 +148,14 @@ responseData postHandler(Request &request)
     PostMethod      post_method(request);
     responseData    res;
 
-    res = setResponseData(0, "", "", 0);
+    res = setResponseData(0, "", "", 0, "");
 
-    if (Constants::isCgi(extractFileExtension(request.getUri())) && _cgi.isCGI(request, parser))
-        res = getCgi(request);
-    else 
-        res = post_method.handleMethod();
-
-    return (res)
+    //if (Constants::isCgi(extractFileExtension(request.getUri())) && _cgi.isCGI(request, parser))
+    //    res = getCgi(request);
+    //else 
+        //res = post_method.handleMethod();
+    res = post_method.handleMethod();
+    return (res);
 }
 
 /*
@@ -207,76 +207,4 @@ responseData autoIndex(std::string root, std::string path, std::string port, Req
 
     closedir(dir);
     return (res);
-}
-
-responseData PostMethod::handleMethod()
-{
-    created = false;
-
-    if (_req.has_body)
-    {
-        if (_req.has_multipart)
-        {
-            if (handleMultipart())
-            {
-                _res = getErrorPageContent(_req.getErrorPageConfig(), ENTITY_TOO_LARGE, _req.getUri(), _req.getRoot());
-                Logger::error << "Request Entity Too Large." << std::endl;
-                return (_res);
-            }
-
-            if (created && _file == true)
-            {
-                _res = getJson(
-                    "{\"status\": \"success\", \"message\": \"Resource created successfully\"}",
-                    201);
-                Logger::info << "File created." << std::endl;
-                return (_res);
-            } else if (!created && _file == true) {
-                _res = _errorPage.getErrorPageContent(_req.getErrorPageConfig(),
-                                                      INTERNAL_SERVER_ERROR,
-                                                      _req.getUri(),
-                                                      _req.getRoot());
-                Logger::error << "Unable to create file." << std::endl;
-                return (_res);
-            }
-        }
-        if (_req.has_form)
-            handleForm();
-        else
-            std::cout << "Body: " << _req.getBody() << "\n";
-
-        _res = getJson("{\"status\": \"success\", \"message\": \"Successful operation\"}", OK);
-        Logger::info << "Post request completed successfully." << std::endl;
-    } else if (!_req.has_body) {
-        _res = _errorPage.getErrorPageContent(
-            _req.getErrorPageConfig(), BAD_REQUEST, _req.getUri(), _req.getRoot());
-        Logger::info << "No content." << std::endl;
-    } else {
-        _res = _errorPage.getErrorPageContent(
-            _req.getErrorPageConfig(), INTERNAL_SERVER_ERROR, _req.getUri(), _req.getRoot());
-        Logger::error << "Internal Server Error." << std::endl;
-    }
-    return (_res);
-}
-
-bool PostMethod::handleMultipart()
-{
-    std::string boundary = _req.getBoundary();
-    std::string body     = _req.getBody();
-
-    _formData.clear();
-    _file       = false;
-    size_t pos  = 0;
-    _bodySize   = 0;
-    while ((pos = body.find(boundary, pos)) != std::string::npos) {
-        pos += boundary.length();
-        size_t endPos = body.find(boundary, pos);
-        if (endPos != std::string::npos)
-            parseMultipartFormData(pos, endPos);
-    }
-    if (verifyLimit())
-        return (true);
-    if (_file == false)
-        print();
-    return (false);
 }

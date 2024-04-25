@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/24 22:42:59 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 20:14:28 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@
 #include <vector>
 
 #include <unistd.h>
+
+#define P_BLUE "\e[0;38;5;24m"
+#define RESET_COLOR "\e[0m"
 
 // defines
 #define COLOR_RED "\x1b[31m"
@@ -100,6 +103,7 @@ typedef struct
 #include "WebServ.hpp"
 #include "clientProcess.hpp"
 #include "Request.hpp"
+#include "PostMethod.hpp"
 #include "template.tpp"
 #include "negativeResponse.hpp"
 #include "codeCatalog.hpp"

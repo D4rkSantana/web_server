@@ -24,8 +24,8 @@ int             resolveOption(std::string method);
 bool            methodAllowed(Request &request);
 
 responseData    getHandler(Request &request);
+responseData    postHandler(Request &request);
 /*
-responseData    postHandler(Request &request);//ko
 responseData    deleteHandler(Request &request);//ko
 */
 

@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/25 11:27:01 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 20:15:45 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -379,6 +379,15 @@ std::string Request::getPath(void)
     return (this->_path);
 }
 
+std::string Request::getBody(void)
+{
+    return (this->_body);
+}
+
+std::string Request::getBoundary(void)
+{
+    return (this->_boundary);
+}
 
 int Request::getQtLocationsInServer(void)
 {
@@ -393,6 +402,16 @@ int Request::getServerIndex(void)
 int Request::getLocationIndex(void)
 {
     return (this->_locationIndex);
+}
+
+size_t Request::getMaxBodySize(void)
+{
+    return (this->_maxBodySize);
+}
+
+size_t Request::getContentLength(void)
+{
+    return (this->_contentLength);
 }
 
 void    Request::printInfos(void)

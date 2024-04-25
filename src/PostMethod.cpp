@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   postMethod.cpp                                     :+:      :+:    :+:   */
+/*   PostMethod.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:21:24 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/25 19:30:59 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 20:11:31 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "postMethod.hpp"
+#include "./Libs.hpp"
 
 PostMethod::PostMethod(): created(false) {}
 
 PostMethod::~PostMethod() {}
 
-PostMethod::PostMethod(Request request): _req(resquest), created(false){}
+PostMethod::PostMethod(Request request): _req(request), created(false){}
 
 responseData PostMethod::handleMethod()
 {
@@ -34,19 +34,14 @@ responseData PostMethod::handleMethod()
             }
             if (created && _file == true)
             {
-                _res = getJson(
-                    "{\"status\": \"success\", \"message\": \"Resource created successfully\"}",
-                    201);
-                Logger::info << "File created." << std::endl;
+                _res = getJson("{\"status\": \"success\", \"message\": \"Resource created successfully\"}", 201);
+                Logs::printLog(Logs::ERROR, 1, "File created.");
                 return (_res);
             }
             else if (!created && _file == true)
             {
-                _res = _errorPage.getErrorPageContent(_req.getErrorPageConfig(),
-                                                      INTERNAL_SERVER_ERROR,
-                                                      _req.getUri(),
-                                                      _req.getRoot());
-                Logger::error << "Unable to create file." << std::endl;
+                _res = getErrorPageContent(_req.getErrorPageConfig(), INTERNAL_SERVER_ERROR, _req.getUri(), _req.getRoot());
+                Logs::printLog(Logs::ERROR, 1, "Unable to create file.");
                 return (_res);
             }
         }
@@ -56,15 +51,17 @@ responseData PostMethod::handleMethod()
             std::cout << "Body: " << _req.getBody() << "\n";
 
         _res = getJson("{\"status\": \"success\", \"message\": \"Successful operation\"}", OK);
-        Logger::info << "Post request completed successfully." << std::endl;
-    } else if (!_req.has_body) {
-        _res = _errorPage.getErrorPageContent(
-            _req.getErrorPageConfig(), BAD_REQUEST, _req.getUri(), _req.getRoot());
-        Logger::info << "No content." << std::endl;
-    } else {
-        _res = _errorPage.getErrorPageContent(
-            _req.getErrorPageConfig(), INTERNAL_SERVER_ERROR, _req.getUri(), _req.getRoot());
-        Logger::error << "Internal Server Error." << std::endl;
+        Logs::printLog(Logs::ERROR, 1, "Post request completed successfully.");
+    }
+    else if (!_req.has_body)
+    {
+        _res = getErrorPageContent(_req.getErrorPageConfig(), BAD_REQUEST, _req.getUri(), _req.getRoot());
+        Logs::printLog(Logs::ERROR, 1, "No content.");
+    }
+    else
+    {
+        _res = getErrorPageContent(_req.getErrorPageConfig(), INTERNAL_SERVER_ERROR, _req.getUri(), _req.getRoot());
+        Logs::printLog(Logs::ERROR, 1, "Internal Server Error.");
     }
     return (_res);
 }
@@ -73,14 +70,16 @@ bool PostMethod::handleMultipart()
 {
     std::string boundary = _req.getBoundary();
     std::string body     = _req.getBody();
+    size_t      endPos;
 
     _formData.clear();
     _file       = false;
     size_t pos  = 0;
     _bodySize   = 0;
-    while ((pos = body.find(boundary, pos)) != std::string::npos) {
+    while ((pos = body.find(boundary, pos)) != std::string::npos)
+    {
         pos += boundary.length();
-        size_t endPos = body.find(boundary, pos);
+        endPos = body.find(boundary, pos);
         if (endPos != std::string::npos)
             parseMultipartFormData(pos, endPos);
     }
@@ -93,8 +92,7 @@ bool PostMethod::handleMultipart()
 
 bool    PostMethod::verifyLimit()
 {
-    if ((_bodySize / 1024) > _req.getMaxBodySize() ||
-        (_req.getContentLength() / 1024) > _req.getMaxBodySize())
+    if ((_bodySize / 1024) > _req.getMaxBodySize() || (_req.getContentLength() / 1024) > _req.getMaxBodySize())
         return (true);
     return (false);
 }
@@ -107,10 +105,12 @@ std::string setFileName(size_t pos, std::string data)
     std::ostringstream oss;
     oss << "file" << randomNumber;
 
-    std::size_t filenameEnd = data.find("\"", pos);
+    size_t filenameEnd = data.find("\"", pos);
     std::string aux         = data.substr(pos, filenameEnd - pos);
     size_t      dot         = aux.find(".");
-    if (dot != std::string::npos){
+
+    if (dot != std::string::npos)
+    {
         std::string extension = aux.substr(dot);
         oss << extension;
     }
@@ -121,32 +121,42 @@ std::string setFileName(size_t pos, std::string data)
 
 void PostMethod::parseMultipartFormData(size_t pos, size_t endPos)
 {
-    std::string body     = _req.getBody();
-    std::string partData = body.substr(pos, endPos - pos);
-    std::size_t bodyEnd  = partData.find("\r\n\r\n");
+    size_t bodyEnd, namePos, nameEnd, filenamePos, filenameEnd;
+    std::string body, partData, fileName, data, value, name;
 
-    if (bodyEnd != std::string::npos) {
-        std::string data  = partData.substr(0, bodyEnd);
-        std::string value = partData.substr(bodyEnd + 4);
 
-        std::size_t namePos = data.find("name=\"");
-        if (namePos != std::string::npos) {
+    body     = _req.getBody();
+    bodyEnd  = partData.find("\r\n\r\n");
+    partData = body.substr(pos, endPos - pos);
+
+    if (bodyEnd != std::string::npos)
+    {
+        data  = partData.substr(0, bodyEnd);
+        value = partData.substr(bodyEnd + 4);
+
+        namePos = data.find("name=\"");
+        if (namePos != std::string::npos)
+        {
             namePos += 6;
-            std::size_t nameEnd = data.find("\"", namePos);
-            if (nameEnd != std::string::npos) {
-                std::string name        = data.substr(namePos, nameEnd - namePos);
-                std::size_t filenamePos = data.find("filename=\"");
+            nameEnd = data.find("\"", namePos);
+            if (nameEnd != std::string::npos)
+            {
+                name = data.substr(namePos, nameEnd - namePos);
+                filenamePos = data.find("filename=\"");
 
-                if (filenamePos != std::string::npos) {
+                if (filenamePos != std::string::npos)
+                {
                     filenamePos += 10;
-                    std::size_t filenameEnd = data.find("\"", filenamePos);
+                    filenameEnd = data.find("\"", filenamePos);
                     if (filenameEnd != std::string::npos) {
-                        std::string fileName = setFileName(filenamePos, data);
+                        fileName = setFileName(filenamePos, data);
                         if ((_req.getContentLength() / 1024) < _req.getMaxBodySize())
                             saveFile(fileName, value);
                         _file = true;
                     }
-                } else{
+                }
+                else
+                {
                     _bodySize += value.size();
                     _formData[name] = value;
                 }
@@ -162,18 +172,22 @@ void PostMethod::saveFile(std::string &fileName, const std::string &value)
     resourcePath = resourcePath + "/" + this->_req.getRoot() + "/method/" + fileName;
 
     std::ifstream checkFile(resourcePath.c_str());
-    if (checkFile.good()) {
+    if (checkFile.good())
+    {
         created = false;
-        Logger::info << "The file already exists." << std::endl;
+        Logs::printLog(Logs::ERROR, 1, "The file already exists.");
         return;
     }
+
     std::ofstream file(resourcePath.c_str(), std::ios::binary);
-    if (file.is_open()) {
+    if (file.is_open())
+    {
         file.write(value.c_str(), value.length());
         file.close();
         created = true;
-        Logger::info << "File path: " << resourcePath << std::endl;
-    } else
+        Logs::printLog(Logs::ERROR, 1, "The file already exists." + resourcePath);
+    }
+    else
         created = false;
 }
 
@@ -181,16 +195,21 @@ std::string replaceChar(const std::string &input)
 {
     std::string output;
     size_t      pos = 0;
+    int         decodedChar;
 
-    while (pos < input.length()) {
-        if (input[pos] == '%') {
-            if (pos + 2 < input.length()) {
+    while (pos < input.length())
+    {
+        if (input[pos] == '%')
+        {
+            if (pos + 2 < input.length())
+            {
                 char hex[3]      = {input[pos + 1], input[pos + 2], '\0'};
-                int  decodedChar = strtol(hex, NULL, 16);
+                decodedChar = strtol(hex, NULL, 16);
                 output.push_back(static_cast<char>(decodedChar));
                 pos += 2;
             }
-        } else if (input[pos] == '+')
+        }
+        else if (input[pos] == '+')
             output.push_back(' ');
         else
             output.push_back(input[pos]);
@@ -204,12 +223,17 @@ void PostMethod::handleForm()
     std::string        body = _req.getBody();
     std::istringstream ss(body);
     std::string        pair;
+    std::string fieldName;
+    std::string fielddata;
+    size_t equal;
 
-    while (std::getline(ss, pair, '&')) {
-        size_t equal = pair.find('=');
-        if (equal != std::string::npos) {
-            std::string fieldName = replaceChar(pair.substr(0, equal));
-            std::string fielddata = replaceChar(pair.substr(equal + 1));
+    while (std::getline(ss, pair, '&'))
+    {
+        equal = pair.find('=');
+        if (equal != std::string::npos)
+        {
+            fieldName = replaceChar(pair.substr(0, equal));
+            fielddata = replaceChar(pair.substr(equal + 1));
             _formData[fieldName]  = fielddata + "\r\n";
         }
     }
@@ -228,4 +252,35 @@ void PostMethod::print()
         std::cout << std::left << std::setw(19) << it->first << " | " << it->second;
     std::cout << std::setfill('-') << std::setw(50) << "-" << std::setfill(' ') << std::endl;
     std::cout << RESET_COLOR << std::endl;
+}
+
+responseData getJson(std::string body, int status)
+{
+    responseData data;
+
+    data = setResponseData(status, "application/json", body, (int)body.length(), "");
+    return (data);
+}
+
+std::string getDir(void)
+{
+    char        cwd[1024];
+    size_t      pos;
+    std::string rPath;
+
+    rPath = "webserv";
+
+    if (getcwd(cwd, 1024) != NULL)
+    {
+        std::string dir(cwd);
+        pos = dir.find(rPath);
+        if (pos != std::string::npos)
+            dir = dir.substr(0, pos + 7);
+        return dir;
+    }
+    else
+    {
+        Logs::printLog(Logs::ERROR, 1, "Error getting current working directory");
+        return "";
+    }
 }
