@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/21 20:49:47 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:59:00 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void Logs::printLog(typeLog type, int numberLog, std::string message)
 
 	std::cout
 		<< color
-		<< "\n - "
+		<< " - "
 		<< Logs::_getFullData()
 		<< " "
 		<< strType
@@ -64,7 +64,6 @@ void Logs::printLog(typeLog type, int numberLog, std::string message)
 		<< numberLog
 		<< " - "
 		<< message
-		<< "\n"
 		<< COLOR_RESET
 		<< std::endl;
 }

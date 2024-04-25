@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/25 11:49:47 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:02:06 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,35 +160,31 @@ bool WebServ::connect(void)
 
 	qtServers = this->getQtSevers();
 
-	if (qtServers == 0) {
+	if (qtServers == 0)
+	{
 		Logs::printLog(Logs::ERROR, 1, "The server was not configured correctly");
 		this->finish();
 		exit(1);
 	}
 
-	//try {
-		while (i < qtServers) {
-			Socket *socket;
+	while (i < qtServers)
+	{
+		Socket *socket;
 
-			port = this->getServerValue(i, "listen");
+		port = this->getServerValue(i, "listen");
 
-			if (port.empty())
-				socket = new Socket();
-			else
-				socket = new Socket(port[0]);
+		if (port.empty())
+			socket = new Socket();
+		else
+			socket = new Socket(port[0]);
 
-			socket->init();
-			socket->bindAddr();
-			socket->listenConnections();
-			this->_sockets.push_back(socket);
-			this->_poll.init(socket->getFd());
-			i++;
-		}
-	/*} catch (const std::exception &e) {
-		Logger::error << e.what() << std::endl;
-		this->closeServer();
-		exit(1);
-	}*/
+		socket->init();
+		socket->bindAddr();
+		socket->listenConnections();
+		this->_sockets.push_back(socket);
+		this->_poll.init(socket->getFd());
+		i++;
+	}
 	return (true);
 }
 
@@ -201,18 +197,21 @@ int WebServ::start(void)
 			Logs::printLog(Logs::ERROR, 1, "Error creating poll");
 			return (1);
 		}
-		sleep(1);
 		for (size_t i = 0; i < this->_poll.getSize(); ++i)
 		{
+			//std::cout << "socket fd : " << this->_poll.getPollFd(i);
 			if (this->_poll.isRead(i))//veridica se o socket tem alguma conexão pendente
-			{ 
+			{
+				//std::cout << " - Conexão pendente\n";
 				if (this->_poll.isSocketServer(i))//verifica se o socket é do server ou cliente
 				{
+					//std::cout << " - Socket Servidor\n";
 					if (!this->_newCliet(i))//aceita e cria o novo cliente
 						continue;
 				}
 				else
 				{
+					//std::cout << "- Socket Cliente\n";
 					int clientSocket = this->_poll.getPollFd(i);
 					if (clientSocket < 0)
 					{
@@ -221,7 +220,9 @@ int WebServ::start(void)
 					}
 					processClientData(clientSocket);
 				}
+			
 			}
+			//std::cout << std::endl;
 		}
 		this->_poll.removeMarkedElements();
 	}

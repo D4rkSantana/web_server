@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:11:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/21 20:50:27 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:01:15 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ void Socket::listenConnections(void)
     if (result < 0) {
         msg = "Error listening for connections: " + std::string(strerror(errno));
         //throw Socket::SocketException(msg.c_str());
-        std::cout << msg << std::endl;
+        //std::cout << msg << std::endl;
+        Logs::printLog(Logs::ERROR, 1, msg);
         exit(1);
     }
     Logs::printLog(Logs::INFO, 1, "Listening at " + to_string(this->_ip) + ":" + to_string(this->_port));

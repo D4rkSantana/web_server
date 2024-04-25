@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:48:20 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/24 23:13:40 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:21:19 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,10 @@ responseData processResponse(Request &request)
 
     if (opt == 0)
         res = getHandler(request);
-
-        //case POST:
-        //    this->_postHandler(request, parser);
-        //    break;
-        //case DELETE:
-        //    this->_deleteHandler(request);
-        //    break;
+    else if (opt == 1)
+        res = postHandler(request);
+    //else if (opt == 2)
+        //res = deleteHandler(request);
 
     return (res);
 }
@@ -118,7 +115,7 @@ bool methodAllowed(Request &request)
 int resolveOption(std::string method)
 {
     std::string option[] = {"GET", "POST", "DELETE"};
-    int         i        = 0;
+    int i        = 0;
 
     while (i < 3 && method != option[i])
         i++;
@@ -146,7 +143,6 @@ responseData getHandler(Request &request)
     return (res);
 }
 
-/*
 responseData postHandler(Request &request)
 {
     PostMethod      post_method(request);
@@ -162,6 +158,7 @@ responseData postHandler(Request &request)
     return (res)
 }
 
+/*
 responseData deleteHandler(Request &request)
 {
     DeleteMethod delete_method(request);
@@ -212,3 +209,74 @@ responseData autoIndex(std::string root, std::string path, std::string port, Req
     return (res);
 }
 
+responseData PostMethod::handleMethod()
+{
+    created = false;
+
+    if (_req.has_body)
+    {
+        if (_req.has_multipart)
+        {
+            if (handleMultipart())
+            {
+                _res = getErrorPageContent(_req.getErrorPageConfig(), ENTITY_TOO_LARGE, _req.getUri(), _req.getRoot());
+                Logger::error << "Request Entity Too Large." << std::endl;
+                return (_res);
+            }
+
+            if (created && _file == true)
+            {
+                _res = getJson(
+                    "{\"status\": \"success\", \"message\": \"Resource created successfully\"}",
+                    201);
+                Logger::info << "File created." << std::endl;
+                return (_res);
+            } else if (!created && _file == true) {
+                _res = _errorPage.getErrorPageContent(_req.getErrorPageConfig(),
+                                                      INTERNAL_SERVER_ERROR,
+                                                      _req.getUri(),
+                                                      _req.getRoot());
+                Logger::error << "Unable to create file." << std::endl;
+                return (_res);
+            }
+        }
+        if (_req.has_form)
+            handleForm();
+        else
+            std::cout << "Body: " << _req.getBody() << "\n";
+
+        _res = getJson("{\"status\": \"success\", \"message\": \"Successful operation\"}", OK);
+        Logger::info << "Post request completed successfully." << std::endl;
+    } else if (!_req.has_body) {
+        _res = _errorPage.getErrorPageContent(
+            _req.getErrorPageConfig(), BAD_REQUEST, _req.getUri(), _req.getRoot());
+        Logger::info << "No content." << std::endl;
+    } else {
+        _res = _errorPage.getErrorPageContent(
+            _req.getErrorPageConfig(), INTERNAL_SERVER_ERROR, _req.getUri(), _req.getRoot());
+        Logger::error << "Internal Server Error." << std::endl;
+    }
+    return (_res);
+}
+
+bool PostMethod::handleMultipart()
+{
+    std::string boundary = _req.getBoundary();
+    std::string body     = _req.getBody();
+
+    _formData.clear();
+    _file       = false;
+    size_t pos  = 0;
+    _bodySize   = 0;
+    while ((pos = body.find(boundary, pos)) != std::string::npos) {
+        pos += boundary.length();
+        size_t endPos = body.find(boundary, pos);
+        if (endPos != std::string::npos)
+            parseMultipartFormData(pos, endPos);
+    }
+    if (verifyLimit())
+        return (true);
+    if (_file == false)
+        print();
+    return (false);
+}
