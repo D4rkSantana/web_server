@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/21 20:45:09 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:03:59 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,31 @@
 
 void processClientData(int fd)
 {
-    std::string  clientReq;
-    responseData response;
-    Request     reqClient;
+    std::string     clientReq;
+    responseData    res;
+    Request         reqClient;
 
-    response       = setResponseData(0, "", "", 0, "");
+    res = setResponseData(0, "", "", 0, "");
     clientReq = readClientData(fd);
+
     if (webServer.getBytesRead() == -1) {
         Logs::printLog(Logs::INFO, 3, "Client closed: " + to_string(fd));
         //this->_poll.addFdToClose(fd);
         return;
     }
-    /*
+
     if (!reqClient.requestStart(clientReq))
     {
-        response = getErrorPageStandard(reqClient.statusCode);
+        res = getErrorPageStandard(reqClient.statusCode);
         reqClient.printInfos();
     }
-    */
-    if (reqClient.requestStart(clientReq))
+    else
     {
-        response = getErrorPageStandard(404);
+        res = processResponse(reqClient);
         reqClient.printInfos();
     }
-    //else
-    //    res = this->_responseHandlers.exec(this->_parser, this->_request);
-    sendResponse(fd, response);
+        
+    sendResponse(fd, res);
 }
 
 void  sendResponse(int fd, responseData res)

@@ -6,17 +6,15 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/24 18:55:59 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/24 22:48:02 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Request.hpp"
-
+#include "Libs.hpp"
 
 Request::Request() { _init(); }
 
 Request::~Request() {}
-
 
 void Request::_init()
 {
@@ -370,6 +368,17 @@ std::string Request::getHost(void)
 {
     return (this->_host);
 }
+
+std::string Request::getPort(void)
+{
+    return (this->_port);
+}
+
+std::string Request::getPath(void)
+{
+    return (this->_path);
+}
+
 
 int Request::getQtLocationsInServer(void)
 {

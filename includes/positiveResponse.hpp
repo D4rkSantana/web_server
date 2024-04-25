@@ -19,10 +19,12 @@ class Request;
 
 responseData    processResponse(Request &request);
 bool            verifyServerName(Request &request);
-responseData   verifyRedirection(Request &request);//Não esta correto
+responseData    verifyRedirection(Request &request);//Não esta correto
+int             resolveOption(std::string method);
 bool            methodAllowed(Request &request);
+
+responseData    getHandler(Request &request);
 /*
-responseData    getHandler(Request &request);//ko
 responseData    postHandler(Request &request);//ko
 responseData    deleteHandler(Request &request);//ko
 */

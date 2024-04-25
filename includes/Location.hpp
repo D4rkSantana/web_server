@@ -6,26 +6,25 @@
 
 #include "./Libs.hpp"
 
+class Request;
 
 class Location {
     private:
-        std::string  _indexPage;
-        std::string  _uriExtension;
-        Request  _req;
-        responseData _responseData;
-        // ErrorPage    _errorPage; ->virou função 
+        std::string _indexPage;
+        std::string _uriExtension;
+        Request     _req;
  
-        void _setIndexPage(Parser &parser);
-        void _getFileContent(void);
-        void _getIndexContent(void);
+        void            _setIndexPage(void);
+        responseData    _getFileContent(void);
+        responseData    _getIndexContent(void);
 
     public:
         Location(void);
-        //Location(HttpRequest request);
+        Location(Request);
         ~Location(void);
 
-        //void         setup(Parser &parser);
-        //responseData getLocationContent(void);
+        void         setup(void);
+        responseData getLocationContent(void);
 };
 
 

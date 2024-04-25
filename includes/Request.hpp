@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:29:29 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/24 18:55:02 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/24 22:45:18 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ class Request
         std::string getRoot(void);
         std::string getMethod(void);
         std::string getHost(void);
+        std::string getPort(void);
+        std::string getPath(void);
         int getQtLocationsInServer(void);
         int getServerIndex(void);
         int getLocationIndex(void);
