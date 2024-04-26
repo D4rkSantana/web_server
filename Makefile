@@ -23,24 +23,24 @@ all: $(NAME)
 
 $(DIR_OBJS)/%.o: $(DIR_SOURCES)/%.cpp
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(DIR_OBJS)/main.o: main.cpp
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(DIR_TEST_OBJS)/%.o: $(DIR_TESTS)/%.cpp
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(INCLUDES) $(INCLUDES_TESTS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDES) $(INCLUDES_TESTS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
 
 clean:
-	$(RM) $(DIR_OBJS) $(DIR_TEST_OBJS) test_runner
+	@$(RM) $(DIR_OBJS) $(DIR_TEST_OBJS) test_runner
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
 
