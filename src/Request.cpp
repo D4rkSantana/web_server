@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/25 20:15:45 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/26 20:30:51 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -388,6 +388,12 @@ std::string Request::getBoundary(void)
 {
     return (this->_boundary);
 }
+
+std::vector<std::string> Request::getQuery(void)
+{
+    return (this->_paramQuery);
+}
+
 
 int Request::getQtLocationsInServer(void)
 {

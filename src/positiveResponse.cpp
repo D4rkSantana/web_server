@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:48:20 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/25 20:22:00 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/26 20:36:38 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,23 @@ int resolveOption(std::string method)
     return (i);
 }
 
+
+responseData getCgi(Request &request, cgi_infos infos)
+{
+    responseData res;
+
+    std::string cgi_response = executeCGI(request, infos);
+    std::cout << cgi_response << std::endl;
+    res = setResponseData(OK, "text/html", cgi_response.c_str(), (int)cgi_response.length(), "");
+    return (res);
+}
+
+
 responseData getHandler(Request &request)
 {
     Location        location(request);
     responseData    res;
+    cgi_infos       infos;
  
     res = setResponseData(0, "", "", 0, ""); 
 
@@ -133,8 +146,11 @@ responseData getHandler(Request &request)
         res = autoIndex(request.getRoot(), "/", request.getPort(), request);
     else if (request.autoIndexLoc)
         res = autoIndex(request.getRoot(), request.getPath(), request.getPort(), request);
-    //else if (Constants::isCgi(extractFileExtension(request.getUri())) && _cgi.isCGI(request, parser))
-    //    res = getCgi(request);
+    else if (extractFileExtension(request.getUri()) == ".py" && isCGI(request).correct)
+    {
+        infos = isCGI(request);
+        res = getCgi(request, infos);
+    }
     else
     {
         location.setup();
@@ -147,14 +163,17 @@ responseData postHandler(Request &request)
 {
     PostMethod      post_method(request);
     responseData    res;
+    cgi_infos       infos;
 
     res = setResponseData(0, "", "", 0, "");
 
-    //if (Constants::isCgi(extractFileExtension(request.getUri())) && _cgi.isCGI(request, parser))
-    //    res = getCgi(request);
-    //else 
-        //res = post_method.handleMethod();
-    res = post_method.handleMethod();
+    if (extractFileExtension(request.getUri()) == ".py" && isCGI(request).correct)
+    {
+        infos = isCGI(request);
+        res = getCgi(request, infos);
+    }
+    else 
+        res = handleMethod(request);
     return (res);
 }
 

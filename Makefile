@@ -20,6 +20,13 @@ TESTS += $(wildcard $(DIR_SOURCES)/*.cpp)
 TEST_OBJS := $(patsubst $(DIR_TESTS)/%.cpp,$(DIR_TEST_OBJS)/%.o,$(TESTS))
 
 all: $(NAME)
+# message in terminal ************ #
+	@echo "\033[1;32m"
+	@echo "	$(NAME) created ✓"
+	@echo "\033[0m"
+	@echo "\033[0;33m	Welcome to $(NAME) by lucasmar, esilva-s and ryoshio- 42sp \033[0m"
+	@echo "\033[0;33m	Try "./webserv" \033[0m"
+# build ********************************************************************* #
 
 $(DIR_OBJS)/%.o: $(DIR_SOURCES)/%.cpp
 	@mkdir -p $(@D)
