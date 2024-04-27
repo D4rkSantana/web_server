@@ -35,6 +35,14 @@ $(DIR_TEST_OBJS)/%.o: $(DIR_TESTS)/%.cpp
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
+# message in terminal ************ #
+	@echo "\033[1;32m"
+	@echo "	$(NAME) created ✓"
+	@echo "\033[0m"
+	@echo "\033[0;33m	Welcome to $(NAME) by lucasmar, esilva-s and ryoshio- 42sp \033[0m"
+	@echo "\033[0;33m	Try "./webserv" \033[0m"
+# build ********************************************************************* #
+
 
 clean:
 	@$(RM) $(DIR_OBJS) $(DIR_TEST_OBJS) test_runner

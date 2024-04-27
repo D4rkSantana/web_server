@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:29:29 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/25 20:15:33 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 09:54:44 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ class Request
         int                                 _locationSize;
         size_t                              _maxBodySize;
         size_t                              _contentLength;
+        //
+        bool                                _has_body;
+        bool                                _has_form;
+        bool                                _has_multipart;
+        bool                                _autoIndexServer;
+        bool                                _autoIndexLoc;
+        std::string                         _content;
 
         void        _getHost(void);
         bool        _getMultipartData(std::string request);
@@ -56,14 +63,6 @@ class Request
 // os get que estão com get com retonro void mudar de nome para catch, take ou algo do genero
 
     public:
-        
-        bool        has_body;
-        bool        has_form;
-        bool        has_multipart;
-        bool        autoIndexServer;
-        bool        autoIndexLoc;
-        std::string content;
-
         Request();
         ~Request();
         int         statusCode;
@@ -80,6 +79,13 @@ class Request
         std::string getPath(void);
         std::string getBody(void);
         std::string getBoundary(void);
+        bool        getHasBody(void);
+        bool        getHasForm(void);
+        bool        getHasMultipart(void);
+        bool        getAutoIndexServer(void);
+        bool        getAutoIndexLoc(void);
+        std::string getContent(void);
+        std::vector<std::string> getQuery(void);
         int getQtLocationsInServer(void);
         int getServerIndex(void);
         int getLocationIndex(void);

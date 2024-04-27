@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/25 19:02:06 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 10:56:04 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,7 +298,10 @@ int WebServ::searchLocation(size_t iS, std::string path)
 	{
 		locationParam = this->getLocationValue(iS, i, "location");
 		if (std::find(locationParam.begin(), locationParam.end(), path) != locationParam.end())
+		{
+			//std::cout << "path: " << 
 			break ;
+		}
 		i++;
 	}
 	return (i);

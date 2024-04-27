@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:21:24 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/25 20:50:50 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 10:03:21 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ responseData PostMethod::handleMethod()
 {
     created = false;
 
-    if (_req.has_body)
+    if (_req.getHasBody())
     {
-        if (_req.has_multipart)
+        if (_req.getHasMultipart())
         {
             if (handleMultipart())
             {
@@ -35,28 +35,28 @@ responseData PostMethod::handleMethod()
             if (created && _file == true)
             {
                 _res = getJson("{\"status\": \"success\", \"message\": \"Resource created successfully\"}", 201);
-                Logs::printLog(Logs::ERROR, 1, "File created.");
+                Logs::printLog(Logs::INFO, 1, "File created.");
                 return (_res);
             }
             else if (!created && _file == true)
-            {
+            {;
                 _res = getErrorPageContent(_req.getErrorPageConfig(), INTERNAL_SERVER_ERROR, _req.getUri(), _req.getRoot());
                 Logs::printLog(Logs::ERROR, 1, "Unable to create file.");
                 return (_res);
             }
         }
-        if (_req.has_form)
+        if (_req.getHasForm())
             handleForm();
         else
             std::cout << "Body: " << _req.getBody() << "\n";
 
         _res = getJson("{\"status\": \"success\", \"message\": \"Successful operation\"}", OK);
-        Logs::printLog(Logs::ERROR, 1, "Post request completed successfully.");
+        Logs::printLog(Logs::INFO, 1, "Post request completed successfully.");
     }
-    else if (!_req.has_body)
+    else if (!_req.getHasBody())
     {
         _res = getErrorPageContent(_req.getErrorPageConfig(), BAD_REQUEST, _req.getUri(), _req.getRoot());
-        Logs::printLog(Logs::ERROR, 1, "No content.");
+        Logs::printLog(Logs::ERROR, 1, "No content.x");
     }
     else
     {
@@ -124,10 +124,9 @@ void PostMethod::parseMultipartFormData(size_t pos, size_t endPos)
     size_t bodyEnd, namePos, nameEnd, filenamePos, filenameEnd;
     std::string body, partData, fileName, data, value, name;
 
-
     body     = _req.getBody();
-    bodyEnd  = partData.find("\r\n\r\n");
     partData = body.substr(pos, endPos - pos);
+    bodyEnd  = partData.find("\r\n\r\n");  
 
     if (bodyEnd != std::string::npos)
     {
@@ -148,10 +147,13 @@ void PostMethod::parseMultipartFormData(size_t pos, size_t endPos)
                 {
                     filenamePos += 10;
                     filenameEnd = data.find("\"", filenamePos);
-                    if (filenameEnd != std::string::npos) {
+                    if (filenameEnd != std::string::npos)
+                    {
                         fileName = setFileName(filenamePos, data);
                         if ((_req.getContentLength() / 1024) < _req.getMaxBodySize())
+                        {
                             saveFile(fileName, value);
+                        }
                         _file = true;
                     }
                 }
@@ -170,7 +172,6 @@ void PostMethod::saveFile(std::string &fileName, const std::string &value)
     std::string resourcePath = getDir();
 
     resourcePath = resourcePath + "/" + this->_req.getRoot() + "/method/" + fileName;
-
     std::ifstream checkFile(resourcePath.c_str());
     if (checkFile.good())
     {
@@ -185,7 +186,7 @@ void PostMethod::saveFile(std::string &fileName, const std::string &value)
         file.write(value.c_str(), value.length());
         file.close();
         created = true;
-        Logs::printLog(Logs::ERROR, 1, "The file already exists." + resourcePath);
+        Logs::printLog(Logs::INFO, 1, "File path: " + resourcePath);
     }
     else
         created = false;

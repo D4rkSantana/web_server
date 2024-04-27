@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/25 20:14:28 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:25:06 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include <algorithm>
 #include <arpa/inet.h>
+#include <sys/stat.h>
 
 #include <ctime>
 #include <cstdio>
@@ -43,6 +44,7 @@
 #include <sys/poll.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/wait.h>
 
 #include <vector>
 
@@ -61,6 +63,7 @@
 //
 #define DEFAULT_ROOT "www/html"
 #define DEFAULT_ERROR_ROOT "www/error"
+#define DEFAULT_ROOT_CGI "www/cgi"
 
 //mudar de nome?
 #define OK 200
@@ -94,7 +97,15 @@ typedef struct
     std::string location;
 } responseData;
 
+typedef struct
+{
+    std::string cgi_path;
+    std::string bin;
+    bool correct;
+} cgi_infos;
+
 // my libs
+#include "cgi.hpp"
 #include "Poll.hpp"
 #include "Logs.hpp"
 #include "CheckFile.hpp"

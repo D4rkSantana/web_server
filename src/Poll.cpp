@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:35 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/25 16:50:41 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/26 22:23:52 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ size_t Poll::getSize(void) const{
 
 void Poll::addFdToClose(int fd)
 {
-    //std::cout << "add fd: " << fd << " to close\n";
     this->_fdToClose.push_back(fd);
 }
 
