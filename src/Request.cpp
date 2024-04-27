@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 00:10:15 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 10:21:06 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,7 @@ void Request::_init()
     _allowMethods.push_back("POST");
     _allowMethods.push_back("DELETE");
     _paramQuery.clear();
-    has_body       = false;
-    has_form       = false;
-    has_multipart  = false;
     statusCode     = 0;
-    content        = "";
     _uri           = "";
     _port          = "";
     _method        = "";
@@ -36,6 +32,28 @@ void Request::_init()
     _maxBodySize   = 0;
     _contentLength = 0;
     _header.clear();
+
+
+    this->_uri = "";
+    this->_path = "";
+    this->_body = "";
+    this->_port = "";
+    this->_host = "";
+    this->_method = "";
+    this->_boundary = "";
+    this->_httpVersion = "";
+    this->_root = "";
+    this->_serverIndex = 999;
+    this->_locationIndex = 999;
+    this->_locationSize = 999;
+    this->_maxBodySize = 999;
+    this->_contentLength = 999;
+    this->_has_body = false;
+    this->_has_form = false;
+    this->_has_multipart = false;
+    this->_autoIndexServer = false;
+    this->_autoIndexLoc = false;
+    this->_content = "";
 }
 
 bool Request::requestStart(std::string request)
@@ -58,30 +76,27 @@ bool Request::requestStart(std::string request)
     if (!_parseFirstLine(requestLine))
         return (false);
 
-    //std::cout << std::endl << request << std::endl << std::endl;
-    
     _parseHeaders(headersPart);
-
     _getMaxBody();
     _getServerParam();
     _setAutoIndex();
     _getHost();//compreender e melhorar
 
-    if (has_body) {
-        has_multipart = false;
-        has_form      = false;
+    if (this->_has_body) {
+        this->_has_multipart = false;
+        this->_has_form      = false;
         
         it = _header.find("Content-Type");
         if (it->second.find("multipart/form-data") != std::string::npos)
-            has_multipart = true;
+            this->_has_multipart = true;
         if (it->second.find("application/x-www-form-urlencoded") != std::string::npos)
-            has_form = true;
+            this->_has_form = true;
     }
 
-    if (has_multipart) {
+    if (this->_has_multipart) {
         if (_getMultipartData(request))//compreender e melhorar
             return (false);
-    } else if (has_body) {
+    } else if (this->_has_body) {
         if (_getBody(request))//compreender e melhorar
             return (false);
     }
@@ -143,7 +158,7 @@ void Request::_parseHeaders(const std::string &request)
 {
     std::istringstream iss(request);
     std::string        headerLine;
-    has_body = false;
+    this->_has_body = false;
 
     while (std::getline(iss, headerLine, '\r')) {
         headerLine.erase(std::remove(headerLine.begin(), headerLine.end(), '\n'), headerLine.end());
@@ -173,8 +188,8 @@ void Request::_findHeaders(std::string key, std::string value)
     if (key == "Content-Length") {
         int length = atoi(value.c_str());
         if (length > 0) {
-            has_body = true;
-            _contentLength = length;
+            this->_has_body = true;
+            this->_contentLength = length;
         }
     }
 }
@@ -262,13 +277,13 @@ void Request::_setAutoIndex(void)
     std::vector<std::string>    serverValue;
     std::vector<std::string>    autoindexParam;
 
-    autoIndexServer = false;
-    autoIndexLoc    = false;
-    serverValue     = webServer.getServerValue(this->_serverIndex, "autoindex");
+    this->_autoIndexServer = false;
+    this->_autoIndexLoc    = false;
+    serverValue            = webServer.getServerValue(this->_serverIndex, "autoindex");
 
     if (!serverValue.empty()){
         if(serverValue[0] == "on")
-            autoIndexServer = true;
+            this->_autoIndexServer = true;
     }
     else
     {
@@ -278,9 +293,19 @@ void Request::_setAutoIndex(void)
         if (autoindexParam[0] == "on")
         {
             _path = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "location")[0];
-            autoIndexLoc = true;
+            this->_autoIndexLoc = true;
         }
     }
+    std::cout << "Server index: " << this->_serverIndex << std::endl;
+    std::cout << " Location Index: " << this->_locationIndex << std::endl;
+    if (!serverValue.empty())
+        std::cout << "Server autoindex: " << serverValue[0] << std::endl;
+    else
+        std::cout << "Server autoindex: none" << std::endl;
+    if(!autoindexParam.empty())
+        std::cout << "Location autoindex: " << autoindexParam[0] << std::endl;
+    else
+        std::cout << "Location autoindex: none" << std::endl;
 }
 
 void Request::_getHost(void)
@@ -415,6 +440,36 @@ size_t Request::getMaxBodySize(void)
 size_t Request::getContentLength(void)
 {
     return (this->_contentLength);
+}
+
+bool        Request::getHasBody(void)
+{
+    return (this->_has_body);
+}
+
+bool        Request::getHasForm(void)
+{
+    return (this->_has_form);
+}
+
+bool        Request::getHasMultipart(void)
+{
+    return (this->_has_multipart);
+}
+
+bool        Request::getAutoIndexServer(void)
+{
+    return (this->_autoIndexServer);
+}
+
+bool        Request::getAutoIndexLoc(void)
+{
+    return (this->_autoIndexLoc);
+}
+
+std::string Request::getContent(void)
+{
+    return (this->_content);
 }
 
 void    Request::printInfos(void)

@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/26 23:00:11 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 11:16:13 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void processClientData(int fd)
     res = setResponseData(0, "", "", 0, "");
     clientReq = readClientData(fd);
 
-    if (webServer.getBytesRead() == -1) {
-        Logs::printLog(Logs::INFO, 3, "Client closed: " + to_string(fd));
+    if ((webServer.getBytesRead() == -1)) {
+        Logs::printLog(Logs::ERROR, 3, "Client closed: " + to_string(fd) + " - Read is not possible");
         webServer.addFdToClose(fd);
         return;
     }
@@ -44,6 +44,7 @@ void processClientData(int fd)
 void  sendResponse(int fd, responseData res)
 {
     std::string response_header = "";
+    std::string content_final = "";
     int bytes_sent;
 
     response_header =  "HTTP/1.1 " + res.statusCode + "\r\n";
@@ -65,23 +66,14 @@ void  sendResponse(int fd, responseData res)
         response_header += "\r\nContent-Length: " + to_string(res.contentLength) + "\r\n\r\n";
     }
 
-    bytes_sent = send(fd, response_header.c_str(), strlen(response_header.c_str()), MSG_NOSIGNAL);
-    if (bytes_sent == -1)//era -1 e alteramos para 0
-    {
-        Logs::printLog(Logs::INFO, 3, "Client connection closed:" + to_string(fd));
-        webServer.addFdToClose(fd);
-        return;
-    }
-
+    content_final = response_header;
     if (res.contentLength)
-    {
-        bytes_sent = send(fd, res.content.c_str(), res.contentLength, MSG_NOSIGNAL);
-        if (bytes_sent == -1)//era -1 e alteramos para 0
-        {
-            Logs::printLog(Logs::INFO, 3, "Client connection closed:" + to_string(fd));
-            webServer.addFdToClose(fd);
-        }
-    }
+        content_final += res.content;
+
+    bytes_sent = send(fd, content_final.c_str(), strlen(content_final.c_str()), MSG_NOSIGNAL);
+    if ((bytes_sent == -1))
+        Logs::printLog(Logs::ERROR, 3, "Client connection closed: " + to_string(fd) + " - Write is not possible");
+    
     webServer.addFdToClose(fd);
 }
 

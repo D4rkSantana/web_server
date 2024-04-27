@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:48:20 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 00:16:36 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 10:01:22 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,9 +157,9 @@ responseData getHandler(Request &request)
         res = location.getLocationContent();
     }
     */
-    if (request.autoIndexServer && request.getUri() == "/autoindex" && !request.autoIndexLoc)
+    if (request.getAutoIndexServer() && request.getUri() == "/autoindex" && !request.getAutoIndexLoc())
         res = autoIndex(request.getRoot(), "/", request.getPort(), request);
-    else if (request.autoIndexLoc)
+    else if (request.getAutoIndexLoc())
         res = autoIndex(request.getRoot(), request.getPath(), request.getPort(), request);
     else if (extractFileExtension(request.getUri()) == ".py" && isCGI(request).correct)
     {
