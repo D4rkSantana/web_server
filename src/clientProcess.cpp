@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 11:16:13 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 17:22:30 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,9 @@ void processClientData(int fd)
     }
 
     if (!reqClient.requestStart(clientReq))
-    {
         res = getErrorPageStandard(reqClient.statusCode);
-        //reqClient.printInfos();
-    }
     else
-    {
         res = processResponse(reqClient);
-        //reqClient.printInfos();
-    }
         
     sendResponse(fd, res);
 }
@@ -70,7 +64,7 @@ void  sendResponse(int fd, responseData res)
     if (res.contentLength)
         content_final += res.content;
 
-    bytes_sent = send(fd, content_final.c_str(), strlen(content_final.c_str()), MSG_NOSIGNAL);
+    bytes_sent = send(fd, content_final.c_str(), strlen(response_header.c_str()) + res.contentLength, MSG_NOSIGNAL);
     if ((bytes_sent == -1))
         Logs::printLog(Logs::ERROR, 3, "Client connection closed: " + to_string(fd) + " - Write is not possible");
     

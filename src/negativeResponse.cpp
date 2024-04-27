@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:39:55 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/26 22:23:31 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 17:23:12 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ responseData getContent(std::string root, std::string file, int status)
     if (ifs.is_open())
     {
         std::string content((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
-
         data = setResponseData(status, getTypes(extension, webServer.getDicTypes()), content, (int)content.length(), "");
         ifs.close();
     }
