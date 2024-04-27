@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:48:20 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/26 20:36:38 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/26 20:53:36 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ responseData postHandler(Request &request)
         res = getCgi(request, infos);
     }
     else 
-        res = handleMethod(request);
+        res = post_method.handleMethod();
     return (res);
 }
 
@@ -218,12 +218,12 @@ responseData deleteHandler(Request &request)
 {
     responseData    res;
 
-    res = handleMethod(request);
+    res = handleMethodDelete(request);
     Logs::printLog(Logs::WARNING, 30, "DELETE METHOD");
     return (res);
 }
 
-responseData handleMethod(Request &request)
+responseData handleMethodDelete(Request &request)
 {
     std::string resourcePath;
      responseData res;

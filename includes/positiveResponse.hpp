@@ -26,7 +26,8 @@ bool            methodAllowed(Request &request);
 responseData    getHandler(Request &request);
 responseData    postHandler(Request &request);
 responseData    deleteHandler(Request &request);
-responseData    handleMethod(Request &request);
+responseData    handleMethodDelete(Request &request);
+responseData    handleMethodPost(Request &request);
 
 responseData autoIndex(std::string root, std::string path, std::string port, Request request);
 

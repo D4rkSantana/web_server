@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/26 20:30:51 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/26 21:16:31 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,7 @@ void Request::_parseHeaders(const std::string &request)
     has_body = false;
 
     while (std::getline(iss, headerLine, '\r')) {
-        //headerLine.erase(std::remove(headerLine.begin(), headerLine.end(), '\n'), headerLine.end());
-        if (headerLine[0] == '\n')
-            headerLine.erase(0);
+        headerLine.erase(std::remove(headerLine.begin(), headerLine.end(), '\n'), headerLine.end());
 
         if (headerLine.empty())
             break;
@@ -165,6 +163,7 @@ void Request::_parseHeaders(const std::string &request)
 
 void Request::_findHeaders(std::string key, std::string value)
 {
+    std::cout << value << std::endl;
     if (key == "Host") {
         size_t pos = value.find(":");
         if (pos != std::string::npos) {
