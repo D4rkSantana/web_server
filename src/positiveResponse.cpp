@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:48:20 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/26 20:53:36 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 00:16:36 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ responseData getCgi(Request &request, cgi_infos infos)
     responseData res;
 
     std::string cgi_response = executeCGI(request, infos);
-    std::cout << cgi_response << std::endl;
     res = setResponseData(OK, "text/html", cgi_response.c_str(), (int)cgi_response.length(), "");
     return (res);
 }
@@ -142,6 +141,22 @@ responseData getHandler(Request &request)
  
     res = setResponseData(0, "", "", 0, ""); 
 
+/*
+    if (request.autoIndexServer && request.getUri() == "/autoindex")
+        res = autoIndex(request.getRoot(), "/", request.getPort(), request);
+    else if (request.autoIndexLoc)
+        res = autoIndex(request.getRoot(), request.getPath(), request.getPort(), request);
+    else if (extractFileExtension(request.getUri()) == ".py" && isCGI(request).correct)
+    {
+        infos = isCGI(request);
+        res = getCgi(request, infos);
+    }
+    else
+    {
+        location.setup();
+        res = location.getLocationContent();
+    }
+    */
     if (request.autoIndexServer && request.getUri() == "/autoindex" && !request.autoIndexLoc)
         res = autoIndex(request.getRoot(), "/", request.getPort(), request);
     else if (request.autoIndexLoc)
@@ -203,7 +218,7 @@ responseData autoIndex(std::string root, std::string path, std::string port, Req
         if (path[path.size() - 1] != '/')
             entryPath += "/";
         entryPath = std::string(entry->d_name);
-        content += "<li><a href=\"http://localhost:" + entryPath + "\">" + std::string(entry->d_name) + "</a></li>\n";
+        content += "<li><a href=\"http://localhost:" + request.getPort() + "/" + entryPath + "\">" + std::string(entry->d_name) + "</a></li>\n";
         entry = readdir(dir);
     }
 

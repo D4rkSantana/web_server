@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 15:34:13 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/26 20:30:31 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/26 22:23:07 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,8 +194,6 @@ std::string executeCGI(Request &request, cgi_infos infos)
 
     char *cbin    = const_cast<char *>(bin.c_str());
     char *pathBin = const_cast<char *>(cgi_path.c_str());
-    std::cout << "bin: " << bin << std::endl;
-    std::cout << "pathBin: " << cgi_path << std::endl;
 
     if (pipe(pipe_fd) == -1)
     {

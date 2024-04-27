@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/26 17:15:48 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/26 23:00:11 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ void  sendResponse(int fd, responseData res)
     }
 
     bytes_sent = send(fd, response_header.c_str(), strlen(response_header.c_str()), MSG_NOSIGNAL);
-    //std::cout << "1bytes_sent: " << bytes_sent << std::endl;
-    if (bytes_sent == 0)//era -1 e alteramos para 0
+    if (bytes_sent == -1)//era -1 e alteramos para 0
     {
         Logs::printLog(Logs::INFO, 3, "Client connection closed:" + to_string(fd));
         webServer.addFdToClose(fd);
@@ -77,8 +76,7 @@ void  sendResponse(int fd, responseData res)
     if (res.contentLength)
     {
         bytes_sent = send(fd, res.content.c_str(), res.contentLength, MSG_NOSIGNAL);
-        //std::cout << "2bytes_sent: " << bytes_sent << std::endl;
-        if (bytes_sent == 0)//era -1 e alteramos para 0
+        if (bytes_sent == -1)//era -1 e alteramos para 0
         {
             Logs::printLog(Logs::INFO, 3, "Client connection closed:" + to_string(fd));
             webServer.addFdToClose(fd);
