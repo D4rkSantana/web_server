@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:48:20 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 10:01:22 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 16:21:21 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,35 +132,22 @@ responseData getCgi(Request &request, cgi_infos infos)
     return (res);
 }
 
-
 responseData getHandler(Request &request)
 {
     Location        location(request);
     responseData    res;
     cgi_infos       infos;
+    std::string     path;
  
     res = setResponseData(0, "", "", 0, ""); 
 
-/*
-    if (request.autoIndexServer && request.getUri() == "/autoindex")
+    if (request.getAutoIndexServer() && request.getUri() == "/autoindex")
         res = autoIndex(request.getRoot(), "/", request.getPort(), request);
-    else if (request.autoIndexLoc)
-        res = autoIndex(request.getRoot(), request.getPath(), request.getPort(), request);
-    else if (extractFileExtension(request.getUri()) == ".py" && isCGI(request).correct)
+    else if (request.getAutoIndexLoc() && (request.getUri().find("/autoindex") != std::string::npos))
     {
-        infos = isCGI(request);
-        res = getCgi(request, infos);
+        path = webServer.getLocationValue(request.getServerIndex(), request.getLocationIndex(), "location")[0];
+        res = autoIndex(request.getRoot(), path, request.getPort(), request);
     }
-    else
-    {
-        location.setup();
-        res = location.getLocationContent();
-    }
-    */
-    if (request.getAutoIndexServer() && request.getUri() == "/autoindex" && !request.getAutoIndexLoc())
-        res = autoIndex(request.getRoot(), "/", request.getPort(), request);
-    else if (request.getAutoIndexLoc())
-        res = autoIndex(request.getRoot(), request.getPath(), request.getPort(), request);
     else if (extractFileExtension(request.getUri()) == ".py" && isCGI(request).correct)
     {
         infos = isCGI(request);
@@ -202,7 +189,7 @@ responseData autoIndex(std::string root, std::string path, std::string port, Req
     DIR             *dir;
 
     dir = opendir(dirPath.c_str());
-    
+
     if (dir == NULL)
     {
         res = getErrorPageContent(request.getErrorPageConfig(), NOT_FOUND, request.getUri(), request.getRoot());
@@ -214,11 +201,14 @@ responseData autoIndex(std::string root, std::string path, std::string port, Req
     entry = readdir(dir);
     while (entry)
     {
-        entryPath = port + path;
+        entryPath = path;
         if (path[path.size() - 1] != '/')
             entryPath += "/";
-        entryPath = std::string(entry->d_name);
-        content += "<li><a href=\"http://localhost:" + request.getPort() + "/" + entryPath + "\">" + std::string(entry->d_name) + "</a></li>\n";
+        if (entry->d_type == DT_DIR)
+            entryPath += std::string(entry->d_name) + "/autoindex";
+        else
+            entryPath += std::string(entry->d_name);
+        content += "<li><a href=\"http://localhost:" + port + entryPath + "\">" + std::string(entry->d_name) + "</a></li>\n";
         entry = readdir(dir);
     }
 
