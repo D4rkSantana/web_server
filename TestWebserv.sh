@@ -1,7 +1,7 @@
 #!/bin/bash
 
 name="./webserv"
-comando=-1
+comando=-2
 function next(){
 	echo
 	echo "                                            Press to Next -------------->"
@@ -23,9 +23,6 @@ make re &
 wait
 clear
 
-
-
-
 echo
 echo "████████╗███████╗███████╗████████╗     █████╗ ██████╗  ██████╗ "
 echo "╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝    ██╔══██╗██╔══██╗██╔════╝ "
@@ -33,6 +30,15 @@ echo "   ██║   █████╗  ███████╗   ██║   
 echo "   ██║   ██╔══╝  ╚════██║   ██║       ██╔══██║██╔══██╗██║   ██║"
 echo "   ██║   ███████╗███████║   ██║██╗    ██║  ██║██║  ██║╚██████╔╝"
 echo "   ╚═╝   ╚══════╝╚══════╝   ╚═╝╚═╝    ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ "
+echo
+echo
+
+next
+argumento=
+esperado=0
+((comando++))#-1
+echo " ☢️	$comando - Testando Relink -> make"
+echo "<----------------------------------------------------------------------->"
 echo
 echo
 
@@ -111,36 +117,53 @@ echo
 
 
 echo
-echo "████████╗███████╗███████╗████████╗     █████╗ ██████╗  ██████╗ "
-echo "╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝    ██╔══██╗██╔══██╗██╔════╝ "
-echo "   ██║   █████╗  ███████╗   ██║       ███████║██████╔╝██║  ███╗"
-echo "   ██║   ██╔══╝  ╚════██║   ██║       ██╔══██║██╔══██╗██║   ██║"
-echo "   ██║   ███████╗███████║   ██║██╗    ██║  ██║██║  ██║╚██████╔╝"
-echo "   ╚═╝   ╚══════╝╚══════╝   ╚═╝╚═╝    ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ "
+echo "███████╗████████╗ █████╗ ████████╗██╗   ██╗███████╗    ██╗  ██╗████████╗████████╗██████╗ "
+echo "██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝██║   ██║██╔════╝    ██║  ██║╚══██╔══╝╚══██╔══╝██╔══██╗"
+echo "███████╗   ██║   ███████║   ██║   ██║   ██║███████╗    ███████║   ██║      ██║   ██████╔╝"
+echo "╚════██║   ██║   ██╔══██║   ██║   ██║   ██║╚════██║    ██╔══██║   ██║      ██║   ██╔═══╝ "
+echo "███████║   ██║   ██║  ██║   ██║   ╚██████╔╝███████║    ██║  ██║   ██║      ██║   ██║     "
 echo
 echo
-
 
 next
-esperado=404
+esperado=200
 saidaSever=servidor.log
-((comando++))#2
-echo " ☢️	$comando - Testando Error 404(Not Found) -> 127.0.0.1:3007/naoexiste"
-echo "<----------------------------------------------------------------------->"
+((comando++))#4
+echo " ☢️	$comando - Testando Error 404(Not Found) -> 127.0.0.1:3008"
+echo "<------------------------------------------------------------------------>"
 echo
 nohup $name > $saidaSever 2>&1 &
 sleep 5
 pid=$(pgrep -f $name)
-retorno=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:3007/naoexiste)
+echo "	->Testando o Resposta Head servidor curl -I"
+retorno=$(curl -s -I -o /dev/null -w "%{http_code}" http://127.0.0.1:3008)
+echo
+echo "	Retorno Esperado: $esperado (rigth) "
+echo "	Retorno Recebido: $retorno "
+check $esperado
+kill $pid
+rm $saidaSever
+echo
 
-
+next
+esperado=404
+saidaSever=servidor.log
+((comando++))#5
+echo " ☢️	$comando - Testando Error 404(Not Found) -> 127.0.0.1:3007/naoexiste"
+echo "<------------------------------------------------------------------------>"
+echo
+nohup $name > $saidaSever 2>&1 &
+sleep 5
+pid=$(pgrep -f $name)
+echo "	->Testando o Resposta Head servidor curl -I"
+retorno=$(curl -s -I -o /dev/null -w "%{http_code}" http://127.0.0.1:3007/naoexiste)
 echo
 echo "	Retorno Esperado: $esperado (rigth)"
 echo "	Retorno Recebido: $retorno"
-#check $esperado
+check $esperado
 kill $pid
+rm $saidaSever
 echo
-
 
 
 next
