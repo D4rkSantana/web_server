@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:02:53 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/24 10:08:19 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/27 19:22:46 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,6 @@ class Socket {
     void    finish(void);
 
     int     getFd(void);
-    //int         getSocketFd(void) const;
-    //std::string getPort(void) const;
-    //std::string getIp(void) const;
-
-    /*
-    class SocketException : public std::exception {
-        private:
-        std::string _msg;
-
-        public:
-        SocketException(const char *msg);
-        virtual ~SocketException() throw();
-        virtual const char *what() const throw();
-    };
-    */
 };
 
 #endif

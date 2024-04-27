@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 17:22:30 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 19:39:02 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,43 @@ void  sendResponse(int fd, responseData res)
     webServer.addFdToClose(fd);
 }
 
+std::string findHeaders(std::string request)
+{
+    std::string port = "";
+
+    std::string::size_type hostPos = request.find("Host:");
+    if (hostPos != std::string::npos) {
+        std::string::size_type colonPos = request.find(":", hostPos);
+        if (colonPos != std::string::npos) {
+            std::string portSubstring = request.substr(colonPos + 1);
+            std::string::size_type spacePos = portSubstring.find_first_of(" \r");
+            if (spacePos != std::string::npos) {
+                port = portSubstring.substr(0, spacePos);
+            }
+        }
+    }
+    std::cout << "-port: " << port << std::endl;
+    return (port);
+}
+
 std::string readClientData(int fd)
 {
     char        buffer[1024] = {0};
     int         bytes        = 0;
     std::string clientReq;
     int bytesRead;
+    //int totalRead = 0;
 
     while ((bytesRead = recv(fd, buffer, sizeof(buffer), 0)) > 0) {
-        		webServer.setBytesRead(bytesRead);
+        webServer.setBytesRead(bytesRead);
+
+        //totalRead += bytesRead;
+        //if (totalRead > request.)
         if (bytesRead < 0)
             break;
         clientReq.append(buffer, bytesRead);
+        std::string port = findHeaders(clientReq);
+        std::cout << "port: " << port << std::endl;
         if (clientReq.find("Expect: 100-continue") != std::string::npos) {
             sleep(2);
             continue;

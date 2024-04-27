@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/27 13:56:27 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 18:34:57 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class WebServ
 		conf_servers						*_dataServers;
 		size_t								_sizeServers;
 		int 								_bytesRead;
+		int									_maxSizeRequest;
 		map_ss								_statusCodes;
 		map_ss								_types;
 		Poll								_poll;

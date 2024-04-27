@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 14:44:24 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 18:28:11 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void Request::_init()
     this->_root = "";
     this->_serverIndex = 999;
     this->_locationIndex = 999;
-    this->_locationSize = 999;
-    this->_maxBodySize = 999;
-    this->_contentLength = 999;
+    this->_locationSize = 0;
+    this->_maxBodySize = 0;
+    this->_contentLength = 0;
     this->_has_body = false;
     this->_has_form = false;
     this->_has_multipart = false;
