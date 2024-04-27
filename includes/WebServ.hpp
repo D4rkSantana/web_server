@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/25 11:38:06 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:56:27 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ class WebServ
 		void						populateConfs(std::vector<std::vector<std::string> > servers, std::vector<std::vector<std::string> > locations);
 		//Search's
 		int							searchServer(std::string port);
-		int							searchLocation(size_t iS, std::string path);
+		int						searchLocation(size_t iS, std::string path);
 		//Set's
 		bool						setDataServer(const char *pathConf);
 		void						setBytesRead(int nbr);

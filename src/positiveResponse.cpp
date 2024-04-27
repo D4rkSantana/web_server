@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:48:20 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 10:01:22 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 14:54:58 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ responseData getCgi(Request &request, cgi_infos infos)
     return (res);
 }
 
-
 responseData getHandler(Request &request)
 {
     Location        location(request);
@@ -141,25 +140,9 @@ responseData getHandler(Request &request)
  
     res = setResponseData(0, "", "", 0, ""); 
 
-/*
-    if (request.autoIndexServer && request.getUri() == "/autoindex")
+    if (request.getAutoIndexServer() && request.getUri() == "/autoindex")
         res = autoIndex(request.getRoot(), "/", request.getPort(), request);
-    else if (request.autoIndexLoc)
-        res = autoIndex(request.getRoot(), request.getPath(), request.getPort(), request);
-    else if (extractFileExtension(request.getUri()) == ".py" && isCGI(request).correct)
-    {
-        infos = isCGI(request);
-        res = getCgi(request, infos);
-    }
-    else
-    {
-        location.setup();
-        res = location.getLocationContent();
-    }
-    */
-    if (request.getAutoIndexServer() && request.getUri() == "/autoindex" && !request.getAutoIndexLoc())
-        res = autoIndex(request.getRoot(), "/", request.getPort(), request);
-    else if (request.getAutoIndexLoc())
+    else if (request.getAutoIndexLoc() && (request.getUri().find("/autoindex") != std::string::npos))
         res = autoIndex(request.getRoot(), request.getPath(), request.getPort(), request);
     else if (extractFileExtension(request.getUri()) == ".py" && isCGI(request).correct)
     {
@@ -194,15 +177,20 @@ responseData postHandler(Request &request)
 
 responseData autoIndex(std::string root, std::string path, std::string port, Request request)
 {
-    std::string     dirPath = root + path;
+    std::string     dirPath = root;
     std::string     entryPath;
     std::string     content;
     struct dirent   *entry;
     responseData    res;
     DIR             *dir;
 
+    dirPath += webServer.getLocationValue(request.getServerIndex(), request.getLocationIndex(), "location")[0];
+
     dir = opendir(dirPath.c_str());
-    
+    std::cout << "root: " << root << std::endl;
+    std::cout << "uri: " << request.getUri() << std::endl;
+    std::cout << "path: " << path << std::endl;
+
     if (dir == NULL)
     {
         res = getErrorPageContent(request.getErrorPageConfig(), NOT_FOUND, request.getUri(), request.getRoot());

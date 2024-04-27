@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 11:52:11 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 14:44:24 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,31 +281,22 @@ void Request::_setAutoIndex(void)
     this->_autoIndexLoc    = false;
     serverValue            = webServer.getServerValue(this->_serverIndex, "autoindex");
 
-    if (!serverValue.empty()){
+    if (!serverValue.empty())
+    {
         if(serverValue[0] == "on")
             this->_autoIndexServer = true;
     }
-    else
+
+    autoindexParam = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "autoindex");
+    if(autoindexParam.empty())
+        return;
+
+    if (autoindexParam[0] == "on")
     {
-        autoindexParam = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "autoindex");
-        if(autoindexParam.empty())
-            return;
-        if (autoindexParam[0] == "on")
-        {
-            _path = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "location")[0];
-            this->_autoIndexLoc = true;
-        }
+        //_path = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "location")[0];
+        this->_autoIndexLoc = true;
     }
-    std::cout << "Server index: " << this->_serverIndex << std::endl;
-    std::cout << " Location Index: " << this->_locationIndex << std::endl;
-    if (!serverValue.empty())
-        std::cout << "Server autoindex: " << serverValue[0] << std::endl;
-    else
-        std::cout << "Server autoindex: none" << std::endl;
-    if(!autoindexParam.empty())
-        std::cout << "Location autoindex: " << autoindexParam[0] << std::endl;
-    else
-        std::cout << "Location autoindex: none" << std::endl;
+
 }
 
 void Request::_getHost(void)
