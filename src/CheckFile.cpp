@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/27 22:20:12 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/27 22:28:02 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ bool CheckFile::check(std::string path)
 
     text = readFileContents(path);
 
-    // verifica se {} esta correto
     if (!checkBraces(text))
     {
         Logs::printLog(Logs::ERROR, 11, "The " + path + " file is not correct closing/opening brackets");
@@ -33,10 +32,7 @@ bool CheckFile::check(std::string path)
         Logs::printLog(Logs::ERROR, 12, "Duplicate listen:" + to_string(j));
         return false;
     }
-        
-
-    // verifica se existe um elemento difente no arquivo, so se ele for a primeira palavra
-    // o restante vou verificar na hora de ver os valores
+    
     validWords = _getValidFirstWords();
     if (_isFirstWordInSet(text, validWords) > -1)
     {
@@ -70,13 +66,11 @@ bool CheckFile::check(std::string path)
     return true;
 }
 
-// palavras chaves que sao aceita, que pertece a primeira linha
 std::set<std::string> CheckFile::_getValidFirstWords(void)
 {
     std::set<std::string> validWords;
 
     validWords.insert("server");
-
     validWords.insert("server_name");
     validWords.insert("listen");
     validWords.insert("host");
@@ -85,9 +79,7 @@ std::set<std::string> CheckFile::_getValidFirstWords(void)
     validWords.insert("client_max_body_size");
     validWords.insert("root");
     validWords.insert("word");
-
     validWords.insert("location");
-
     validWords.insert("autoindex");
     validWords.insert("allow_method");
     validWords.insert("limit_except");
@@ -122,10 +114,8 @@ std::set<std::string> CheckFile::_getValidLocationWords(void)
     std::set<std::string> validWords;
 
     validWords.insert("location");
-
     validWords.insert("error_page");
     validWords.insert("index");
-
     validWords.insert("autoindex");
     validWords.insert("allow_method");
     validWords.insert("limit_except");
@@ -144,42 +134,38 @@ int CheckFile::_hasDuplicateListenPorts(const std::string& config) {
     std::set<int> listenPorts;
 
     while (std::getline(iss, line)) {
-        // Encontrar todas as ocorrências de "listen" e extrair o número da porta
+        
         if (line.find("listen") != std::string::npos) {
             std::istringstream lineStream(line);
             std::string key, value;
             lineStream >> key >> value;
             int port = std::atoi(value.c_str());
 
-            // Verificar se o número da porta já foi visto antes
             if (listenPorts.find(port) != listenPorts.end()) {
-                return (port); // Porta duplicada encontrada
+                return (port); 
             } else {
                 listenPorts.insert(port);
             }
         }
     }
 
-    return (-1); // Nenhuma porta duplicada encontrada
+    return (-1); 
 }
 
 int CheckFile::_isFirstWordInSet(const std::string &text, const std::set<std::string> &wordSet)
 {
-    std::istringstream iss(text); // Cria um stream de string a partir do texto
+    std::istringstream iss(text);
     std::string line;
     int nbrLine;
 
-    // Itera sobre cada linha do texto
     nbrLine = 1;
     while (std::getline(iss, line))
     {
-        std::istringstream lineStream(line); // Cria um stream de string a partir da linha
+        std::istringstream lineStream(line); 
         std::string firstWord;
 
-        // Lê a primeira palavra da linha
         if (lineStream >> firstWord)
         {
-            // Verifica se a primeira palavra está no conjunto de palavras
             bool found = false;
             for (std::set<std::string>::const_iterator it = wordSet.begin(); it != wordSet.end(); ++it)
             {
@@ -191,12 +177,12 @@ int CheckFile::_isFirstWordInSet(const std::string &text, const std::set<std::st
             }
             if (!found)
             {
-                return nbrLine; // Se não estiver, retorna false imediatamente
+                return nbrLine; 
             }
         }
         nbrLine++;
     }
-    return -1; // Se todas as primeiras palavras estiverem no conjunto, retorna true
+    return -1;
 }
 
 bool CheckFile::_checkServerParams(std::string element)
@@ -219,7 +205,6 @@ bool CheckFile::_checkServerParams(std::string element)
         return false;
     }
 
-    // Aqui analisando se tem linha dublicado
     for (std::set<std::string>::iterator it = validWords.begin(); it != validWords.end(); ++it)
     {
         if (countWordOccurrencesLine(serverParams, *it) > 1)
@@ -228,15 +213,10 @@ bool CheckFile::_checkServerParams(std::string element)
             return false;
         }
     }
-    /* Analisar, elemento que tem que ter pelo menos um
-    if(countWordOccurrencesLine(serverParams, "listen") == 1){
-        Logs::printLog(Logs::ERROR, 19, "listen is duplicated");
-        return false;
-    }
-    */
+    
     if (!_checkServerParamsValue(serverParams))
         return false;
-
+        
     return true;
 }
 
@@ -265,7 +245,6 @@ bool CheckFile::_checkSLocationParams(std::string text)
             return false;
         }
 
-        // Aqui analisando se tem linha dublicado
         for (std::set<std::string>::iterator it = validWords.begin(); it != validWords.end(); ++it)
         {
             if (countWordOccurrencesLine(location[i], *it) > 1)
@@ -274,13 +253,7 @@ bool CheckFile::_checkSLocationParams(std::string text)
                 return false;
             }
         }
-        /* Analisar, elemento que tem que ter pelo menos um
-        if(countWordOccurrencesLine(locarion[i], "root")  == 1){
-            Logs::printLog(Logs::ERROR, 19, "root  is duplicated");
-            return false;
-        }
 
-        */
         i++;
     }
     return true;
