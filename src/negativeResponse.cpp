@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:39:55 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/28 01:54:20 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 19:27:36 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,10 @@ responseData getErrorPageContent(std::vector<std::string> errorPage, int statusC
     std::string  filePath;
     responseData res;
 
+    (void)uri;
     if (hasErrorPageConfig(errorPage, statusCode)) {
-        
-        filePath = getPath(uri);
-
-        if (filePath[filePath.length() - 1] != '/')
-            filePath += '/';
-
-        filePath += errorPage.back();
-
+        filePath = '/' + errorPage.back();
         res = getContent(root, filePath, statusCode);
-
         if (res.contentLength)
             return (res);
     }
@@ -99,7 +92,7 @@ responseData getContent(std::string root, std::string file, int status)
 
     data      = setResponseData(0, "", "", 0 , "");
     extension = extractFileExtension(file);
-    
+
     fullPathStream << root << file;
     fullPath = fullPathStream.str();
     std::ifstream ifs(fullPath.c_str());

@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/28 00:11:33 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 19:52:52 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void  sendResponse(int fd, responseData res)
         content_final += res.content;
 
     bytes_sent = send(fd, content_final.c_str(), strlen(response_header.c_str()) + res.contentLength, MSG_NOSIGNAL);
-    if ((bytes_sent == -1))
+    if ((bytes_sent == -1) || (bytes_sent == -1))
         Logs::printLog(Logs::ERROR, 3, "Client connection closed: " + to_string(fd) + " - Write is not possible");
     
     webServer.addFdToClose(fd);
@@ -120,7 +120,7 @@ std::string readClientData(int fd)
 
     while ((bytesRead = recv(fd, buffer, sizeof(buffer), 0)) > 0) {
         webServer.setBytesRead(bytesRead);
-        if (bytesRead < 0)
+        if (bytesRead < 1)
             break;
         totalRead += bytesRead;
         clientReq.append(buffer, bytesRead);
