@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 15:34:13 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/28 02:10:50 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 11:08:01 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ std::string executeCGI(Request &request, cgi_infos infos)
     std::vector<std::string> envs;
     std::string bin = infos.bin;
     std::string cgi_path = infos.cgi_path;
+    int status;
 
     if (bin.empty())
         Logs::printLog(Logs::ERROR, 1,"There are not this program.");
@@ -230,30 +231,32 @@ std::string executeCGI(Request &request, cgi_infos infos)
 
         while (true)
         {
-            if (waitpid(pid, NULL, WNOHANG) == pid) {
+            if (waitpid(pid, &status, WNOHANG) == pid)
+            {
                 break;
             }
             clock_gettime(CLOCK_MONOTONIC, &currentTime);
-            if (currentTime.tv_sec - startTime.tv_sec > timeout / 1000) {
+            if (currentTime.tv_sec - startTime.tv_sec > timeout / 1000)
+            {
                 kill(pid, SIGTERM);
-                Logs::printLog(Logs::ERROR, 5, "Scripty was aborted, took too long to execute");
-                body = "erro504";
-                break;
+                Logs::printLog(Logs::ERROR, 504, "Scripty was aborted, took too long to execute");
+                close(pipe_fd[0]);
+                return ("erro504");
             }
             usleep(500);
         }
-        if (body == "erro504")
-            return (body);
-        else
+        if (WEXITSTATUS(status))
         {
-            char buffer[8192] = {0};
-            int  n            = 0;
-            while ((n = read(pipe_fd[0], buffer, 8191)) > 0) {
-                body.append(buffer, n);
-            }
+            Logs::printLog(Logs::ERROR, 500, "The script had an execution error");
+            close(pipe_fd[0]);
+            return ("erro500");
+        }
+        char buffer[8192] = {0};
+        int  n            = 0;
+        while ((n = read(pipe_fd[0], buffer, 8191)) > 0) {
+            body.append(buffer, n);
         }
         close(pipe_fd[0]);
     }
-
     return (body);
 }
