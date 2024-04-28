@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clientProcess.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 22:07:21 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 23:12:41 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,15 +128,24 @@ std::string readClientData(int fd)
             break;
         totalRead += bytesRead;
         clientReq.append(buffer, bytesRead);
-        std::string port = findHeaders(clientReq);
-        if (port != "")
+        
+        if (clientReq.find("\r\n\r\n") != std::string::npos)
         {
-            std::cout << "yporta: " << port <<std::endl;
+           
+            std::string port = findHeaders(clientReq);
+             std::cout << "yyyyyyyyyyyyyyyyyyyporta: " << port <<std::endl;
             temp = webServer.getServerValue(webServer.searchServer(port), "client_max_body_size")[0];
             maxBodylimit = std::atoi(temp.c_str());
+            std::cout << "yyyyyyyyyyyyyyyyyyybody: " << maxBodylimit <<std::endl;
+            size_t      contentTypePos1 = clientReq.find("Content-Length: ") + 16;
+            size_t lineEnd1 = clientReq.find("\r\n", contentTypePos1 );
+            std::string contentTypeLine1 = clientReq.substr(contentTypePos1, lineEnd1 - contentTypePos1);
+
+            std::cout << "conteeeeeeeeee: " << contentTypeLine1 <<std::endl;
             std::cout << "MaxB:" << maxBodylimit << " total:" << totalRead - (int)getFirstLineSize(clientReq) <<std::endl;
-            if (maxBodylimit < (totalRead - (int)getFirstLineSize(clientReq)))
+            if (maxBodylimit <  std::atoi(contentTypeLine1.c_str()))
             {
+                std::cout << "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEntttttttttttttre=ou" << std::endl;
                 webServer.setBytesRead(-2);
                 break;
             }
