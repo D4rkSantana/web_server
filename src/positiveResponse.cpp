@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:48:20 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/28 10:26:09 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 12:58:12 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,18 +137,28 @@ responseData getCgi(Request &request, cgi_infos infos)
     return (res);
 }
 
+std::string cutToBars(std::string entrada) {
+    size_t pos = entrada.find_last_of("/");
+    if (pos != std::string::npos) {
+        return entrada.substr(0, pos + 1);
+    } else {
+        return entrada;
+    }
+}
+
 responseData getHandler(Request &request)
 {
     Location        location(request);
     responseData    res;
     cgi_infos       infos;
     std::string     path;
+    std::string uriBar = cutToBars(request.getUri()) + "autoindex";
  
     res = setResponseData(0, "", "", 0, ""); 
 
-    if (request.getAutoIndexServer() && request.getUri() == "/autoindex")
+    if (request.getAutoIndexServer() && (request.getUri() == "/autoindex"))
         res = autoIndex(request.getRoot(), "/", request.getPort(), request);
-    else if (request.getAutoIndexLoc() && (request.getUri().find("/autoindex") != std::string::npos))
+    else if (request.getAutoIndexLoc() && (request.getUri() == uriBar))
     {
         path = webServer.getLocationValue(request.getServerIndex(), request.getLocationIndex(), "location")[0];
         res = autoIndex(request.getRoot(), path, request.getPort(), request);

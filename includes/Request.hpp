@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:29:29 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 09:54:44 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 12:12:53 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ class Request
         void        _findHeaders(std::string key, std::string value);
         std::string _catchPathURI(void);
         void        _setRoot(void);
+        void        _setPath(void);
         void        _setLimitExcept(void);
         void        _setErrorPage(void);
         void        _setAutoIndex(void);

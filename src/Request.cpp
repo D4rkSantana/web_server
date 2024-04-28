@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/28 00:26:28 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 12:16:39 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ bool Request::requestStart(std::string request)
         if (it->second.find("application/x-www-form-urlencoded") != std::string::npos)
             this->_has_form = true;
     }
-
+    //_setPath();
     if (this->_has_multipart) {
         if (_getMultipartData(request))//compreender e melhorar
             return (false);
@@ -127,6 +127,13 @@ bool Request::_parseFirstLine(std::string &requestLine)
         this->_uri.erase(pos);
     }
     return (true);
+}
+
+void Request::_setPath(void)
+{
+    this->_path = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "location")[0];
+    if (this->_path.empty())
+        this->_path = webServer.getServerValue(this->_serverIndex, "location")[0];
 }
 
 void Request::_parseQuery(void)
@@ -295,7 +302,6 @@ void Request::_setAutoIndex(void)
 
     if (autoindexParam[0] == "on")
     {
-        //_path = webServer.getLocationValue(this->_serverIndex, this->_locationIndex, "location")[0];
         this->_autoIndexLoc = true;
     }
 
