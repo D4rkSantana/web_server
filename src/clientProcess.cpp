@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 19:39:02 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 22:07:21 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,18 @@ void processClientData(int fd)
     res = setResponseData(0, "", "", 0, "");
     clientReq = readClientData(fd);
 
+    std::cout << "Req: " << clientReq << std::cout;
     if ((webServer.getBytesRead() == -1)) {
         Logs::printLog(Logs::ERROR, 3, "Client closed: " + to_string(fd) + " - Read is not possible");
         webServer.addFdToClose(fd);
         return;
     }
+    if ((webServer.getBytesRead() == -2)) {
+        Logs::printLog(Logs::ERROR, 3, "Client closed: " + to_string(fd) + " - Body of request too large");
+        webServer.addFdToClose(fd);
+        return;
+    }
+    
 
     if (!reqClient.requestStart(clientReq))
         res = getErrorPageStandard(reqClient.statusCode);
@@ -71,49 +78,75 @@ void  sendResponse(int fd, responseData res)
     webServer.addFdToClose(fd);
 }
 
+size_t getFirstLineSize(const std::string& request) {
+    size_t crlfPos = request.find("\r\n\r\n");
+    
+    if (crlfPos != std::string::npos) {
+        return crlfPos;
+    } else {
+        return request.size();
+    }
+}
+
 std::string findHeaders(std::string request)
 {
     std::string port = "";
 
-    std::string::size_type hostPos = request.find("Host:");
+    std::string::size_type hostPos = request.find("\r\n");
     if (hostPos != std::string::npos) {
-        std::string::size_type colonPos = request.find(":", hostPos);
-        if (colonPos != std::string::npos) {
-            std::string portSubstring = request.substr(colonPos + 1);
-            std::string::size_type spacePos = portSubstring.find_first_of(" \r");
-            if (spacePos != std::string::npos) {
-                port = portSubstring.substr(0, spacePos);
+        std::string::size_type second = request.find("\r\n");
+        if (second != std::string::npos){
+        
+            std::string::size_type colonPos = request.find(":", hostPos);
+            colonPos = request.find(":",colonPos+1);
+            if (colonPos != std::string::npos) {
+                std::string portSubstring = request.substr(colonPos + 1);
+                std::string::size_type spacePos = portSubstring.find_first_of(" \r");
+                if (spacePos != std::string::npos) {
+                    port = portSubstring.substr(0, spacePos);
+                }
+           
             }
         }
     }
-    std::cout << "-port: " << port << std::endl;
+   
     return (port);
 }
 
 std::string readClientData(int fd)
 {
     char        buffer[1024] = {0};
-    int         bytes        = 0;
     std::string clientReq;
     int bytesRead;
-    //int totalRead = 0;
+    int totalRead = 0;
+    int maxBodylimit = -1;
+    std::string temp = "0";
 
     while ((bytesRead = recv(fd, buffer, sizeof(buffer), 0)) > 0) {
         webServer.setBytesRead(bytesRead);
-
-        //totalRead += bytesRead;
-        //if (totalRead > request.)
         if (bytesRead < 0)
             break;
+        totalRead += bytesRead;
         clientReq.append(buffer, bytesRead);
         std::string port = findHeaders(clientReq);
-        std::cout << "port: " << port << std::endl;
+        if (port != "")
+        {
+            std::cout << "yporta: " << port <<std::endl;
+            temp = webServer.getServerValue(webServer.searchServer(port), "client_max_body_size")[0];
+            maxBodylimit = std::atoi(temp.c_str());
+            std::cout << "MaxB:" << maxBodylimit << " total:" << totalRead - (int)getFirstLineSize(clientReq) <<std::endl;
+            if (maxBodylimit < (totalRead - (int)getFirstLineSize(clientReq)))
+            {
+                webServer.setBytesRead(-2);
+                break;
+            }
+               
+        }
         if (clientReq.find("Expect: 100-continue") != std::string::npos) {
             sleep(2);
             continue;
         }
         buffer[bytesRead] = '\0';
-        bytes += bytesRead;
         if (clientReq.find("multipart/form-data") != std::string::npos) {
             std::string boundary;
             size_t      contentTypePos = clientReq.find("Content-Type: ");

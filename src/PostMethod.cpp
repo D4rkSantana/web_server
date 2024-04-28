@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:21:24 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 10:03:21 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 21:58:23 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ responseData PostMethod::handleMethod()
         }
         if (_req.getHasForm())
             handleForm();
-        else
-            std::cout << "Body: " << _req.getBody() << "\n";
+        //else
+            //std::cout << "Body: " << _req.getBody() << "\n";
 
         _res = getJson("{\"status\": \"success\", \"message\": \"Successful operation\"}", OK);
         Logs::printLog(Logs::INFO, 1, "Post request completed successfully.");
