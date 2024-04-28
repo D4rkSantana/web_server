@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 18:28:11 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 00:26:28 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,14 +178,16 @@ void Request::_parseHeaders(const std::string &request)
 
 void Request::_findHeaders(std::string key, std::string value)
 {
-    if (key == "Host") {
+    if (key == "Host")
+    {
         size_t pos = value.find(":");
         if (pos != std::string::npos) {
             std::string tmp = value.substr(pos + 1);
             this->_port     = tmp;
         }
     }
-    if (key == "Content-Length") {
+    if (key == "Content-Length")
+    {
         int length = atoi(value.c_str());
         if (length > 0) {
             this->_has_body = true;

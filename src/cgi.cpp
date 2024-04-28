@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 15:34:13 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/26 22:23:07 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 02:10:50 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ std::string executeCGI(Request &request, cgi_infos infos)
 {
     pid_t           pid;
     int             pipe_fd[2];
-    std::string     body;
+    std::string     body = "";
     unsigned int    timeout = 10000;
     struct timespec startTime;
     clock_gettime(CLOCK_MONOTONIC, &startTime);
@@ -236,15 +236,21 @@ std::string executeCGI(Request &request, cgi_infos infos)
             clock_gettime(CLOCK_MONOTONIC, &currentTime);
             if (currentTime.tv_sec - startTime.tv_sec > timeout / 1000) {
                 kill(pid, SIGTERM);
+                Logs::printLog(Logs::ERROR, 5, "Scripty was aborted, took too long to execute");
+                body = "erro504";
                 break;
             }
             usleep(500);
         }
-
-        char buffer[8192] = {0};
-        int  n            = 0;
-        while ((n = read(pipe_fd[0], buffer, 8191)) > 0) {
-            body.append(buffer, n);
+        if (body == "erro504")
+            return (body);
+        else
+        {
+            char buffer[8192] = {0};
+            int  n            = 0;
+            while ((n = read(pipe_fd[0], buffer, 8191)) > 0) {
+                body.append(buffer, n);
+            }
         }
         close(pipe_fd[0]);
     }

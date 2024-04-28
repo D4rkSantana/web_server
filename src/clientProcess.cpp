@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clientProcess.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 23:12:41 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/28 00:11:33 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void processClientData(int fd)
     res = setResponseData(0, "", "", 0, "");
     clientReq = readClientData(fd);
 
-    std::cout << "Req: " << clientReq << std::cout;
     if ((webServer.getBytesRead() == -1)) {
         Logs::printLog(Logs::ERROR, 3, "Client closed: " + to_string(fd) + " - Read is not possible");
         webServer.addFdToClose(fd);
@@ -29,12 +28,9 @@ void processClientData(int fd)
     }
     if ((webServer.getBytesRead() == -2)) {
         Logs::printLog(Logs::ERROR, 3, "Client closed: " + to_string(fd) + " - Body of request too large");
-        webServer.addFdToClose(fd);
-        return;
+        res = getErrorPageStandard(413);
     }
-    
-
-    if (!reqClient.requestStart(clientReq))
+    else if (!reqClient.requestStart(clientReq))
         res = getErrorPageStandard(reqClient.statusCode);
     else
         res = processResponse(reqClient);
@@ -133,19 +129,14 @@ std::string readClientData(int fd)
         {
            
             std::string port = findHeaders(clientReq);
-             std::cout << "yyyyyyyyyyyyyyyyyyyporta: " << port <<std::endl;
             temp = webServer.getServerValue(webServer.searchServer(port), "client_max_body_size")[0];
             maxBodylimit = std::atoi(temp.c_str());
-            std::cout << "yyyyyyyyyyyyyyyyyyybody: " << maxBodylimit <<std::endl;
-            size_t      contentTypePos1 = clientReq.find("Content-Length: ") + 16;
+            size_t contentTypePos1 = clientReq.find("Content-Length: ") + 16;
             size_t lineEnd1 = clientReq.find("\r\n", contentTypePos1 );
             std::string contentTypeLine1 = clientReq.substr(contentTypePos1, lineEnd1 - contentTypePos1);
 
-            std::cout << "conteeeeeeeeee: " << contentTypeLine1 <<std::endl;
-            std::cout << "MaxB:" << maxBodylimit << " total:" << totalRead - (int)getFirstLineSize(clientReq) <<std::endl;
             if (maxBodylimit <  std::atoi(contentTypeLine1.c_str()))
             {
-                std::cout << "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEntttttttttttttre=ou" << std::endl;
                 webServer.setBytesRead(-2);
                 break;
             }

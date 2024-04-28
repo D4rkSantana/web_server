@@ -26,6 +26,10 @@
     $num2 = $requestData['num2'];
     $operator = $requestData['operator'];
 
+    while (true) {
+        echo '  @@@ --- INFINITE LOOP !!! --- @@@  ';
+    }
+
     switch ($operator) {
       case 'add':
         $result = $num1 + $num2;
@@ -55,6 +59,6 @@
 
   ?>
 <br>
-<a href="http://localhost:3007/guide.html">Return</a>
+<a href="http://localhost:3007/cgi/calc.php">Return</a>
 </body>
 </html>

@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:48:20 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 16:21:21 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 02:06:30 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,10 @@ responseData getCgi(Request &request, cgi_infos infos)
     responseData res;
 
     std::string cgi_response = executeCGI(request, infos);
-    res = setResponseData(OK, "text/html", cgi_response.c_str(), (int)cgi_response.length(), "");
+    if (cgi_response == "erro504")
+        res = getErrorPageContent(request.getErrorPageConfig(), 504, request.getUri(), request.getRoot());
+    else
+        res = setResponseData(OK, "text/html", cgi_response.c_str(), (int)cgi_response.length(), "");
     return (res);
 }
 

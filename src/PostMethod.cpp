@@ -6,7 +6,7 @@
 /*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:21:24 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 21:58:23 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 23:44:51 by esilva-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ bool PostMethod::handleMultipart()
     }
     if (verifyLimit())
         return (true);
-    if (_file == false)
-        print();
+    //if (_file == false)
+        //print();
     return (false);
 }
 
@@ -238,7 +238,7 @@ void PostMethod::handleForm()
             _formData[fieldName]  = fielddata + "\r\n";
         }
     }
-    print();
+    //print();
 }
 
 void PostMethod::print()
