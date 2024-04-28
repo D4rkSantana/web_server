@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CheckFile.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:35 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/22 23:17:26 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/27 22:17:31 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class CheckFile
         static bool _checkServerParams(std::string element);
         static bool _checkSLocationParams(std::string text);
         static bool _checkServerParamsValue(std::string text);
+        static int  _hasDuplicateListenPorts(const std::string& config);
 
     public:
         static bool check(std::string path);

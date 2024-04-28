@@ -6,7 +6,7 @@
 /*   By: ryoshio- <ryoshio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 11:04:53 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/11 09:22:16 by ryoshio-         ###   ########.fr       */
+/*   Updated: 2024/04/27 22:20:12 by ryoshio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ bool CheckFile::check(std::string path)
         Logs::printLog(Logs::ERROR, 11, "The " + path + " file is not correct closing/opening brackets");
         return false;
     }
+
+    int j = _hasDuplicateListenPorts(text);
+    if(j != -1){
+        Logs::printLog(Logs::ERROR, 12, "Duplicate listen:" + to_string(j));
+        return false;
+    }
+        
 
     // verifica se existe um elemento difente no arquivo, so se ele for a primeira palavra
     // o restante vou verificar na hora de ver os valores
@@ -129,6 +136,31 @@ std::set<std::string> CheckFile::_getValidLocationWords(void)
     validWords.insert("}");
 
     return (validWords);
+}
+
+int CheckFile::_hasDuplicateListenPorts(const std::string& config) {
+    std::istringstream iss(config);
+    std::string line;
+    std::set<int> listenPorts;
+
+    while (std::getline(iss, line)) {
+        // Encontrar todas as ocorrências de "listen" e extrair o número da porta
+        if (line.find("listen") != std::string::npos) {
+            std::istringstream lineStream(line);
+            std::string key, value;
+            lineStream >> key >> value;
+            int port = std::atoi(value.c_str());
+
+            // Verificar se o número da porta já foi visto antes
+            if (listenPorts.find(port) != listenPorts.end()) {
+                return (port); // Porta duplicada encontrada
+            } else {
+                listenPorts.insert(port);
+            }
+        }
+    }
+
+    return (-1); // Nenhuma porta duplicada encontrada
 }
 
 int CheckFile::_isFirstWordInSet(const std::string &text, const std::set<std::string> &wordSet)
