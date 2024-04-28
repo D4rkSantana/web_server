@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Libs.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:13:52 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/26 19:25:06 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 13:56:16 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,19 @@
 #define P_BLUE "\e[0;38;5;24m"
 #define RESET_COLOR "\e[0m"
 
-// defines
+
 #define COLOR_RED "\x1b[31m"
 #define COLOR_YELLOW "\x1b[33m"
 #define COLOR_BLUE "\x1b[34m"
 #define COLOR_GREEN "\x1b[32m"
 #define COLOR_RESET "\x1b[0m"
 
-//
+
 #define DEFAULT_ROOT "www/html"
 #define DEFAULT_ERROR_ROOT "www/error"
 #define DEFAULT_ROOT_CGI "www/cgi"
 
-//mudar de nome?
+
 #define OK 200
 #define NO_CONTENT 204
 #define PERMANENT_REDIRECT 301
@@ -104,7 +104,7 @@ typedef struct
     bool correct;
 } cgi_infos;
 
-// my libs
+
 #include "cgi.hpp"
 #include "Poll.hpp"
 #include "Logs.hpp"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Poll.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 21:29:55 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/25 11:39:45 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 13:57:09 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,10 @@ class Poll
         size_t  getSize(void) const;
         void    addPoll(int socketFd, short events);
         bool    isSocketServer(size_t i);
-
         void    addFdToClose(int fd);
         void    removeMarkedElements(void);
-        
-        //void closePoll(void);
-
         void    removeListeningSocket(int fd);
         void    removePollFd(int fd);
-
-        //int    getListeningSocket(size_t i) const;
 };
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clientProcess.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 00:09:57 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/28 00:11:33 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:58:22 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void processClientData(int fd)
 
     res = setResponseData(0, "", "", 0, "");
     clientReq = readClientData(fd);
+	std::cout << "Client request: " << clientReq << std::endl; //excluir
 
     if ((webServer.getBytesRead() == -1)) {
         Logs::printLog(Logs::ERROR, 3, "Client closed: " + to_string(fd) + " - Read is not possible");
@@ -34,7 +35,7 @@ void processClientData(int fd)
         res = getErrorPageStandard(reqClient.statusCode);
     else
         res = processResponse(reqClient);
-        
+
     sendResponse(fd, res);
 }
 
@@ -70,13 +71,13 @@ void  sendResponse(int fd, responseData res)
     bytes_sent = send(fd, content_final.c_str(), strlen(response_header.c_str()) + res.contentLength, MSG_NOSIGNAL);
     if ((bytes_sent == -1))
         Logs::printLog(Logs::ERROR, 3, "Client connection closed: " + to_string(fd) + " - Write is not possible");
-    
+
     webServer.addFdToClose(fd);
 }
 
 size_t getFirstLineSize(const std::string& request) {
     size_t crlfPos = request.find("\r\n\r\n");
-    
+
     if (crlfPos != std::string::npos) {
         return crlfPos;
     } else {
@@ -92,7 +93,7 @@ std::string findHeaders(std::string request)
     if (hostPos != std::string::npos) {
         std::string::size_type second = request.find("\r\n");
         if (second != std::string::npos){
-        
+
             std::string::size_type colonPos = request.find(":", hostPos);
             colonPos = request.find(":",colonPos+1);
             if (colonPos != std::string::npos) {
@@ -101,11 +102,11 @@ std::string findHeaders(std::string request)
                 if (spacePos != std::string::npos) {
                     port = portSubstring.substr(0, spacePos);
                 }
-           
+
             }
         }
     }
-   
+
     return (port);
 }
 
@@ -124,10 +125,10 @@ std::string readClientData(int fd)
             break;
         totalRead += bytesRead;
         clientReq.append(buffer, bytesRead);
-        
+
         if (clientReq.find("\r\n\r\n") != std::string::npos)
         {
-           
+
             std::string port = findHeaders(clientReq);
             temp = webServer.getServerValue(webServer.searchServer(port), "client_max_body_size")[0];
             maxBodylimit = std::atoi(temp.c_str());
@@ -140,7 +141,7 @@ std::string readClientData(int fd)
                 webServer.setBytesRead(-2);
                 break;
             }
-               
+
         }
         if (clientReq.find("Expect: 100-continue") != std::string::npos) {
             sleep(2);
@@ -185,25 +186,3 @@ std::string mergeStrVector(std::vector<std::string> vec, std::string delimiter)
     }
     return (result);
 }
-/*
-responseData setResponseData(int status, std::string contentType, std::string content,
-                             int contentLength, std::string location) 
-{
-    responseData response;
-
-    std::string msg;
-    std::string str_status = to_string(status);
-
-    msg = webServer.getStatusCode(str_status);
-    if (msg != "")
-        str_status += " " + msg;
-
-    response.status        = status;
-    response.statusCode    = str_status;
-    response.contentType   = contentType;
-    response.content       = content;
-    response.contentLength = contentLength;
-    response.location      = location;
-    return (response);
-}
-*/

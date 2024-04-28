@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   positiveResponse.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:48:20 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/28 12:58:12 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:39:49 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ responseData processResponse(Request &request)
     }
 
     temp = verifyRedirection(request);
-    
+
     if (temp.status != 999)
         return (temp);
 
@@ -37,7 +37,7 @@ responseData processResponse(Request &request)
     }
 
     int opt = resolveOption(request.getMethod());
-
+	std::cout << "Valor: -> "<< opt << std::endl; //excluir
     if (opt == 0)
         res = getHandler(request);
     else if (opt == 1)
@@ -153,8 +153,8 @@ responseData getHandler(Request &request)
     cgi_infos       infos;
     std::string     path;
     std::string uriBar = cutToBars(request.getUri()) + "autoindex";
- 
-    res = setResponseData(0, "", "", 0, ""); 
+
+    res = setResponseData(0, "", "", 0, "");
 
     if (request.getAutoIndexServer() && (request.getUri() == "/autoindex"))
         res = autoIndex(request.getRoot(), "/", request.getPort(), request);
@@ -189,7 +189,7 @@ responseData postHandler(Request &request)
         infos = isCGI(request);
         res = getCgi(request, infos);
     }
-    else 
+    else
         res = post_method.handleMethod();
     return (res);
 }
@@ -212,7 +212,7 @@ responseData autoIndex(std::string root, std::string path, std::string port, Req
     }
 
     content = "<html><body><h2>Index of: " + dirPath + "</h2><ul>";
-    
+
     entry = readdir(dir);
     while (entry)
     {
@@ -247,7 +247,7 @@ responseData handleMethodDelete(Request &request)
 {
     std::string resourcePath;
      responseData res;
-    
+
     resourcePath = getDir();
 
     resourcePath = resourcePath + "/" + request.getRoot() + request.getUri();
@@ -266,7 +266,7 @@ responseData handleMethodDelete(Request &request)
                                                               INTERNAL_SERVER_ERROR,
                                                               request.getUri(),
                                                               request.getRoot());
-           
+
             Logs::printLog(Logs::INFO, 30, "Error delet resource!");
         }
     } else {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ParseConf.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 23:59:47 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/22 23:17:08 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 13:56:49 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ std::string getFirstWord(const std::string &text, int position);
 int countWordOccurrencesLine(const std::string &text, const std::string &word);
 std::string getParameterValue(const std::string &text, const std::string &parameter);
 bool isNumeric(const std::string &str);
-//old data
+
 bool verifyLineEmpty(const std::string &text);
 std::vector<std::string> splitTokens(const std::string str);
 std::string rmSpaces(const std::string &input);

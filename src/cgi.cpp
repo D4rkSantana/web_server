@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cgi.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 15:34:13 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/28 11:08:01 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:01:03 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ std::string queryToString(std::vector<std::string> query)
     return (resp);
 }
 
-map_ss assembleCGIHeaders(Request &request, cgi_infos infos) // descomentar variaveis
+map_ss assembleCGIHeaders(Request &request, cgi_infos infos)
 {
 
     map_ss map_envs;
@@ -42,7 +42,7 @@ map_ss assembleCGIHeaders(Request &request, cgi_infos infos) // descomentar vari
     map_envs["SCRIPT_FILENAME"]   = infos.cgi_path;
     map_envs["REQUEST_METHOD"]    = request.getMethod();
     map_envs["CONTENT_LENGTH"]    = to_string(request.getBody().size());
-    
+
     map_envs["CONTENT_TYPE"]      = "text/html";
     map_envs["PATH_INFO"]         = infos.cgi_path;
     map_envs["PATH_TRANSLATED"]   = infos.cgi_path;
@@ -85,7 +85,7 @@ cgi_infos initCgiInfos(void)
     infos.bin = "";
     infos.cgi_path = "";
     infos.correct = false;
-    
+
     return (infos);
 }
 
@@ -203,7 +203,7 @@ std::string executeCGI(Request &request, cgi_infos infos)
     }
 
     pid = fork();
-    
+
     std::vector<char*> envsCStyle;
     for (size_t i = 0; i < envs.size(); ++i) {
         envsCStyle.push_back(const_cast<char*>(envs[i].c_str()));

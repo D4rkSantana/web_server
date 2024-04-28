@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   WebServ.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:54:01 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/27 18:34:57 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 13:58:22 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,18 @@ class WebServ
 	public:
 		WebServ(void);
 		~WebServ(void);
-		//Metodos
+
 		bool						connect(void);
 		int							start(void);
 		void						stop(void);
 		void						finish(void);
 		void						addFdToClose(int fd);
 		void						populateConfs(std::vector<std::vector<std::string> > servers, std::vector<std::vector<std::string> > locations);
-		//Search's
 		int							searchServer(std::string port);
 		int						searchLocation(size_t iS, std::string path);
-		//Set's
 		bool						setDataServer(const char *pathConf);
 		void						setBytesRead(int nbr);
 		dic							*setParams(const std::string str, dic *vconfs);
-		//Get's
 		map_ss						getDicTypes(void);
 		map_ss						getDicStatusCodes(void);
 		int							getBytesRead(void);

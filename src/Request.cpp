@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:28:12 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/28 12:16:39 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:04:37 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ Request::~Request() {}
 
 void Request::_init()
 {
-    
+
     _allowMethods.push_back("GET");
     _allowMethods.push_back("POST");
     _allowMethods.push_back("DELETE");
@@ -62,7 +62,7 @@ bool Request::requestStart(std::string request)
     std::string requestLine;
     std::string headersPart;
     size_t firstLineEnd;
-    
+
 
     firstLineEnd = request.find("\r\n");
     if (firstLineEnd == std::string::npos) {
@@ -80,24 +80,23 @@ bool Request::requestStart(std::string request)
     _getMaxBody();
     _getServerParam();
     _setAutoIndex();
-    _getHost();//compreender e melhorar
+    _getHost();
 
     if (this->_has_body) {
         this->_has_multipart = false;
         this->_has_form      = false;
-        
+
         it = _header.find("Content-Type");
         if (it->second.find("multipart/form-data") != std::string::npos)
             this->_has_multipart = true;
         if (it->second.find("application/x-www-form-urlencoded") != std::string::npos)
             this->_has_form = true;
     }
-    //_setPath();
     if (this->_has_multipart) {
-        if (_getMultipartData(request))//compreender e melhorar
+        if (_getMultipartData(request))
             return (false);
     } else if (this->_has_body) {
-        if (_getBody(request))//compreender e melhorar
+        if (_getBody(request))
             return (false);
     }
     return (true);
@@ -484,6 +483,5 @@ void    Request::printInfos(void)
     std::cout << "htppVersion: " << _httpVersion << std::endl;
     std::cout << "allowMethods[0]: " << _allowMethods[0] << std::endl;
     std::cout << "errorPageConfig[0]: " << _errorPageConfig[0] << std::endl;
-    //std::cout << "paramQuery[0]: " << _paramQuery[0] << std::endl;
-    std::cout << "=========================\n"; 
+    std::cout << "=========================\n";
 }

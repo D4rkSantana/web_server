@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   WebServ.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:27 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/27 14:07:35 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:06:23 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,26 +192,24 @@ int WebServ::start(void)
 {
 	while (true)
 	{
-		if (this->_poll.execute() == -1)//coloca um socket dentro da poll
+		if (this->_poll.execute() == -1)
 		{
 			Logs::printLog(Logs::ERROR, 1, "Error creating poll");
 			return (1);
 		}
 		for (size_t i = 0; i < this->_poll.getSize(); ++i)
 		{
-			//std::cout << "socket fd : " << this->_poll.getPollFd(i);
-			if (this->_poll.isRead(i))//veridica se o socket tem alguma conexão pendente
+
+			if (this->_poll.isRead(i))
 			{
-				//std::cout << " - Conexão pendente\n";
-				if (this->_poll.isSocketServer(i))//verifica se o socket é do server ou cliente
-				{
-					//std::cout << " - Socket Servidor\n";
-					if (!this->_newCliet(i))//aceita e cria o novo cliente
+
+				if (this->_poll.isSocketServer(i)){
+
+					if (!this->_newCliet(i))
 						continue;
 				}
 				else
 				{
-					//std::cout << "- Socket Cliente\n";
 					int clientSocket = this->_poll.getPollFd(i);
 					if (clientSocket < 0)
 					{
@@ -220,9 +218,7 @@ int WebServ::start(void)
 					}
 					processClientData(clientSocket);
 				}
-			
 			}
-			//std::cout << std::endl;
 		}
 		this->_poll.removeMarkedElements();
 	}
@@ -236,14 +232,12 @@ void WebServ::finish(void)
 		delete *it;
 	}
 	this->_sockets.clear();
-	
+
 	for (size_t i = 0; i < _sizeServers; i++)
 	{
 		deallocateServers(&_dataServers[i], _qtLocation[i]);
 	}
 	delete[] _dataServers;
-	//this->_parser.clearParams();
-	//this->_poll.closePoll();
 }
 
 void WebServ::addFdToClose(int fd)
@@ -251,9 +245,7 @@ void WebServ::addFdToClose(int fd)
 	_poll.addFdToClose(fd);
 }
 
-/////////////////////////////////////////////////
-
-bool WebServ::_newCliet(size_t i) //mudar de nome
+bool WebServ::_newCliet(size_t i)
 {
 	try {
 		Socket *client;
@@ -271,13 +263,13 @@ bool WebServ::_newCliet(size_t i) //mudar de nome
 	}
 }
 
-// SEARCH
+
 
 int	WebServ::searchServer(std::string port)
 {
 	int i = 0;
 	std::string	temp;
- 
+
 	while (i < (int)_sizeServers)
 	{
 		temp = this->getServerValue(i, "listen")[0];
@@ -293,7 +285,7 @@ int WebServ::searchLocation(size_t iS, std::string path)
 	int locationSize = this->getAllQtLocations()[iS];
 	std::vector<std::string> locationParam;
 	int i = locationSize;
-	
+
 	for (i = 0; i < locationSize + 1; i++)
 	{
 		locationParam = this->getLocationValue(iS, i, "location");
@@ -303,7 +295,6 @@ int WebServ::searchLocation(size_t iS, std::string path)
 	return (i);
 }
 
-//SETERS
 
 void WebServ::_setStatusCode(void)
 {
@@ -375,7 +366,7 @@ void WebServ::setBytesRead(int nbr)
 	_bytesRead = nbr;
 }
 
-// GETERS
+
 
 int WebServ::getBytesRead(void)
 {
@@ -392,7 +383,7 @@ std::string WebServ::getStatusCode(std::string code)
 }
 
 size_t WebServ::getQtSevers(void)
-{ 
+{
 	return (this->_sizeServers);
 }
 
@@ -412,11 +403,10 @@ std::vector<std::string> WebServ::getServerValue(size_t iS, std::string key)
 		Logs::printLog(Logs::WARNING, 3, "There is no such index on the server");
 		return std::vector<std::string>();
 	}
-		
+
 	if (_dataServers[iS].server->find(key) != _dataServers[iS].server->end())
 		return (*_dataServers[iS].server)[key];;
 
-	//Logs::printLog(Logs::WARNING, 3, "Parameter was not found:" + key);
 	return std::vector<std::string>();
 }
 
@@ -424,13 +414,13 @@ std::vector<std::string> WebServ::getLocationValue(size_t iS, size_t iL, std::st
 {
 	if (iS >=(size_t) _sizeServers)
 		return std::vector<std::string>();
-	
+
 	if (iL >= (size_t) _qtLocation[iS])
 		return std::vector<std::string>();
 
 	if (_dataServers[iS].locations[iL]->find(key) == _dataServers[iS].locations[iL]->end())
 		return std::vector<std::string>();
-	return ((*_dataServers[iS].locations[iL])[key]); 
+	return ((*_dataServers[iS].locations[iL])[key]);
 }
 
 map_ss	WebServ::getDicStatusCodes(void)

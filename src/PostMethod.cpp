@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PostMethod.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:21:24 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/27 23:44:51 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:03:54 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,6 @@ responseData PostMethod::handleMethod()
         }
         if (_req.getHasForm())
             handleForm();
-        //else
-            //std::cout << "Body: " << _req.getBody() << "\n";
-
         _res = getJson("{\"status\": \"success\", \"message\": \"Successful operation\"}", OK);
         Logs::printLog(Logs::INFO, 1, "Post request completed successfully.");
     }
@@ -85,8 +82,6 @@ bool PostMethod::handleMultipart()
     }
     if (verifyLimit())
         return (true);
-    //if (_file == false)
-        //print();
     return (false);
 }
 
@@ -126,7 +121,7 @@ void PostMethod::parseMultipartFormData(size_t pos, size_t endPos)
 
     body     = _req.getBody();
     partData = body.substr(pos, endPos - pos);
-    bodyEnd  = partData.find("\r\n\r\n");  
+    bodyEnd  = partData.find("\r\n\r\n");
 
     if (bodyEnd != std::string::npos)
     {
@@ -238,7 +233,6 @@ void PostMethod::handleForm()
             _formData[fieldName]  = fielddata + "\r\n";
         }
     }
-    //print();
 }
 
 void PostMethod::print()

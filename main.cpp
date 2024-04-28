@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:57:54 by lucasmar          #+#    #+#             */
-/*   Updated: 2024/04/19 19:36:35 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:06:34 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,15 @@ int	main(int argc, char *argv[]){
 	}
 
 	if(!webServer.connect()){
-		Logs::printLog(Logs::ERROR, 1, "Error when trying to connect"); // Frase é boa?
+		Logs::printLog(Logs::ERROR, 1, "Error when trying to connect");
 		return(1);
 	}
-	
+
 	return(webServer.start());
 }
 
 void	handleStop(int signal){
 	if (signal == SIGINT) {
-		//webServer.stop();
 		Logs::printLog(Logs::INFO, 3, "Stop server :(");
 		std::exit(0);
 	}

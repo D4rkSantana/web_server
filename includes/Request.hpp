@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 21:29:29 by esilva-s          #+#    #+#             */
-/*   Updated: 2024/04/28 12:12:53 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 13:57:42 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 class Request
 {
     private:
-        std::string                         _uri;//
+        std::string                         _uri;
         std::string                         _path;
         std::string                         _body;
         std::string                         _port;
@@ -37,7 +37,7 @@ class Request
         int                                 _locationSize;
         size_t                              _maxBodySize;
         size_t                              _contentLength;
-        //
+
         bool                                _has_body;
         bool                                _has_form;
         bool                                _has_multipart;
@@ -61,7 +61,6 @@ class Request
         void        _setLimitExcept(void);
         void        _setErrorPage(void);
         void        _setAutoIndex(void);
-// os get que estão com get com retonro void mudar de nome para catch, take ou algo do genero
 
     public:
         Request();

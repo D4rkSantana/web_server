@@ -3,21 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   Location.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esilva-s <esilva-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: lucasmar < lucasmar@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:59:13 by ryoshio-          #+#    #+#             */
-/*   Updated: 2024/04/28 12:39:51 by esilva-s         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:02:27 by lucasmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-
-
-
-/*
-Seria para fazer relocação dos arquivos
-
-*/
 
 #include "Location.hpp"
 
